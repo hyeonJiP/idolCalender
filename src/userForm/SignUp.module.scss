@@ -9,7 +9,7 @@ body {
 .signUp {
   margin: 0 auto;
   height: 80vh;
-  width: 80rem;
+  width: 80%;
   border-radius: 20px;
   background-color: white;
   h2 {
@@ -46,7 +46,7 @@ p::before {
 
 .errorMessage {
   width: 50%;
-  height: 28px;
+  height: 3vh;
   margin: auto 0;
 }
 
@@ -92,7 +92,7 @@ select {
     background-color: #4856ff;
     color: white;
     border: 0px;
-    margin: 10vh 10px 0 10px;
+    margin: 8vh 10px 0 10px;
     border-radius: 30px;
     width: 10vw;
     height: 5vh;

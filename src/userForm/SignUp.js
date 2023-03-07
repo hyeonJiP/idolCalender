@@ -27,7 +27,13 @@ const SignUp = () => {
       birth: age,
       choe: data.choe,
     };
-    console.log(signUpInform);
+    fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: signUpInform,
+    });
   };
 
   return (

@@ -7,8 +7,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(todos));
   }),
 
-  rest.post("/todos", (req, res, ctx) => {
-    todos.push(req.body);
-    return res(ctx.status(201));
+  rest.post("/login", (req, res, ctx) => {
+    return res(ctx.body("text-body"));
   }),
 ];
