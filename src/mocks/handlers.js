@@ -8,6 +8,6 @@ export const handlers = [
   }),
 
   rest.post("/login", (req, res, ctx) => {
-    return res(ctx.body("text-body"));
+    return res(ctx.body({ token: "!@4325" }));
   }),
 ];

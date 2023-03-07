@@ -15,7 +15,6 @@ const EditUser = () => {
   };
 
   const onSubmit = (data) => {
-    // console.log("data", data);
     console.log(1231223142);
     const signUpInform = {
       password: data.password,
@@ -30,9 +29,11 @@ const EditUser = () => {
       <div className={styles.signUp}>
         <div className={styles.signUpContainer}>
           <h2>프로필 정보</h2>
-          <div className={styles.userImg}></div>
+          <div className={styles.userImg}>
+            <div className={styles.imgInner}></div>
+          </div>
           <div className={styles.containerBtnDiv}>
-            <button>사진변경</button>
+            <button>변경</button>
             <button>삭제</button>
           </div>
         </div>
@@ -62,6 +63,7 @@ const EditUser = () => {
                   message: "비밀번호는 16자 이하로 입력하세요.",
                 },
                 pattern: {
+                  // eslint-disable-next-line
                   value: /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g,
                   message: "비밀번호에 특수문자 1개 이상 넣어주세요.",
                 },
@@ -74,11 +76,11 @@ const EditUser = () => {
           </div>
 
           <div className={styles.typeDiv}>
-            <label>비밀번호 재확인</label>
+            <label>비밀번호 확인</label>
             <input
               name="passwordConfirm"
               type="password"
-              placeholder="비밀번호 재확인"
+              placeholder="비밀번호 확인"
               {...register("passwordConfirm", {
                 required: true,
                 validate: {

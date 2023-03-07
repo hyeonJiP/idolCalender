@@ -1,3 +1,8 @@
+.modalDiv {
+  display: flex;
+  justify-content: center;
+}
+
 .backdrop {
   position: fixed;
   top: 0;
@@ -11,20 +16,28 @@
 .modal {
   position: fixed;
   top: 10vh;
-  left: 5%;
-  width: 80%;
+  width: 400px;
   background-color: white;
   padding: 2rem;
+  margin: 0 auto;
+
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .modal {
-    width: 40vw;
-    left: calc(50% - 20rem);
+    width: 310px;
+    height: 79vh;
+  }
+}
+
+@media (max-width: 376px) {
+  .modal {
+    width: 270px;
+    height: 79vh;
   }
 }
 

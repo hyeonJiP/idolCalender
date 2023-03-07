@@ -1,6 +1,7 @@
 import React from "react";
-import styles from "../userForm/SignUp.module.scss";
+import styles from "../userFormPage/SignUp.module.scss";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const {
@@ -10,9 +11,7 @@ const SignUp = () => {
     getValues,
   } = useForm();
 
-  const goBackHandler = () => {
-    console.log("goBack");
-  };
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     const year = Number(data.birth.slice(0, 4));
@@ -34,6 +33,7 @@ const SignUp = () => {
       },
       body: signUpInform,
     });
+    navigate("/login");
   };
 
   return (
@@ -50,6 +50,7 @@ const SignUp = () => {
               {...register("email", {
                 required: "필수 정보입니다.",
                 pattern: {
+                  // eslint-disable-next-line
                   value:
                     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
                   message: "이메일 형식에 맞지 않습니다.",
@@ -195,7 +196,9 @@ const SignUp = () => {
           </div>
 
           <div className={styles.buttonDiv}>
-            <button onClick={goBackHandler}>이전</button>
+            <Link to="/">
+              <button type="button">이전</button>
+            </Link>
             <button>회원가입</button>
           </div>
         </form>

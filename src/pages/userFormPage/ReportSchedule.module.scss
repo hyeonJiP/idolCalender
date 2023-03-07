@@ -40,7 +40,9 @@ body {
     width: 100%;
   }
   label {
-    margin: 20px 0 0 0;
+    margin: 10px 0 5px 0;
+    font-size: 0.8rem;
+    font-weight: bold;
   }
 }
 
@@ -56,29 +58,11 @@ p::before {
   content: "⚠ ";
 }
 
-.errorMessage {
-  width: 50%;
-  height: 28px;
-  margin: auto 0;
-  p {
-    left: 0;
-  }
-}
-
 .typeDiv {
   display: flex;
   justify-content: space-between;
   width: 50%;
   height: 4vh;
-}
-
-label {
-  line-height: 2;
-  display: block;
-  margin-bottom: 10px;
-  color: black;
-  font-size: 14px;
-  font-weight: 200;
 }
 
 select {
@@ -88,7 +72,7 @@ select {
 .buttonDiv {
   display: flex;
   margin: 0 auto;
-  width: 300px;
+  width: 100%;
   button {
     &:nth-child(1) {
       background-color: #a7a8b1;
@@ -126,16 +110,54 @@ select {
 
 .scheduleDiv {
   display: flex;
+
+  width: 60%;
+  div {
+    width: 80%;
+  }
   .dateInput {
-    width: 200px;
+    width: 14vw;
     border: 1px solid black;
   }
-  .errorMessage {
-    width: 100%;
-    height: 28px;
-    margin: auto 0;
-    p {
-      left: 0;
+}
+
+.errorMessage {
+  height: 28px;
+  margin: auto 0;
+  p {
+    left: 0;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .buttonDiv {
+    width: 60%;
+    button {
+      border: 0px;
+      margin: 3vh 10px 0 10px;
+      border-radius: 30px;
+      width: 100%;
+      height: 5vh;
+    }
+  }
+  .scheduleDiv {
+    width: 50%;
+
+    .dateInput {
+      width: 140px;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 376px) {
+  .scheduleDiv {
+    width: 90%;
+
+    .dateInput {
+      width: 30vw;
+      margin: 0;
     }
   }
 }

@@ -95,7 +95,7 @@ const ReportSchedule = () => {
           {errors.location && <p>{errors.location.message}</p>}
         </div>
 
-        <label>스케줄 일정을 입력해주세요.</label>
+        <label>스케줄 일정을 입력해주세요.(시작일/종료일)</label>
         <div className={styles.scheduleDiv}>
           <div>
             <input
@@ -162,7 +162,9 @@ const ReportSchedule = () => {
         </div>
 
         <div className={styles.buttonDiv}>
-          <button onClick={goBackHandler}>이전</button>
+          <button onClick={goBackHandler} type="button">
+            이전
+          </button>
           <button>제보하기</button>
         </div>
       </form>
