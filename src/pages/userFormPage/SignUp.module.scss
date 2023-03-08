@@ -1,14 +1,6 @@
-body {
-  background-color: #f9f9f9;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  height: 100vh;
-}
-
 .signUp {
   margin: 0 auto;
-  height: 80vh;
+  height: 85vh;
   width: 80%;
   border-radius: 20px;
   background-color: white;
@@ -172,14 +164,7 @@ select {
     display: flex;
     margin: 0 auto;
     button {
-      &:nth-child(1) {
-        background-color: #a7a8b1;
-      }
-      background-color: #4856ff;
-      color: white;
-      border: 0px;
       margin: 8vh 10px 0 10px;
-      border-radius: 30px;
       width: 19vw;
       height: 4.5vh;
     }

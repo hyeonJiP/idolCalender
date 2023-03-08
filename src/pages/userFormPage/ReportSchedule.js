@@ -11,7 +11,6 @@ const ReportSchedule = () => {
     register,
     formState: { errors },
     handleSubmit,
-    getValues,
   } = useForm();
 
   const goBackHandler = () => {
@@ -102,6 +101,7 @@ const ReportSchedule = () => {
               className={styles.dateInput}
               name="startDate"
               type="datetime-local"
+              data-placeholder="날짜 선택"
               {...register("startDate", {
                 required: {
                   value: true,
@@ -114,7 +114,7 @@ const ReportSchedule = () => {
             </div>
           </div>
 
-          <div>
+          {/* <div>
             <input
               className={styles.dateInput}
               name="endDate"
@@ -136,7 +136,7 @@ const ReportSchedule = () => {
             <div className={styles.errorMessage}>
               {errors.endDate && <p>{errors.endDate.message}</p>}
             </div>
-          </div>
+          </div> */}
         </div>
 
         <label>내용을 입력해주세요.</label>

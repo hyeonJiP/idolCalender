@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "../userFormPage/Login.module.scss";
 import { useForm } from "react-hook-form";
 import choeImg from "../../Img/logo_main.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
 
 const LogIn = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -12,14 +16,14 @@ const LogIn = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  const tokenRef = useRef(false);
-  const [isIdExist, setIsIdExist] = useState(false);
+  const [isIdExist, setIsIdExist] = useState(true);
+  const tokenRef = useRef();
 
   const goBackHandler = () => {
     navigate("/");
   };
 
-  //로그인 form을 제출했을 때
+  /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
     const res = await fetch("/login", {
       method: "POST",
@@ -28,7 +32,8 @@ const LogIn = () => {
       },
       body: data,
     });
-    //로그인 오류가 있을때
+
+    /**fetch response 오류가 있을때 (ex: id중복) */
     if (!res.ok) {
       setIsIdExist(true);
       return;
@@ -37,12 +42,13 @@ const LogIn = () => {
 
     setIsIdExist(false);
 
-    //토큰을 세션스토리지에 저장
+    /**토큰을 세션스토리지에 저장 */
     const token = res.url;
+    dispatch(authActions.logIn(token));
     tokenRef.current = token;
     sessionStorage.setItem("userToken", tokenRef.current);
 
-    //메인으로 내비게이트
+    /**메인으로 내비게이트 */
     navigate("/");
     console.log(token);
   };
@@ -71,11 +77,13 @@ const LogIn = () => {
           })}
         />
         <div className={styles.errorMessage}>
-          {/* {errors.password ? <p>{errors.password.message}</p> : ""} */}
-          {(errors.email && <p>{errors.email.message}</p>) ||
-            (errors.password && <p>{errors.password.message}</p>) ||
-            (isIdExist && <p>아이디 중복입니다.</p>)}
+          {
+            (errors.email && <p>{errors.email.message}</p>) ||
+              (errors.password && <p>{errors.password.message}</p>)
+            //|| (isIdExist && <p>아이디 중복입니다.</p>)
+          }
         </div>
+
         <div
           className={styles.goSignUp}
           onClick={() => {

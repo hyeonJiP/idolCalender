@@ -13,6 +13,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  /**회원가입 form 제출시 */
   const onSubmit = (data) => {
     const year = Number(data.birth.slice(0, 4));
     const date = new Date().getFullYear();
