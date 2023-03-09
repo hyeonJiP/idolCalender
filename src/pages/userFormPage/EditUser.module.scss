@@ -1,11 +1,5 @@
 $btnColor: #4856ff;
 
-html,
-body,
-#app > div {
-  height: 120vh;
-}
-
 body {
   background-color: #f9f9f9;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -45,13 +39,8 @@ body {
     border: 0;
     margin: 3px;
     color: white;
-  }
-}
-
-.containerBtnDiv {
-  button {
-    width: 5vw;
-    height: 3vh;
+    width: 8%;
+    height: 20%;
   }
 }
 
@@ -76,19 +65,18 @@ body {
   label {
     font-weight: bold;
   }
-}
+  p {
+    color: #bf1650;
+    position: relative;
+    left: 40%;
+    margin: 2px;
+    font-size: 0.8rem;
+  }
 
-p {
-  color: #bf1650;
-  position: relative;
-  left: 40%;
-  margin: 2px;
-  font-size: 0.8rem;
-}
-
-p::before {
-  display: inline;
-  content: "⚠ ";
+  p::before {
+    display: inline;
+    content: "⚠ ";
+  }
 }
 
 .errorMessage {
@@ -104,7 +92,8 @@ p::before {
   height: 4vh;
   input {
     width: 70%;
-    height: 10%;
+    height: 80%;
+    border: 1px solid black;
   }
   select {
     width: 70%;

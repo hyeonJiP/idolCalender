@@ -45,6 +45,7 @@ const ReportSchedule = () => {
                 value={index}
                 type="button"
                 className={
+                  // eslint-disable-next-line
                   index == btnActive
                     ? `${styles.categoryBtn} ${styles.active}`
                     : `${styles.categoryBtn} `

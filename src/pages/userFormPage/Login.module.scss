@@ -22,7 +22,7 @@
   display: flex;
   .logInInput {
     width: 32%;
-    height: 8%;
+    height: 7%;
     margin-bottom: 13px;
     background-color: cadetblue;
     border: 0;
@@ -36,15 +36,21 @@
   .goSignUp {
     position: relative;
     left: 12%;
+    font-size: 0.8rem;
   }
   p {
+    color: #bf1650;
     left: 0;
-    font-size: 1rem;
+    font-size: 0.8rem;
     margin: 0;
   }
-}
-.errorMessage {
-  width: 32%;
+  p::before {
+    display: inline;
+    content: "⚠ ";
+  }
+  .errorMessage {
+    width: 32%;
+  }
 }
 
 .mainImg {
@@ -58,7 +64,6 @@
     display: flex;
     .logInInput {
       width: 60%;
-      height: 8%;
       margin-bottom: 13px;
       background-color: cadetblue;
       border: 0;
@@ -70,6 +75,10 @@
     .goSignUp {
       position: relative;
       left: 25%;
+    }
+
+    .errorMessage {
+      width: 60%;
     }
   }
 
@@ -96,8 +105,6 @@
     height: 100vh;
     display: flex;
     .logInInput {
-      width: 60%;
-      height: 8%;
       margin-bottom: 13px;
       background-color: cadetblue;
       border: 0;
@@ -105,10 +112,6 @@
     h1 {
       margin-bottom: 40px;
       padding: 0;
-    }
-    .goSignUp {
-      position: relative;
-      left: 19%;
     }
   }
 

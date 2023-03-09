@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import Layout from "../../UI/Layout";
 import styles from "./EditUser.module.scss";
 
 const EditUser = () => {
@@ -24,7 +25,8 @@ const EditUser = () => {
   };
 
   return (
-    <>
+    <Layout>
+      {" "}
       <h1 className={styles.title}>회원정보 수정</h1>
       <div className={styles.signUp}>
         <div className={styles.signUpContainer}>
@@ -123,7 +125,7 @@ const EditUser = () => {
           </div>
         </form>
       </div>
-    </>
+    </Layout>
   );
 };
 

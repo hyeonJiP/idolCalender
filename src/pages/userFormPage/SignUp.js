@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../userFormPage/SignUp.module.scss";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import Layout from "../../UI/Layout";
 
 const SignUp = () => {
   const {
@@ -38,7 +39,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <Layout>
       <h1>회원가입</h1>
       <div className={styles.signUp}>
         <h2>회원정보</h2>
@@ -87,8 +88,9 @@ const SignUp = () => {
                   message: "16자까지 입력가능합니다.",
                 },
                 pattern: {
+                  // eslint-disable-next-line
                   value: /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g,
-                  message: "비밀번호에 특수문자 1개 이상 넣어주세요.",
+                  message: "특수문자 1개 이상 넣어주세요.",
                 },
               })}
             />
@@ -204,7 +206,7 @@ const SignUp = () => {
           </div>
         </form>
       </div>
-    </>
+    </Layout>
   );
 };
 export default SignUp;

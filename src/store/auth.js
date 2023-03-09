@@ -8,7 +8,10 @@ export const authSlice = createSlice({
       console.log("login!!!");
       state.userToken = actions.payload;
     },
-    logOut(state) {},
+    logOut(state) {
+      sessionStorage.removeItem("userToken");
+      state.userToken = null;
+    },
   },
 });
 
