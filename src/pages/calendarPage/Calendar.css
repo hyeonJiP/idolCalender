@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+/* html, body {
+    height: 100%;
+    font-family: 'Jua', sans-serif;
+} */
+
+.container {
+    margin: 20px;
+    height:100%;
+    /* width:68vw; */
+    font-family: 'Jua', sans-serif;
+    font-size: 1.5rem;
+    display: flex; 
+    /* align-items: center; */
+    flex-direction: column;   
+    justify-content: center;
+    border:1px solid black;
+    box-sizing: border-box;
+}
+
+.container .control{
+    display: flex;
+    flex-direction: row;
+    /* padding-left: 1.5rem; */
+    border: 1px solid red;
+}
+.container .title{
+    font-size: 2rem;
+}
+
+.container .today{
+    /* background-color: red; */
+    color: white;
+    z-index: 2;
+}
+
+.container .circle{
+    background-color: black;
+    width: 1.75vw;
+    height: 1.75vw;
+    border-radius: 50%;
+    z-index: 1;
+    margin: auto;
+    text-align: center;
+}
+
+.container .button{
+    background: none;
+    border: none;
+}
+
+.container .buttongroup{
+    margin-top: 20px;
+    border: 1px solid #0000ff;
+    display: flex;
+    /* width: 50%; */
+    /* text-align: center; */
+    flex-direction: row;
+    justify-content: space-around;
+    /* align-items: center; */
+    
+
+}
+
+.container .categorybutton {
+    padding: 10px;
+    /* width: 10px; */
+    /* margin-right: 20px; */
+    font-family: 'Jua', sans-serif;
+    ;
+}   
+.container .arrow{
+    width: 0.5rem;
+    margin: 0.5rem;
+}
+
+.container .weekTitle{
+    height: 5rem;
+    color: #7f7f7f;
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+.container table{
+    /*display:flex;*/
+    /*width:50vw;*/
+    /*height:50vh;*/
+    text-align: center;
+    /* border: 1px solid black; */
+}
+
+.container tr{
+    
+    /*display:flex;*/
+    /*flex-direction: row;*/
+    
+}
+.container td{
+    /*display:flex;*/
+    /* border:1px solid gray; */
+    width:8rem;
+    height:4rem;
+    margin: auto;
+    text-align: center;
+    vertical-align: top;
+    /* padding-top: 1rem; */
+    /* border: 1px solid black; */
+}
+
+/* PC , 테블릿 가로 (해상도 768px ~ 1023px)*/ 
+@media all and (min-width:768px) and (max-width:1023px) { 
+   
+  } 
+  
+  /* 테블릿 세로 (해상도 768px ~ 1023px)*/ 
+  @media all and (min-width:768px) and (max-width:1023px) { 
+  
+  } 
+  
+  /* 모바일 가로, 테블릿 세로 (해상도 480px ~ 767px)*/ 
+  @media all and (min-width:480px) and (max-width:767px) {
+   
+  } 
+  
+  /* 모바일 가로, 테블릿 세로 (해상도 ~ 479px)*/ 
+  @media all and (max-width:479px) {
+    .container{
+        display: flex;
+    }
+    .container .buttongroup{
+        margin-top: 20px;
+        border: 5px solid palevioletred;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        /* align-items: center; */
+}
+  }
