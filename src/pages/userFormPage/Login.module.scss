@@ -1,28 +1,12 @@
-.buttonDiv {
-  display: flex;
-  margin: 0 auto;
-  button {
-    &:nth-child(1) {
-      background-color: #a7a8b1;
-    }
-    background-color: #4856ff;
-    color: white;
-    border: 0px;
-    margin: 10vh 10px 0 10px;
-    border-radius: 30px;
-    width: 13vw;
-    height: 7vh;
-
-    font-weight: bold;
-  }
-}
-
 .logInDiv {
   height: 100vh;
   display: flex;
+  form {
+    padding: 30px;
+  }
   .logInInput {
-    width: 32%;
-    height: 7%;
+    width: 450px;
+    height: 70px;
     margin-bottom: 13px;
     background-color: cadetblue;
     border: 0;
@@ -35,8 +19,9 @@
   }
   .goSignUp {
     position: relative;
-    left: 12%;
+    width: 450px;
     font-size: 0.8rem;
+    text-align: right;
   }
   p {
     color: #bf1650;
@@ -49,39 +34,8 @@
     content: "⚠ ";
   }
   .errorMessage {
-    width: 32%;
+    width: 450px;
   }
-}
-
-.mainImg {
-  width: 60px;
-  height: 60px;
-}
-
-@media (max-width: 768px) {
-  .logInDiv {
-    height: 100vh;
-    display: flex;
-    .logInInput {
-      width: 60%;
-      margin-bottom: 13px;
-      background-color: cadetblue;
-      border: 0;
-    }
-    h1 {
-      margin-bottom: 40px;
-      padding: 0;
-    }
-    .goSignUp {
-      position: relative;
-      left: 25%;
-    }
-
-    .errorMessage {
-      width: 60%;
-    }
-  }
-
   .buttonDiv {
     display: flex;
     margin: 0 auto;
@@ -92,10 +46,50 @@
       background-color: #4856ff;
       color: white;
       border: 0px;
+      margin: 30px 5px 0 5px;
+      border-radius: 30px;
+      width: 150px;
+      height: 60px;
+
+      font-weight: bold;
+    }
+  }
+}
+
+.mainImg {
+  width: 60px;
+  height: 60px;
+}
+
+@media (max-width: 768px) {
+  .logInDiv {
+    display: flex;
+    .logInInput {
+      width: 350px;
+      margin-bottom: 13px;
+      background-color: cadetblue;
+      border: 0;
+    }
+    h1 {
+      margin-bottom: 40px;
+      padding: 0;
+    }
+    .goSignUp {
+      width: 350px;
+    }
+
+    .errorMessage {
+      width: 350px;
+    }
+  }
+
+  .buttonDiv {
+    display: flex;
+    margin: 0 auto;
+    button {
       margin: 10vh 10px 0 10px;
       border-radius: 30px;
-      width: 20vw;
-      height: 6vh;
+      width: 10px;
     }
   }
 }
@@ -125,10 +119,8 @@
       background-color: #4856ff;
       color: white;
       border: 0px;
-      margin: 10vh 10px 0 10px;
       border-radius: 30px;
-      width: 20vw;
-      height: 6.4vh;
+      width: 120px;
     }
   }
 }

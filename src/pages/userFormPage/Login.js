@@ -89,14 +89,14 @@ const LogIn = () => {
               //|| (isIdExist && <p>아이디 중복입니다.</p>)
             }
           </div>
-
-          <div
-            className={styles.goSignUp}
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            Not user?
+          <div className={styles.goSignUp}>
+            <button
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+              Not user?
+            </button>
           </div>
           <div className={styles.buttonDiv}>
             <button onClick={goBackHandler} type="button">

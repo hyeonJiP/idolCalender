@@ -11,6 +11,7 @@ import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import Calendar from "./pages/calendarPage/Calendar";
 
+//commit
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userToken);

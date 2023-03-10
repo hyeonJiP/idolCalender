@@ -13,6 +13,8 @@ const SignUp = () => {
   } = useForm();
 
   const navigate = useNavigate();
+  // const date = new Date();
+  // const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
 
   /**회원가입 form 제출시 */
   const onSubmit = (data) => {
@@ -28,6 +30,8 @@ const SignUp = () => {
       birth: age,
       choe: data.choe,
     };
+
+    console.log(signUpInform);
     fetch("/login", {
       method: "POST",
       headers: {
@@ -155,9 +159,23 @@ const SignUp = () => {
 
           <div className={styles.typeDiv}>
             <label>생년월일</label>
-            <input name="birth" type="date" {...register("birth")} />
+            <input
+              name="birth"
+              type="date"
+              {...register("birth", {
+                validate: {
+                  check: (val) => {
+                    if (!val) {
+                      return "필수 정보입니다.";
+                    }
+                  },
+                },
+              })}
+            />
           </div>
-          <div className={styles.errorMessage} />
+          <div className={styles.errorMessage}>
+            {errors.birth && <p>{errors.birth.message}</p>}
+          </div>
 
           <div className={styles.typeDiv}>
             <label>별명</label>
