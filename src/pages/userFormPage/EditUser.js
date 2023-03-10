@@ -26,7 +26,6 @@ const EditUser = () => {
 
   return (
     <Layout>
-      {" "}
       <h1 className={styles.title}>회원정보 수정</h1>
       <div className={styles.signUp}>
         <div className={styles.signUpContainer}>

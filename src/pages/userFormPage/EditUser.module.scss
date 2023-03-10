@@ -9,7 +9,7 @@ body {
 }
 
 .title {
-  padding: 10px;
+  padding: 70px 0px 30px 0;
 }
 
 .signUpContainer {
@@ -18,6 +18,7 @@ body {
 
   .userImg {
     background-color: #a7a8b1;
+    z-index: 0;
 
     &::after {
       content: "";
@@ -41,13 +42,14 @@ body {
     color: white;
     width: 80px;
     height: 30px;
+    font-weight: bold;
   }
 }
 
 .signUp {
   margin: 0 auto;
   margin-bottom: 40px;
-  padding: 40px;
+  padding: 40px 20px 80px 20px;
   width: 70vw;
   border-radius: 20px;
   background-color: white;
@@ -106,6 +108,7 @@ body {
   width: 70%;
   height: 3vh;
   margin-bottom: 3vh;
+  margin-top: 2vh;
   .absoluteInform {
     position: relative;
     width: 70%;
@@ -127,10 +130,12 @@ select {
     background-color: $btnColor;
     color: white;
     border: 0px;
-    margin: 30px 10px 0 0;
+    margin: 90px 10px 0 0;
     border-radius: 30px;
     width: 170px;
     height: 50px;
+    font-size: 1rem;
+    font-weight: bold;
   }
 }
 
@@ -158,11 +163,6 @@ select {
     p {
       left: 35%;
     }
-  }
-
-  .signUp {
-    width: 90vw;
-    height: 90vh;
   }
 
   .buttonDiv {

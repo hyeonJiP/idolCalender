@@ -10,8 +10,9 @@ import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import Calendar from "./pages/calendarPage/Calendar";
+import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
+import moment from "moment";
 
-//commit
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userToken);
@@ -23,6 +24,16 @@ function App() {
       dispatch(authActions.logIn(userToken));
     }
   }, [dispatch, reduxUserToken]);
+
+  const expiresTime = moment().add("1", "m").toDate();
+
+  console.log(expiresTime);
+
+  setCookie("UserToken", "fnenwofnfpqw", { expires: expiresTime });
+  // setCookie("userToken", "1234");
+  getCookie("UserToken");
+
+  // removeCookie("UserToken");
 
   return (
     <>
