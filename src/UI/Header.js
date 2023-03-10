@@ -60,9 +60,14 @@ const Headar = () => {
                 </>
               </Link>
             ) : (
-              <button className="navBtn" onClick={LogoutHandler}>
-                Logout
-              </button>
+              <>
+                <button className="navBtn">
+                  <Link to="/edituser">내 정보</Link>
+                </button>
+                <button className="navBtn" onClick={LogoutHandler}>
+                  Logout
+                </button>
+              </>
             )}
           </div>
         </div>

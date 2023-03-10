@@ -1,28 +1,53 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
 const ReportSchedule = () => {
-  const [btnActive, setBtnActive] = useState("");
-
+  const [btnActive, setBtnActive] = useState("0");
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
+  /**뒤로가기 */
   const goBackHandler = () => {
-    console.log("goBack");
+    navigate(-1);
   };
 
+  /**카테고리에 따라 값 세팅 */
   const toggleActiveHandler = ({ target }) => {
     return setBtnActive(target.value);
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    let eventType = "";
+    if (btnActive === "0") {
+      eventType = "방송";
+    } else if (btnActive === "1") {
+      eventType = "발매";
+    } else if (btnActive === "2") {
+      eventType = "구매";
+    } else if (btnActive === "3") {
+      eventType = "축하";
+    } else if (btnActive === "4") {
+      eventType = "행사";
+    }
+
+    /**백에 보낼 데이터 */
+    const reportData = {
+      title: data.title,
+      type: eventType,
+      location: data.location,
+      startDate: data.startDate,
+      content: data.content,
+    };
+
+    console.log(reportData);
   };
 
   return (

@@ -12,9 +12,8 @@ const SignUp = () => {
     getValues,
   } = useForm();
 
+  /**링크 네비게이트 */
   const navigate = useNavigate();
-  // const date = new Date();
-  // const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
 
   /**회원가입 form 제출시 */
   const onSubmit = (data) => {
@@ -22,6 +21,7 @@ const SignUp = () => {
     const date = new Date().getFullYear();
     const age = date - year + 1;
 
+    /**백에 보내줄 데이터 */
     const signUpInform = {
       email: data.email,
       password: data.password,
@@ -32,6 +32,8 @@ const SignUp = () => {
     };
 
     console.log(signUpInform);
+
+    /**백에 데이터 POST하기 */
     fetch("http://127.0.0.1:8000/api/v1/users/register", {
       method: "POST",
       headers: {
@@ -217,9 +219,15 @@ const SignUp = () => {
           </div>
 
           <div className={styles.buttonDiv}>
-            <Link to="/">
-              <button type="button">이전</button>
-            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              이전
+            </button>
+
             <button>회원가입</button>
           </div>
         </form>

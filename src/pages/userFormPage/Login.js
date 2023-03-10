@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "../userFormPage/Login.module.scss";
 import { useForm } from "react-hook-form";
 import choeImg from "../../Img/logo_main.png";
@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth";
 import Layout from "../../UI/Layout";
-import { setCookie } from "../../cookie/cookie";
 
 const LogIn = () => {
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
   const userToken = useSelector((state) => state.auth.userToken);
   const {
     register,
@@ -17,8 +17,6 @@ const LogIn = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-
-  const tokenRef = useRef();
 
   if (userToken) {
     navigate("/");
@@ -40,18 +38,19 @@ const LogIn = () => {
       },
       body: JSON.stringify(data),
     });
-    const backEndData = res.type;
+    /**로그인 response로 받은 token */
+    const backEndData = await res.type;
 
     console.log("login?", backEndData);
     /**fetch response 오류가 있을때 (ex: id중복) */
     if (!res.ok) {
-      return;
+      setIsValid(true);
+      throw new Error("이메일 혹은 비밀번호가 틀립니다.");
     }
 
-    /**토큰을 쿠키에 저장하기 */
-
+    /**토큰을 redux에 보냄 */
     dispatch(authActions.logIn(backEndData));
-
+    navigate("/");
     /**토큰을 세션스토리지에 저장 */
     // const token = res.url;
     // dispatch(authActions.logIn(token));
@@ -59,7 +58,6 @@ const LogIn = () => {
     // sessionStorage.setItem("userToken", tokenRef.current);
 
     /**메인으로 내비게이트 */
-    navigate("/");
   };
 
   return (
@@ -87,11 +85,9 @@ const LogIn = () => {
             })}
           />
           <div className={styles.errorMessage}>
-            {
-              (errors.email && <p>{errors.email.message}</p>) ||
-                (errors.password && <p>{errors.password.message}</p>)
-              //|| (isIdExist && <p>아이디 중복입니다.</p>)
-            }
+            {(errors.email && <p>{errors.email.message}</p>) ||
+              (errors.password && <p>{errors.password.message}</p>) ||
+              (isValid && <p>아이디나 비밀번호가 다릅니다.</p>)}
           </div>
           <div className={styles.goSignUp}>
             <button

@@ -9,12 +9,13 @@ import { authActions } from "./store/auth";
 import { useEffect, useState } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
+import { getCookie } from "./cookie/cookie";
 
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userToken);
 
+  /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
     const userToken = getCookie("userToken");
     // console.log(userToken);
