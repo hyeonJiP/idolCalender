@@ -32,7 +32,7 @@ const SignUp = () => {
     };
 
     console.log(signUpInform);
-    fetch("/login", {
+    fetch("http://127.0.0.1:8000/api/v1/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -210,9 +210,9 @@ const SignUp = () => {
             <label>최애 등록</label>
             <select name="choe" {...register("choe")}>
               <option>최애를 등록해주세요.</option>
-              <option>idol1</option>
-              <option>idol2</option>
-              <option>idol3</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
             </select>
           </div>
 

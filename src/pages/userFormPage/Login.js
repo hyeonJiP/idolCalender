@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth";
 import Layout from "../../UI/Layout";
+import { setCookie } from "../../cookie/cookie";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ const LogIn = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  const [isIdExist, setIsIdExist] = useState(true);
   const tokenRef = useRef();
 
   if (userToken) {
@@ -32,27 +32,31 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    const res = await fetch("/login", {
+    console.log(data);
+    const res = await fetch("http://127.0.0.1:8000/api/v1/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: data,
+      body: JSON.stringify(data),
     });
+    const backEndData = res.type;
 
+    console.log("login?", backEndData);
     /**fetch response 오류가 있을때 (ex: id중복) */
     if (!res.ok) {
-      setIsIdExist(true);
       return;
     }
 
-    setIsIdExist(false);
+    /**토큰을 쿠키에 저장하기 */
+
+    dispatch(authActions.logIn(backEndData));
 
     /**토큰을 세션스토리지에 저장 */
-    const token = res.url;
-    dispatch(authActions.logIn(token));
-    tokenRef.current = token;
-    sessionStorage.setItem("userToken", tokenRef.current);
+    // const token = res.url;
+    // dispatch(authActions.logIn(token));
+    // tokenRef.current = token;
+    // sessionStorage.setItem("userToken", tokenRef.current);
 
     /**메인으로 내비게이트 */
     navigate("/");
@@ -91,6 +95,7 @@ const LogIn = () => {
           </div>
           <div className={styles.goSignUp}>
             <button
+              type="button"
               onClick={() => {
                 navigate("/signup");
               }}

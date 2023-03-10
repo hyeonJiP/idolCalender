@@ -19,7 +19,10 @@ const Headar = () => {
     };
   }, []);
 
-  const LogoutHandler = () => {
+  const LogoutHandler = async () => {
+    await fetch("http://127.0.0.1:8000/api/v1/users/logout", {
+      method: "POST",
+    }).then((res) => console.log("logout : API", res));
     dispatch(authActions.logOut());
   };
 
@@ -52,7 +55,9 @@ const Headar = () => {
           <div className="navItem">
             {!userToken ? (
               <Link to={"/login"}>
-                <button className="navBtn">Login</button>
+                <>
+                  <button className="navBtn">Login</button>
+                </>
               </Link>
             ) : (
               <button className="navBtn" onClick={LogoutHandler}>

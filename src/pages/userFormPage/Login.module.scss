@@ -1,9 +1,7 @@
 .logInDiv {
   height: 100vh;
   display: flex;
-  form {
-    padding: 30px;
-  }
+
   .logInInput {
     width: 450px;
     height: 70px;
@@ -22,6 +20,12 @@
     width: 450px;
     font-size: 0.8rem;
     text-align: right;
+    button {
+      border: 0;
+      background-color: cadetblue;
+      color: white;
+      border-radius: 10px;
+    }
   }
   p {
     color: #bf1650;
@@ -65,7 +69,7 @@
   .logInDiv {
     display: flex;
     .logInInput {
-      width: 350px;
+      width: 310px;
       margin-bottom: 13px;
       background-color: cadetblue;
       border: 0;
@@ -107,6 +111,12 @@
       margin-bottom: 40px;
       padding: 0;
     }
+  }
+  .goSignUp {
+    position: relative;
+    width: 310px;
+    font-size: 0.8rem;
+    text-align: right;
   }
 
   .buttonDiv {

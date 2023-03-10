@@ -6,34 +6,37 @@ import SignUp from "./pages/userFormPage/SignUp";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import Calendar from "./pages/calendarPage/Calendar";
 import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import moment from "moment";
+import { fetchingData } from "./cookie/backData";
 
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userToken);
 
   useEffect(() => {
-    const userToken = sessionStorage.getItem("userToken");
-
+    const userToken = getCookie("userToken");
+    // console.log(userToken);
     if (userToken) {
       dispatch(authActions.logIn(userToken));
     }
   }, [dispatch, reduxUserToken]);
 
-  const expiresTime = moment().add("1", "m").toDate();
+  console.log(reduxUserToken);
 
-  console.log(expiresTime);
-
-  setCookie("UserToken", "fnenwofnfpqw", { expires: expiresTime });
-  // setCookie("userToken", "1234");
-  getCookie("UserToken");
-
-  // removeCookie("UserToken");
+  /**아이돌 데이터 받아오기 */
+  // const BASE_URL = "http://127.0.0.1:8000/api/v1/idols/";
+  // const fetchingData = fetch(BASE_URL, {
+  //   headers: {},
+  // })
+  //   .then((data) => data.json())
+  //   .then((result) => {
+  //     console.log(result[0].idol_profile);
+  //   });
 
   return (
     <>

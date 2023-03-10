@@ -5,7 +5,7 @@ import Layout from "../../UI/Layout";
 import "../mainPage/Home.css";
 
 //cOMMIT
-const Home = () => {
+const Home = (props) => {
   const data = [
     {
       id: 1,
