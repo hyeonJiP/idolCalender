@@ -9,10 +9,7 @@ import { authActions } from "./store/auth";
 import { useEffect, useState } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import Calendar from "./pages/calendarPage/Calendar";
 import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
-import moment from "moment";
-import { fetchingData } from "./cookie/backData";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,8 +51,6 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           {/* 개인정보수정 */}
           <Route path="/edituser" element={<EditUser />} />
-
-          <Route path="/calendar" element={<Calendar />} />
 
           <Route
             path="/report"
