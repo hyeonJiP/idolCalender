@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../userFormPage/SignUp.module.scss";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import Layout from "../../UI/Layout";
 
 const SignUp = () => {
   const {
@@ -12,6 +13,8 @@ const SignUp = () => {
   } = useForm();
 
   const navigate = useNavigate();
+  // const date = new Date();
+  // const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
 
   /**회원가입 form 제출시 */
   const onSubmit = (data) => {
@@ -27,7 +30,9 @@ const SignUp = () => {
       birth: age,
       choe: data.choe,
     };
-    fetch("/login", {
+
+    console.log(signUpInform);
+    fetch("http://127.0.0.1:8000/api/v1/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +43,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <Layout>
       <h1>회원가입</h1>
       <div className={styles.signUp}>
         <h2>회원정보</h2>
@@ -87,8 +92,9 @@ const SignUp = () => {
                   message: "16자까지 입력가능합니다.",
                 },
                 pattern: {
+                  // eslint-disable-next-line
                   value: /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g,
-                  message: "비밀번호에 특수문자 1개 이상 넣어주세요.",
+                  message: "특수문자 1개 이상 넣어주세요.",
                 },
               })}
             />
@@ -153,9 +159,23 @@ const SignUp = () => {
 
           <div className={styles.typeDiv}>
             <label>생년월일</label>
-            <input name="birth" type="date" {...register("birth")} />
+            <input
+              name="birth"
+              type="date"
+              {...register("birth", {
+                validate: {
+                  check: (val) => {
+                    if (!val) {
+                      return "필수 정보입니다.";
+                    }
+                  },
+                },
+              })}
+            />
           </div>
-          <div className={styles.errorMessage} />
+          <div className={styles.errorMessage}>
+            {errors.birth && <p>{errors.birth.message}</p>}
+          </div>
 
           <div className={styles.typeDiv}>
             <label>별명</label>
@@ -190,9 +210,9 @@ const SignUp = () => {
             <label>최애 등록</label>
             <select name="choe" {...register("choe")}>
               <option>최애를 등록해주세요.</option>
-              <option>idol1</option>
-              <option>idol2</option>
-              <option>idol3</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
             </select>
           </div>
 
@@ -204,7 +224,7 @@ const SignUp = () => {
           </div>
         </form>
       </div>
-    </>
+    </Layout>
   );
 };
 export default SignUp;
