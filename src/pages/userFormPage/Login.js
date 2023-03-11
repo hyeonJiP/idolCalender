@@ -30,7 +30,19 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    console.log(data);
+    const resData = await fetch("http://127.0.0.1:8000/api/v1/users");
+
+    const userData = await resData.json();
+
+    const isEmailValid = userData.some((user) => {
+      return data.email === user.email;
+    });
+
+    if (!isEmailValid) {
+      setIsValid(true);
+      return;
+    }
+
     const res = await fetch("http://127.0.0.1:8000/api/v1/users/login", {
       method: "POST",
       headers: {
@@ -39,9 +51,10 @@ const LogIn = () => {
       body: JSON.stringify(data),
     });
     /**로그인 response로 받은 token */
+    console.log(res);
     const backEndData = await res.type;
 
-    console.log("login?", backEndData);
+    // console.log("login?", backEndData);
     /**fetch response 오류가 있을때 (ex: id중복) */
     if (!res.ok) {
       setIsValid(true);

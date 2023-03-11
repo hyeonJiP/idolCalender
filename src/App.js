@@ -6,7 +6,7 @@ import SignUp from "./pages/userFormPage/SignUp";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";

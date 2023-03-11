@@ -120,24 +120,22 @@ const ReportSchedule = () => {
           {errors.location && <p>{errors.location.message}</p>}
         </div>
 
-        <label>스케줄 일정을 입력해주세요.(시작일/종료일)</label>
+        <label>스케줄 일정을 입력해주세요.</label>
         <div className={styles.scheduleDiv}>
-          <div>
-            <input
-              className={styles.dateInput}
-              name="startDate"
-              type="datetime-local"
-              data-placeholder="날짜 선택"
-              {...register("startDate", {
-                required: {
-                  value: true,
-                  message: "시작일을 입력하세요",
-                },
-              })}
-            />
-            <div className={styles.errorMessage}>
-              {errors.startDate && <p>{errors.startDate.message}</p>}
-            </div>
+          <input
+            className={styles.dateInput}
+            name="startDate"
+            type="datetime-local"
+            data-placeholder="날짜 선택"
+            {...register("startDate", {
+              required: {
+                value: true,
+                message: "시작일을 입력하세요",
+              },
+            })}
+          />
+          <div className={styles.errorMessage}>
+            {errors.startDate && <p>{errors.startDate.message}</p>}
           </div>
 
           {/* <div>
