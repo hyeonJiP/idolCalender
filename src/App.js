@@ -10,8 +10,14 @@ import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";
+import AdminPage from "./pages/adminPage/AdminPage";
+import { Admin, Resource, ListGuesser } from "react-admin";
+
+import jsonServerProvider from "ra-data-json-server";
 
 function App() {
+  const dataProvider = jsonServerProvider("http://127.0.0.1:8000/api/v1/idols");
+
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userToken);
 
@@ -23,8 +29,6 @@ function App() {
       dispatch(authActions.logIn(userToken));
     }
   }, [dispatch, reduxUserToken]);
-
-  console.log(reduxUserToken);
 
   /**아이돌 데이터 받아오기 */
   // const BASE_URL = "http://127.0.0.1:8000/api/v1/idols/";
@@ -38,9 +42,17 @@ function App() {
 
   return (
     <>
+      {/* {reduxUserToken && (
+        <Admin dataProvider={dataProvider}>
+          <Resource name="admin" list={ListGuesser} />
+        </Admin>
+      )} */}
       <BrowserRouter>
         <ScrollToTop />
+
         <Routes>
+          <Route path="/admin" element={<AdminPage />} />
+
           {/* 메인페이지 */}
           <Route path="/" element={<Home />} />
 

@@ -33,6 +33,7 @@ const LogIn = () => {
     const resData = await fetch("http://127.0.0.1:8000/api/v1/users");
 
     const userData = await resData.json();
+    console.log(userData);
 
     const isEmailValid = userData.some((user) => {
       return data.email === user.email;
