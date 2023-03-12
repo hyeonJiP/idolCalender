@@ -147,7 +147,7 @@ const ReportTabe = () => {
             },
           })}
         />
-        <label>description</label>
+        <label>content</label>
         <input
           name="description"
           {...register("description", {
@@ -156,7 +156,7 @@ const ReportTabe = () => {
             },
           })}
         />
-        <label>price</label>
+        <label>time</label>
         <input
           name="price"
           {...register("price", {
@@ -189,14 +189,21 @@ const ReportTabe = () => {
                 sorting("description");
               }}
             >
-              description
+              content
             </th>
             <th
               onClick={() => {
                 sorting("price");
               }}
             >
-              price
+              time
+            </th>
+            <th
+              onClick={() => {
+                sorting("type");
+              }}
+            >
+              type
             </th>
             <th></th>
           </tr>
@@ -209,6 +216,7 @@ const ReportTabe = () => {
                 <td>{schedule.name}</td>
                 <td>{schedule.description}</td>
                 <td>{schedule.price}</td>
+                <td>{schedule.type}</td>
                 <td>
                   <button onClick={deleteScheduleHandler}>삭제</button>
                   <button>수정</button>

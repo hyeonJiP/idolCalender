@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth";
 import Layout from "../../UI/Layout";
-
 const LogIn = () => {
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
@@ -30,26 +29,28 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    const resData = await fetch("http://127.0.0.1:8000/api/v1/users");
+    // const resData = await fetch("http://127.0.0.1:8000/api/v1/users");
 
-    const userData = await resData.json();
-    console.log(userData);
+    // const userData = await resData.json();
+    // console.log(userData);
 
-    const isEmailValid = userData.some((user) => {
-      return data.email === user.email;
-    });
+    // const isEmailValid = userData.some((user) => {
+    //   return data.email === user.email;
+    // });
 
-    if (!isEmailValid) {
-      setIsValid(true);
-      return;
-    }
+    // if (!isEmailValid) {
+    //   setIsValid(true);
+    //   return;
+    // }
 
+    console.log(data);
     const res = await fetch("http://127.0.0.1:8000/api/v1/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+      credentials: "include", //seesion ID
     });
     /**로그인 response로 받은 token */
     console.log(res);
@@ -59,7 +60,8 @@ const LogIn = () => {
     /**fetch response 오류가 있을때 (ex: id중복) */
     if (!res.ok) {
       setIsValid(true);
-      throw new Error("이메일 혹은 비밀번호가 틀립니다.");
+      return;
+      // throw new Error("이메일 혹은 비밀번호가 틀립니다.");
     }
 
     /**토큰을 redux에 보냄 */
