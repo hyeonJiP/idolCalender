@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth";
 import Layout from "../../UI/Layout";
+import axios from "axios";
+import { getCookie } from "../../cookie/cookie";
+
+axios.defaults.withCredentials = true;
+
+const BASE_URL = "http://127.0.0.1:8000/api/v1/users/jwt-login";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -30,26 +36,59 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    console.log(data);
-    const res = await fetch("http://127.0.0.1:8000/api/v1/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    /**로그인 response로 받은 token */
-    const backEndData = await res.type;
+    // const resData = await fetch("http://127.0.0.1:8000/api/v1/users");
 
-    console.log("login?", backEndData);
+    // const userData = await resData.json();
+    // console.log(userData);
+
+    // const isEmailValid = userData.some((user) => {
+    //   return data.email === user.email;
+    // });
+
+    // if (!isEmailValid) {
+    //   setIsValid(true);
+    //   return;
+    // }
+    // await axios({
+    //   method: "POST",
+    //   url: "http://127.0.0.1:8000/api/v1/users/login",
+    //   data: data,
+    //   withCredentials: true,
+    // }).then((data) => console.log(data));
+
+    axios
+      .post(BASE_URL, data, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    /**안되는 것... */
+    // const res = await fetch(BASE_URL, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   credentials: "include", //seesion ID
+    //   body: JSON.stringify(data),
+    // });
+
+    // console.log(res);
+
+    /**로그인 response로 받은 token */
+    // console.log("login?", backEndData);
     /**fetch response 오류가 있을때 (ex: id중복) */
-    if (!res.ok) {
-      setIsValid(true);
-      throw new Error("이메일 혹은 비밀번호가 틀립니다.");
-    }
+    // if (!res.ok) {
+    //   setIsValid(true);
+    //   return;
+    // throw new Error("이메일 혹은 비밀번호가 틀립니다.");
+    // }
 
     /**토큰을 redux에 보냄 */
-    dispatch(authActions.logIn(backEndData));
     navigate("/");
     /**토큰을 세션스토리지에 저장 */
     // const token = res.url;
@@ -59,6 +98,10 @@ const LogIn = () => {
 
     /**메인으로 내비게이트 */
   };
+
+  const getC = getCookie("csrftoken");
+
+  console.log(getC);
 
   return (
     <Layout>

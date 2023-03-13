@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Cookies, CookiesProvider } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
+import { getCookie } from "../../cookie/cookie";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
@@ -27,11 +29,11 @@ const ReportSchedule = () => {
   const onSubmit = (data) => {
     let eventType = "";
     if (btnActive === "0") {
-      eventType = "방송";
+      eventType = "broadcast";
     } else if (btnActive === "1") {
       eventType = "발매";
     } else if (btnActive === "2") {
-      eventType = "구매";
+      eventType = "buy";
     } else if (btnActive === "3") {
       eventType = "축하";
     } else if (btnActive === "4") {
@@ -43,9 +45,21 @@ const ReportSchedule = () => {
       title: data.title,
       type: eventType,
       location: data.location,
-      startDate: data.startDate,
+      time: data.startDate,
       content: data.content,
     };
+    const cookieData = getCookie("crsftoken");
+    console.log("cookie", cookieData);
+
+    const BASE_URL = "http://127.0.0.1:8000/api/v1/users/reports/";
+    fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"), //
+      },
+      body: JSON.stringify(reportData),
+    }).then((res) => console.log(res));
 
     console.log(reportData);
   };
@@ -120,24 +134,22 @@ const ReportSchedule = () => {
           {errors.location && <p>{errors.location.message}</p>}
         </div>
 
-        <label>스케줄 일정을 입력해주세요.(시작일/종료일)</label>
+        <label>스케줄 일정을 입력해주세요.</label>
         <div className={styles.scheduleDiv}>
-          <div>
-            <input
-              className={styles.dateInput}
-              name="startDate"
-              type="datetime-local"
-              data-placeholder="날짜 선택"
-              {...register("startDate", {
-                required: {
-                  value: true,
-                  message: "시작일을 입력하세요",
-                },
-              })}
-            />
-            <div className={styles.errorMessage}>
-              {errors.startDate && <p>{errors.startDate.message}</p>}
-            </div>
+          <input
+            className={styles.dateInput}
+            name="startDate"
+            type="datetime-local"
+            data-placeholder="날짜 선택"
+            {...register("startDate", {
+              required: {
+                value: true,
+                message: "시작일을 입력하세요",
+              },
+            })}
+          />
+          <div className={styles.errorMessage}>
+            {errors.startDate && <p>{errors.startDate.message}</p>}
           </div>
 
           {/* <div>
