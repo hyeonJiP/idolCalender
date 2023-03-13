@@ -9,13 +9,15 @@ export const fetchingData = () => {
 
     for (let data in datas) {
       newData.push({
-        id: data,
+        id: datas[data].id,
         // name: datas[data].whoes[0].idol_name,
-        price: datas[data].time,
+        time: datas[data].time,
         type: datas[data].type,
-        description: datas[data].content,
+        content: datas[data].content,
       });
     }
+
+    console.log(newData);
 
     dispatch(reportSchedulesActions.updateSchedule(newData));
   };

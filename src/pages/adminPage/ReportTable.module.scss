@@ -1,26 +1,70 @@
 .scheduleDiv {
-  margin: 100px;
+  padding: 100px;
   width: 80%;
+  height: 100%;
+  background-color: white;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  .searchDiv {
+    width: 40%;
+    margin-bottom: 10px;
+  }
+  label {
+    color: #ffd1d1;
+  }
   input {
-    width: 50%;
-    margin-bottom: 20px;
+    width: 30%;
+    height: 40px;
+    border: 1px solid #ffe3e1;
   }
   .addScheduleForm {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
     width: 100%;
     input {
       width: 20%;
+      margin: auto 0;
     }
+    margin-bottom: 10px;
   }
 }
 
 .dataTable {
   width: 100%;
   text-align: center;
-  border: 1px solid black;
+  border-collapse: collapse;
+  max-height: 200px;
+  overflow-y: scroll;
+  thead {
+    background-color: #ff9494;
+
+    th {
+      padding: 0;
+      color: white;
+      padding: 15px;
+    }
+  }
+  td {
+    padding: 20px;
+  }
+  tbody {
+    height: 30px;
+    overflow: auto;
+  }
+  .listBtn {
+    border: 0;
+    background-color: #ffd1d1;
+    &:nth-child(1) {
+      background-color: white;
+    }
+  }
+}
+
+.page {
+  background-color: #ff9494;
+  width: 100%;
 }

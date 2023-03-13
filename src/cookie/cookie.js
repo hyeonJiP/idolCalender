@@ -1,4 +1,4 @@
-import { Cookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 
 const cookies = new Cookies();
 
@@ -7,7 +7,6 @@ export const setCookie = (name, value, options) => {
 };
 
 export const getCookie = (name) => {
-  // const tokenData = cookies.get(name);
   return cookies.get(name);
 };
 

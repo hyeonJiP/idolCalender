@@ -9,31 +9,22 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie } from "./cookie/cookie";
+import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 
 function App() {
   const dispatch = useDispatch();
-  const reduxUserToken = useSelector((state) => state.auth.userToken);
+  const reduxUserToken = useSelector((state) => state.auth.userSessionId);
 
+  setCookie("asdf");
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
-    const userToken = getCookie("userToken");
-    // console.log(userToken);
+    const userToken = getCookie("sessionid");
+    // console.log("sessionId", userToken);
     if (userToken) {
       dispatch(authActions.logIn(userToken));
     }
   }, [dispatch, reduxUserToken]);
-
-  /**아이돌 데이터 받아오기 */
-  const BASE_URL = "http://127.0.0.1:8000/api/v1/users/reports";
-
-  // const BASE_URL = "http://127.0.0.1:8000/api/v1/idols";
-  fetch(BASE_URL, {
-    // mode: "no-cors",
-  })
-    .then((data) => data.json())
-    .then((res) => console.log(res));
 
   return (
     <>

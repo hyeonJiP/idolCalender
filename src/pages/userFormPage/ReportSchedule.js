@@ -48,6 +48,8 @@ const ReportSchedule = () => {
       time: data.startDate,
       content: data.content,
     };
+    const cookieData = getCookie("crsftoken");
+    console.log("cookie", cookieData);
 
     const BASE_URL = "http://127.0.0.1:8000/api/v1/users/reports/";
     fetch(BASE_URL, {

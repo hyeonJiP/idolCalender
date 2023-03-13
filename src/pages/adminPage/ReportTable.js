@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchingData } from "../../store/reportSchedules-action";
 import { reportSchedulesActions } from "../../store/reportSchedules";
+import Pagenation from "./Pagenation";
 
 const ReportTabe = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const ReportTabe = () => {
 
   const searchRef = useRef();
   const [order, setOrder] = useState("ASC");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(10);
 
   const {
     register,
@@ -23,29 +26,26 @@ const ReportTabe = () => {
     dispatch(fetchingData());
   }, [dispatch]);
 
+  /**pagenation */
+  let indexOfLastPost = currentPage * postPerPage;
+  let indexOfFirstPost = indexOfLastPost - postPerPage;
+  let currentPosts = reportData.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   /**검색기능 */
   const searchHandler = ({ target }) => {
     searchRef.current = target.value;
-    const newIdolSchedule = reportData.filter((schedule) => {
-      let data = "";
-      if (schedule.name.includes(searchRef.current)) {
-        data = reportData;
-        console.log(data);
-        return data;
-      }
-      // if(!schedule.name.includes(searchRef.current))
-    });
-    // console.log(newIdolSchedule, "newidol");
-
-    dispatch(reportSchedulesActions.updateSchedule(newIdolSchedule));
   };
 
   /**스케줄 추가해주기 */
   const onSubmit = async (data) => {
     const addData = {
       name: data.name,
-      description: data.description,
-      price: data.price,
+      content: data.content,
+      time: data.time,
     };
     console.log(addData);
 
@@ -128,108 +128,125 @@ const ReportTabe = () => {
   };
 
   return (
-    <div className={styles.scheduleDiv}>
-      <label>검색</label>
-      <input name="searchSchedule" onChange={searchHandler} />
-      <button onClick={searchHandler}>검색하기</button>
+    <>
+      <div className={styles.scheduleDiv}>
+        <div className={styles.searchDiv}>
+          <label>🔍</label>
+          <input
+            name="searchSchedule"
+            onChange={searchHandler}
+            placeholder="search"
+          />
+        </div>
 
-      {/**추가할 데이터 */}
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.addScheduleForm}
-      >
-        <label>name</label>
-        <input
-          name="name"
-          {...register("name", {
-            required: {
-              value: true,
-            },
-          })}
+        {/**추가할 데이터 */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.addScheduleForm}
+        >
+          <label>name</label>
+          <input
+            name="name"
+            {...register("name", {
+              required: {
+                value: true,
+              },
+            })}
+          />
+          <label>content</label>
+          <input
+            name="content"
+            {...register("content", {
+              required: {
+                value: true,
+              },
+            })}
+          />
+          <label>time</label>
+          <input
+            name="time"
+            {...register("time", {
+              required: {
+                value: true,
+              },
+            })}
+          />
+          <button type="submit">스케줄추가하기</button>
+        </form>
+        <table className={styles.dataTable}>
+          <thead>
+            <tr>
+              <th
+                onClick={() => {
+                  sorting("id");
+                }}
+              >
+                key
+              </th>
+              <th
+                onClick={() => {
+                  sorting("name");
+                }}
+              >
+                name
+              </th>
+              <th
+                onClick={() => {
+                  sorting("content");
+                }}
+              >
+                content
+              </th>
+              <th
+                onClick={() => {
+                  sorting("time");
+                }}
+              >
+                time
+              </th>
+              <th
+                onClick={() => {
+                  sorting("type");
+                }}
+              >
+                type
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentPosts.map((schedule) => {
+              return (
+                <tr key={schedule.id}>
+                  <td>{schedule.id}</td>
+                  <td>{schedule.name}</td>
+                  <td>{schedule.content}</td>
+                  <td>{schedule.time}</td>
+                  <td>{schedule.type}</td>
+                  <td>
+                    <button
+                      onClick={deleteScheduleHandler}
+                      className={styles.listBtn}
+                    >
+                      ✂️
+                    </button>
+                    <button className={styles.listBtn}>📝</button>
+                    <button onClick={updateScheduleHandler}>
+                      스케줄에 업데이트
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <Pagenation
+          postPerPage={postPerPage}
+          totalPosts={reportData.length}
+          paginate={paginate}
         />
-        <label>content</label>
-        <input
-          name="description"
-          {...register("description", {
-            required: {
-              value: true,
-            },
-          })}
-        />
-        <label>time</label>
-        <input
-          name="price"
-          {...register("price", {
-            required: {
-              value: true,
-            },
-          })}
-        />
-        <button type="submit">스케줄추가하기</button>
-      </form>
-      <table className={styles.dataTable}>
-        <thead>
-          <tr>
-            <th
-              onClick={() => {
-                sorting("id");
-              }}
-            >
-              key
-            </th>
-            <th
-              onClick={() => {
-                sorting("name");
-              }}
-            >
-              name
-            </th>
-            <th
-              onClick={() => {
-                sorting("description");
-              }}
-            >
-              content
-            </th>
-            <th
-              onClick={() => {
-                sorting("price");
-              }}
-            >
-              time
-            </th>
-            <th
-              onClick={() => {
-                sorting("type");
-              }}
-            >
-              type
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {reportData.map((schedule) => {
-            return (
-              <tr key={schedule.id}>
-                <td>{schedule.id}</td>
-                <td>{schedule.name}</td>
-                <td>{schedule.description}</td>
-                <td>{schedule.price}</td>
-                <td>{schedule.type}</td>
-                <td>
-                  <button onClick={deleteScheduleHandler}>삭제</button>
-                  <button>수정</button>
-                  <button onClick={updateScheduleHandler}>
-                    스케줄에 업데이트
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+      </div>
+    </>
   );
 };
 

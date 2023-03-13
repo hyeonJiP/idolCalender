@@ -5,16 +5,17 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { userToken: "" },
+  initialState: { usersSessionId: "", userCsrfToken: "" },
   reducers: {
     logIn(state, actions) {
-      const expiresTime = moment().add("10", "m").toDate();
-      setCookie("userToken", actions.payload, { expires: expiresTime });
-      state.userToken = actions.payload;
+      state.usersSessionId = actions.payload;
     },
     logOut(state) {
-      removeCookie("userToken");
-      state.userToken = null;
+      // removeCookie("sessionid");
+      // removeCookie("csrftoken");
+      state.usersSessionId = "";
+      state.userCsrfToken = "";
+      console.log();
     },
   },
 });
