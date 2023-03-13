@@ -12,6 +12,7 @@ import ScrollToTop from "./UI/ScrollUP";
 import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 
+//merge
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userSessionId);
