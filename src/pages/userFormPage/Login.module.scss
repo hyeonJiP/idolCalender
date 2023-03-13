@@ -1,28 +1,10 @@
-.buttonDiv {
-  display: flex;
-  margin: 0 auto;
-  button {
-    &:nth-child(1) {
-      background-color: #a7a8b1;
-    }
-    background-color: #4856ff;
-    color: white;
-    border: 0px;
-    margin: 10vh 10px 0 10px;
-    border-radius: 30px;
-    width: 13vw;
-    height: 7vh;
-
-    font-weight: bold;
-  }
-}
-
 .logInDiv {
   height: 100vh;
   display: flex;
+
   .logInInput {
-    width: 32%;
-    height: 8%;
+    width: 450px;
+    height: 70px;
     margin-bottom: 13px;
     background-color: cadetblue;
     border: 0;
@@ -35,16 +17,47 @@
   }
   .goSignUp {
     position: relative;
-    left: 12%;
+    width: 450px;
+    font-size: 0.8rem;
+    text-align: right;
+    button {
+      border: 0;
+      background-color: cadetblue;
+      color: white;
+      border-radius: 10px;
+    }
   }
   p {
+    color: #bf1650;
     left: 0;
-    font-size: 1rem;
+    font-size: 0.8rem;
     margin: 0;
   }
-}
-.errorMessage {
-  width: 32%;
+  p::before {
+    display: inline;
+    content: "⚠ ";
+  }
+  .errorMessage {
+    width: 450px;
+  }
+  .buttonDiv {
+    display: flex;
+    margin: 0 auto;
+    button {
+      &:nth-child(1) {
+        background-color: #a7a8b1;
+      }
+      background-color: #4856ff;
+      color: white;
+      border: 0px;
+      margin: 30px 5px 0 5px;
+      border-radius: 30px;
+      width: 150px;
+      height: 60px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
 }
 
 .mainImg {
@@ -54,11 +67,9 @@
 
 @media (max-width: 768px) {
   .logInDiv {
-    height: 100vh;
     display: flex;
     .logInInput {
-      width: 60%;
-      height: 8%;
+      width: 310px;
       margin-bottom: 13px;
       background-color: cadetblue;
       border: 0;
@@ -68,8 +79,11 @@
       padding: 0;
     }
     .goSignUp {
-      position: relative;
-      left: 25%;
+      width: 350px;
+    }
+
+    .errorMessage {
+      width: 350px;
     }
   }
 
@@ -77,16 +91,9 @@
     display: flex;
     margin: 0 auto;
     button {
-      &:nth-child(1) {
-        background-color: #a7a8b1;
-      }
-      background-color: #4856ff;
-      color: white;
-      border: 0px;
       margin: 10vh 10px 0 10px;
       border-radius: 30px;
-      width: 20vw;
-      height: 6vh;
+      width: 10px;
     }
   }
 }
@@ -96,8 +103,6 @@
     height: 100vh;
     display: flex;
     .logInInput {
-      width: 60%;
-      height: 8%;
       margin-bottom: 13px;
       background-color: cadetblue;
       border: 0;
@@ -106,10 +111,12 @@
       margin-bottom: 40px;
       padding: 0;
     }
-    .goSignUp {
-      position: relative;
-      left: 19%;
-    }
+  }
+  .goSignUp {
+    position: relative;
+    width: 310px;
+    font-size: 0.8rem;
+    text-align: right;
   }
 
   .buttonDiv {
@@ -122,10 +129,8 @@
       background-color: #4856ff;
       color: white;
       border: 0px;
-      margin: 10vh 10px 0 10px;
       border-radius: 30px;
-      width: 20vw;
-      height: 6.4vh;
+      width: 120px;
     }
   }
 }

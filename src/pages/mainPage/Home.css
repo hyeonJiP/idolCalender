@@ -1,0 +1,202 @@
+.home {
+  width: 100%;
+  background-color: pink;
+}
+.homeContainer {
+  width: 100%;
+}
+.home_mainBanner {
+  width: 100%;
+  height: 628px;
+}
+.slider {
+  height: 100%;
+  /* margin: auto; */
+  /* position: relative; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 0px;
+}
+
+/* width : total number of slides (9) * individual slide width (250px) */
+.slideBox {
+  display: flex;
+  width: calc(300px * 10);
+  animation: scroll 15s linear infinite;
+}
+
+.slideBox:hover {
+  animation-play-state: paused;
+}
+
+/* width: moves the slide track leftwards (-250px) by half (18 images/2 =9) of its width */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-300px * 5));
+  }
+}
+.slide {
+  height: 160px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* padding: 15px; */
+  perspective: 100px;
+}
+
+.slideInner {
+  height: 140px;
+  width: 280px;
+  transition: transform 0.5s;
+  border-radius: 10px;
+  box-shadow: 5.1px 6.1px 21px 0 rgb(0 0 0 / 13%);
+  cursor: pointer;
+}
+.slideInner:hover {
+  transform: translateZ(7px);
+}
+
+.slideTop {
+}
+.slideMid {
+}
+
+.slideBot {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 30px;
+}
+.slideContent {
+  padding: 20px;
+}
+
+/* artistSection */
+.artistSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+}
+article {
+  width: 950px;
+  display: flex;
+  flex-direction: column;
+}
+.artistFontWrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 5rem;
+}
+.artistImage {
+  width: 215px;
+  height: 215px;
+  border-radius: 70px;
+  cursor: pointer;
+}
+.artistThumnail {
+  display: flex;
+  list-style: none;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.artistThumnail a {
+  text-decoration: none;
+  color: black;
+}
+.artistImageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+  /* display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; */
+  margin-top: 4rem;
+  padding: 0;
+}
+.artistName {
+  margin-top: 2rem;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.19px;
+  cursor: pointer;
+}
+.artistFont {
+  font-size: 1.2rem;
+  letter-spacing: -0.19px;
+  cursor: pointer;
+  color: #888888;
+}
+.mainTitle {
+  font-weight: 500;
+  font-size: 3.5vw;
+  text-align: center;
+  line-height: 1.42;
+  letter-spacing: -1.55px;
+}
+.subTitle {
+  margin-top: 2.6rem;
+  font-size: 2vw;
+  letter-spacing: -0.6px;
+  color: #888888;
+  line-height: 1.67;
+}
+
+@media (max-width: 376px) {
+  .subTitle {
+    margin-top: 2.5vw;
+  }
+  .artistFontWrapper {
+    margin-top: 2.5vw;
+  }
+  .artistName {
+    margin-top: 2vw;
+    font-size: 3vw;
+  }
+  .artistFont {
+    font-size: 2.8vw;
+  }
+  article {
+    width: 80vw;
+  }
+}
+@media (max-width: 768px) {
+  .subTitle {
+    margin-top: 2.5vw;
+  }
+  .artistFontWrapper {
+    margin-top: 2.5vw;
+  }
+  .artistImageWrapper {
+    margin-top: 2rem;
+  }
+  .artistImage {
+    width: 16vw;
+    height: 16vw;
+    border-radius: 4vw;
+  }
+  /* .artistThumnail {
+    width: 22vw;
+  } */
+  .artistName {
+    margin-top: 2vw;
+    font-size: 2.5vw;
+  }
+  .artistFont {
+    font-size: 2.5vw;
+  }
+  article {
+    width: 70vw;
+  }
+}

@@ -44,6 +44,18 @@ body {
     font-size: 0.8rem;
     font-weight: bold;
   }
+  p {
+    color: #bf1650;
+    position: relative;
+    left: 40%;
+    margin: 2px;
+    font-size: 0.8rem;
+  }
+
+  p::before {
+    display: inline;
+    content: "⚠ ";
+  }
 }
 
 form {
@@ -51,11 +63,6 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-p::before {
-  display: inline;
-  content: "⚠ ";
 }
 
 .typeDiv {

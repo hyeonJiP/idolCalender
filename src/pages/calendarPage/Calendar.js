@@ -10,6 +10,7 @@ const Calendar = () => {
   const [getMoment, setMoment] = useState(moment());
 
   const today = getMoment;
+  console.log(moment()._d);
 
   // 그 달의 시작하는 week() 주
   const firstWeek = today.clone().startOf("month").week();
@@ -38,9 +39,6 @@ const Calendar = () => {
                 .week(week)
                 .startOf("week")
                 .add(index, "day");
-              console.log("data:" + data);
-              console.log("index:" + index);
-
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
                   <td key={index} className="today">
@@ -87,6 +85,7 @@ const Calendar = () => {
           className="button"
           onClick={() => {
             setMoment(getMoment.clone().add(1, "month"));
+            console.log("NextMon", getMoment);
           }}
         >
           <img className="arrow" src={right} alt="right" />
