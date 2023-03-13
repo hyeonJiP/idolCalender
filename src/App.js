@@ -3,6 +3,7 @@ import EditUser from "./pages/userFormPage/EditUser";
 import LogIn from "./pages/userFormPage/Login";
 import ReportSchedule from "./pages/userFormPage/ReportSchedule";
 import SignUp from "./pages/userFormPage/SignUp";
+import Calendar from "./pages/calendarPage/calendar/Calendar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
@@ -51,6 +52,8 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           {/* 개인정보수정 */}
           <Route path="/edituser" element={<EditUser />} />
+          {/* 메인 달력 */}
+          <Route path="/calendar" element={<Calendar />} />
 
           <Route
             path="/report"

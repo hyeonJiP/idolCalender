@@ -1,0 +1,42 @@
+{
+    "event" : [
+       {
+           "date" : "20230301",
+           "title" : "제목",
+           "content" : "일정",
+           "type" : "broadcast"
+        },
+        {
+           "date" : "20230301",
+           "title" : "제목2",
+           "content" : "일정2",
+           "type" : "release"
+        },
+        {
+          "date" : "20230310",
+           "title" : "제목3",
+           "content" : "일정3",
+           "type" : "buy"
+        },
+        {
+           "date" : "20230310",
+           "title" : "제목4",
+           "content" : "일정4",
+           "type" : "congratulations"
+        },
+        
+        {
+           "date" : "20230313",
+           "title" : "제목5",
+           "content" : "일정5",
+           "type" : "event"
+        },
+        
+        {
+           "date" : "20230313",
+           "title" : "제목5",
+           "content" : "일정5",
+           "type" : "my"
+        }
+    ]
+  }
