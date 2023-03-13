@@ -11,6 +11,8 @@ import { getCookie } from "../../cookie/cookie";
 
 axios.defaults.withCredentials = true;
 
+const BASE_URL = "http://127.0.0.1:8000/api/v1/users/jwt-login";
+
 const LogIn = () => {
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
@@ -54,39 +56,26 @@ const LogIn = () => {
     //   withCredentials: true,
     // }).then((data) => console.log(data));
 
-    // axios
-    //   .post("http://127.0.0.1:8000/api/v1/users/login", data, {
-    //     withCredentials: true,
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    axios
+      .post(BASE_URL, data, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    const BASE_URL = "http://127.0.0.1:8000/api/v1/users/login";
-
-    const cookieData = getCookie("csrftoken");
-
-    const instance = axios.create({
-      baseURL: BASE_URL,
-      headers: {
-        "X-CSRFToken": cookieData,
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log(instance);
     /**안되는 것... */
-    const res = await fetch(BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", //seesion ID
-      body: JSON.stringify(data),
-    });
+    // const res = await fetch(BASE_URL, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   credentials: "include", //seesion ID
+    //   body: JSON.stringify(data),
+    // });
 
     // console.log(res);
 
