@@ -1,19 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import styles from "./EditUser.module.scss";
 
 const EditUser = () => {
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
     getValues,
   } = useForm();
-
-  const goBackHandler = () => {
-    console.log("goBack");
-  };
 
   const onSubmit = (data) => {
     console.log(1231223142);
@@ -26,7 +24,6 @@ const EditUser = () => {
 
   return (
     <Layout>
-      {" "}
       <h1 className={styles.title}>회원정보 수정</h1>
       <div className={styles.signUp}>
         <div className={styles.signUpContainer}>
@@ -118,7 +115,12 @@ const EditUser = () => {
           </div>
 
           <div className={styles.buttonDiv}>
-            <button onClick={goBackHandler} type="button">
+            <button
+              onClick={() => {
+                navigate(-1);
+              }}
+              type="button"
+            >
               이전
             </button>
             <button>회원가입</button>

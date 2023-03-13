@@ -43,6 +43,10 @@ body {
     margin: 10px 0 5px 0;
     font-size: 0.8rem;
     font-weight: bold;
+    &::after {
+      content: "*";
+      color: red;
+    }
   }
   p {
     color: #bf1650;
@@ -80,6 +84,7 @@ select {
   display: flex;
   margin: 0 auto;
   width: 100%;
+  justify-content: center;
   button {
     &:nth-child(1) {
       background-color: #a7a8b1;
@@ -89,8 +94,8 @@ select {
     border: 0px;
     margin: 3vh 10px 0 10px;
     border-radius: 30px;
-    width: 100%;
-    height: 4vh;
+    width: 120px;
+    height: 40px;
   }
 }
 
@@ -117,13 +122,12 @@ select {
 
 .scheduleDiv {
   display: flex;
+  flex-direction: column;
 
-  width: 60%;
   div {
     width: 80%;
   }
   .dateInput {
-    width: 14vw;
     border-radius: 3px;
     border: 2px solid;
     font-weight: bold;
@@ -143,13 +147,10 @@ select {
 
 @media (max-width: 768px) {
   .buttonDiv {
-    width: 60%;
+    width: 100%;
     button {
-      border: 0px;
-      margin: 3vh 10px 0 10px;
-      border-radius: 30px;
-      width: 100%;
-      height: 5vh;
+      width: 100px;
+      height: 40px;
     }
   }
   .scheduleDiv {
@@ -167,7 +168,6 @@ select {
     width: 90%;
 
     .dateInput {
-      width: 30vw;
       margin: 0;
     }
   }

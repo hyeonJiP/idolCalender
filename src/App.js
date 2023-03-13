@@ -9,15 +9,19 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import Calendar from "./pages/calendarPage/Calendar";
+import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
+import AdminPage from "./pages/adminPage/AdminPage";
 
+//merge
 function App() {
   const dispatch = useDispatch();
-  const reduxUserToken = useSelector((state) => state.auth.userToken);
+  const reduxUserToken = useSelector((state) => state.auth.userSessionId);
 
+  setCookie("asdf");
+  /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
-    const userToken = sessionStorage.getItem("userToken");
-
+    const userToken = getCookie("sessionid");
+    // console.log("sessionId", userToken);
     if (userToken) {
       dispatch(authActions.logIn(userToken));
     }
@@ -25,9 +29,17 @@ function App() {
 
   return (
     <>
+      {/* {reduxUserToken && (
+        <Admin dataProvider={dataProvider}>
+          <Resource name="admin" list={ListGuesser} />
+        </Admin>
+      )} */}
       <BrowserRouter>
         <ScrollToTop />
+
         <Routes>
+          <Route path="/admin" element={<AdminPage />} />
+
           {/* 메인페이지 */}
           <Route path="/" element={<Home />} />
 
@@ -39,8 +51,6 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           {/* 개인정보수정 */}
           <Route path="/edituser" element={<EditUser />} />
-
-          <Route path="/calendar" element={<Calendar />} />
 
           <Route
             path="/report"

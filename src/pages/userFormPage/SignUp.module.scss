@@ -1,11 +1,11 @@
 .signUp {
   margin: 0 auto;
-  height: 85vh;
   width: 80%;
+  padding: 20px 20px 100px 20px;
   border-radius: 20px;
   background-color: white;
   h2 {
-    padding: 5vh 0 0 6vw;
+    margin-left: 30px;
     font-size: 1.3rem;
   }
   p {
@@ -27,7 +27,7 @@
   margin: 2px;
   position: relative;
   width: 50%;
-  height: 4vh;
+  padding: 10px;
 }
 
 form {
@@ -39,7 +39,8 @@ form {
 }
 
 h1 {
-  padding-top: 5vh;
+  margin: 0;
+  padding: 10vh 0 5vh 0;
   color: black;
   text-align: center;
   font-size: 1.8rem;
@@ -61,6 +62,10 @@ h1 {
     color: black;
     font-size: 1rem;
     font-weight: bold;
+    &::after {
+      content: "*";
+      color: red;
+    }
   }
 
   input {
@@ -93,11 +98,11 @@ select {
     background-color: #4856ff;
     color: white;
     border: 0px;
-    margin: 8vh 10px 0 10px;
+    margin: 70px 10px 0 10px;
     border-radius: 30px;
-    width: 10vw;
-    height: 5vh;
-
+    width: 150px;
+    height: 50px;
+    font-size: 1rem;
     font-weight: bold;
   }
 }
@@ -132,11 +137,9 @@ select {
   }
 
   .buttonDiv {
-    display: flex;
-    margin: 0 auto;
     button {
-      width: 22vw;
-      height: 7vh;
+      width: 120px;
+      height: 40px;
     }
   }
 }
@@ -154,14 +157,16 @@ select {
       width: 65%;
     }
   }
+  .signUp {
+    label {
+      font-size: 0.7rem;
+    }
+  }
 
   .buttonDiv {
-    display: flex;
-    margin: 0 auto;
     button {
-      margin: 8vh 10px 0 10px;
-      width: 19vw;
-      height: 4.5vh;
+      width: 100px;
+      height: 40px;
     }
   }
 }

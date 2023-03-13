@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import "../UI/Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
+import { removeCookie, setCookie } from "../cookie/cookie";
+import axios from "axios";
 
 const Headar = () => {
   const [navColor, setnavColor] = useState("transparent");
-  const userToken = useSelector((state) => state.auth.userToken);
+  const userToken = useSelector((state) => state.auth.userSessionId);
   const dispatch = useDispatch();
 
   const listenScrollEvent = () => {
@@ -19,7 +21,12 @@ const Headar = () => {
     };
   }, []);
 
-  const LogoutHandler = () => {
+  const LogoutHandler = async () => {
+    setCookie("asdf");
+    // await fetch("http://127.0.0.1:8000/api/v1/users/logout", {
+    //   method: "POST",
+    // }).then((res) => console.log("logout : API", res));
+
     dispatch(authActions.logOut());
   };
 
@@ -52,12 +59,19 @@ const Headar = () => {
           <div className="navItem">
             {!userToken ? (
               <Link to={"/login"}>
-                <button className="navBtn">Login</button>
+                <>
+                  <button className="navBtn">Login</button>
+                </>
               </Link>
             ) : (
-              <button className="navBtn" onClick={LogoutHandler}>
-                Logout
-              </button>
+              <>
+                <button className="navBtn">
+                  <Link to="/edituser">내 정보</Link>
+                </button>
+                <button className="navBtn" onClick={LogoutHandler}>
+                  Logout
+                </button>
+              </>
             )}
           </div>
         </div>

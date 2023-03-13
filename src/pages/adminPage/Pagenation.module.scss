@@ -1,0 +1,12 @@
+.pageUl {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  background-color: #ff9494;
+  color: white;
+  font-weight: bold;
+  padding: 0;
+  p {
+    margin: 10px;
+  }
+}
