@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ReportTable.module.scss";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +12,7 @@ const ReportTabe = () => {
   const reportData = useSelector((state) => state.reportSchedule.reportData);
   const searchData = useSelector((state) => state.reportSchedule.searchData);
 
-  const searchRef = useRef("");
-  // const [isSearching, setIsSearching] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   const [order, setOrder] = useState("ASC");
   const [currentPage, setCurrentPage] = useState(1);
   const [toggle, setToggle] = useState(0);
@@ -30,7 +29,9 @@ const ReportTabe = () => {
     dispatch(fetchingData());
   }, [dispatch]);
 
-  /**pagenation */
+  useEffect(() => {}, [searchInput]);
+
+  /**페이지네이션 데이터 */
   let indexOfLastPost = currentPage * postPerPage;
   let indexOfFirstPost = indexOfLastPost - postPerPage;
   let currentPosts = searchData.slice(indexOfFirstPost, indexOfLastPost);
@@ -40,20 +41,28 @@ const ReportTabe = () => {
     setToggle(pageNumber);
   };
 
-  if (searchRef.current === "") {
-    dispatch(reportSchedulesActions.searchSchedule(reportData));
-  }
+  useEffect(() => {
+    if (searchInput === "") {
+      dispatch(reportSchedulesActions.searchSchedule(reportData));
+    }
+  }, [searchInput, dispatch, reportData]);
+
   /**검색기능 */
   const searchHandler = ({ target }) => {
-    searchRef.current = target.value;
+    setSearchInput(target.value);
 
+    console.log(searchInput);
+  };
+
+  const searchFormHandler = (e) => {
+    e.preventDefault();
     const searchData = reportData.filter((data) => {
-      return data.content.includes(searchRef.current);
+      return data.content.includes(searchInput);
     });
+    console.group();
     dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
 
-  console.log("filter", reportData);
   /**스케줄 추가해주기 */
   const onSubmit = async (data) => {
     const addData = {
@@ -90,7 +99,7 @@ const ReportTabe = () => {
   const sortingAsc = (data, col) => {
     const sorted = [...data].sort((a, b) => {
       if (Number(a[col])) {
-        return a[col] > b[col] ? 1 : -1;
+        return a[col] < b[col] ? 1 : -1;
       }
 
       return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
@@ -107,9 +116,6 @@ const ReportTabe = () => {
     }
     if (order === "DSC") {
       sortingAsc(searchData, col);
-    }
-    if (searchRef.current === "") {
-      dispatch(reportSchedulesActions.searchSchedule(reportData));
     }
   };
 
@@ -154,14 +160,21 @@ const ReportTabe = () => {
   return (
     <>
       <div className={styles.scheduleDiv}>
-        <div className={styles.searchDiv}>
+        <form className={styles.searchForm} onSubmit={searchFormHandler}>
           <label>🔍</label>
           <input
             name="searchSchedule"
             onChange={searchHandler}
             placeholder="search"
           />
-        </div>
+          <button type="submit">검색</button>
+          <input
+            className={styles.resetBtn}
+            type="reset"
+            value="x"
+            onClick={() => setSearchInput("")}
+          />
+        </form>
 
         {/**추가할 데이터 */}
         <form
@@ -207,7 +220,7 @@ const ReportTabe = () => {
                   sorting("id");
                 }}
               >
-                key
+                id
               </th>
               <th
                 onClick={() => {

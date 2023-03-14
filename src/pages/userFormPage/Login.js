@@ -6,10 +6,9 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import axios from "axios";
 import { setCookie } from "../../cookie/cookie";
+import { BASE_URL } from "../../URL/url";
 
 axios.defaults.withCredentials = true;
-
-const BASE_URL = "http://127.0.0.1:8000/api/v1/users/login/";
 
 const LogIn = () => {
   const [isValid, setIsValid] = useState(false);
@@ -48,7 +47,7 @@ const LogIn = () => {
     // }).then((data) => console.log(data));
 
     const res = await axios
-      .post(BASE_URL, data, {
+      .post(`${BASE_URL}users/login/`, data, {
         withCredentials: true,
       })
       .then((response) => {

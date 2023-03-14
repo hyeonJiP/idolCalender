@@ -12,8 +12,12 @@ import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
+import axios from "axios";
 
 function App() {
+  /**전역에 토큰 허용 */
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.xsrfHeaderName = "X-CSRFToken";
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
 

@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import "../UI/Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
+import axios from "axios";
+import { BASE_URL } from "../URL/url";
 
 const Headar = () => {
   const [navColor, setnavColor] = useState("transparent");
   const isLogin = useSelector((state) => state.auth.isLogin);
-  const csrftoken = useSelector((state) => state.auth.csrftoken);
   const dispatch = useDispatch();
 
   const listenScrollEvent = () => {
@@ -21,15 +22,10 @@ const Headar = () => {
   }, []);
 
   const LogoutHandler = async () => {
-    const BASE_URL = "http://127.0.0.1:8000/api/v1/users/logout";
-    fetch(BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrftoken, //
-      },
-      body: JSON.stringify("sd"),
-    })
+    axios
+      .post(`${BASE_URL}users/logout`, "", {
+        withCredentials: true,
+      })
       .then((res) => res)
       .then((data) => console.log(data));
 

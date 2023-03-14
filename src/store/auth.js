@@ -1,5 +1,3 @@
-import { removeCookie } from "../cookie/cookie";
-
 const { createSlice } = require("@reduxjs/toolkit");
 
 export const authSlice = createSlice({
@@ -12,8 +10,6 @@ export const authSlice = createSlice({
       state.userCsrfToken = actions.payload.userCsrfToken;
     },
     logOut(state) {
-      removeCookie("sessionid");
-      removeCookie("csrftoken");
       state.isLogin = false;
       state.userCsrfToken = "";
     },

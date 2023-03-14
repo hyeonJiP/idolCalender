@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
 import { getCookie } from "../../cookie/cookie";
+import axios from "axios";
+import { BASE_URL } from "../../URL/url";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
@@ -25,7 +27,7 @@ const ReportSchedule = () => {
     return setBtnActive(target.value);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     let eventType = "";
     if (btnActive === "0") {
       eventType = "broadcast";
@@ -51,17 +53,11 @@ const ReportSchedule = () => {
     const cookieData = getCookie("csrftoken");
     console.log("cookie", cookieData);
 
-    const BASE_URL = "http://127.0.0.1:8000/api/v1/users/reports/";
-    fetch(BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"), //
-      },
-      body: JSON.stringify(reportData),
-      credentials: "include",
-    })
-      .then((data) => data.json())
+    await axios
+      .post(`${BASE_URL}users/reports/`, reportData, {
+        withCredentials: true,
+      })
+      .then((data) => data)
       .then((res) => console.log(res))
       .catch((res) => console.log(res));
 
