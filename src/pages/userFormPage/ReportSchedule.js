@@ -42,13 +42,14 @@ const ReportSchedule = () => {
 
     /**백에 보낼 데이터 */
     const reportData = {
+      whoes: ["1"],
       title: data.title,
       type: eventType,
       location: data.location,
       time: data.startDate,
       content: data.content,
     };
-    const cookieData = getCookie("crsftoken");
+    const cookieData = getCookie("csrftoken");
     console.log("cookie", cookieData);
 
     const BASE_URL = "http://127.0.0.1:8000/api/v1/users/reports/";
@@ -59,7 +60,11 @@ const ReportSchedule = () => {
         "X-CSRFToken": getCookie("csrftoken"), //
       },
       body: JSON.stringify(reportData),
-    }).then((res) => console.log(res));
+      credentials: "include",
+    })
+      .then((data) => data.json())
+      .then((res) => console.log(res))
+      .catch((res) => console.log(res));
 
     console.log(reportData);
   };

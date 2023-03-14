@@ -17,8 +17,6 @@ export const fetchingData = () => {
       });
     }
 
-    console.log(newData);
-
     dispatch(reportSchedulesActions.updateSchedule(newData));
   };
 };

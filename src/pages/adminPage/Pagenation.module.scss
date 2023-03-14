@@ -6,13 +6,11 @@
   color: white;
   font-weight: bold;
   padding: 0;
-  p {
+  .page {
     margin: 10px;
-    &:visited {
-      color: black;
-    }
-    &:hover {
-      color: aqua;
-    }
+  }
+  .pageActive {
+    margin: 10px;
+    color: aqua;
   }
 }

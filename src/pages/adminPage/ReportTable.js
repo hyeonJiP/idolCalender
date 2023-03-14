@@ -9,11 +9,14 @@ import Pagenation from "./Pagenation";
 const ReportTabe = () => {
   const dispatch = useDispatch();
   const reportData = useSelector((state) => state.reportSchedule.reportData);
+  const searchData = useSelector((state) => state.reportSchedule.searchData);
 
-  const searchRef = useRef();
+  const searchRef = useRef("");
+  // const [isSearching, setIsSearching] = useState(false);
   const [order, setOrder] = useState("ASC");
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(8);
+  const [toggle, setToggle] = useState(0);
 
   const {
     register,
@@ -30,15 +33,33 @@ const ReportTabe = () => {
   let indexOfLastPost = currentPage * postPerPage;
   let indexOfFirstPost = indexOfLastPost - postPerPage;
   let currentPosts = reportData.slice(indexOfFirstPost, indexOfLastPost);
+  // let currentPosts = isSearching
+  //   ? `${searchData.slice(indexOfFirstPost, indexOfLastPost)}`
+  //   : `${reportData.slice(indexOfFirstPost, indexOfLastPost)}`;
+
+  console.log(currentPosts);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+    setToggle(pageNumber);
   };
 
   /**검색기능 */
+  console.log(searchRef);
   const searchHandler = ({ target }) => {
     searchRef.current = target.value;
+
+    const searchData = reportData.filter((data) => {
+      return data.content.includes(searchRef.current);
+    });
+    dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
+
+  // if (searchRef === "") {
+  //   setIsSearching(false);
+  // } else {
+  //   setIsSearching(true);
+  // }
 
   /**스케줄 추가해주기 */
   const onSubmit = async (data) => {
@@ -221,7 +242,7 @@ const ReportTabe = () => {
               return (
                 <tr key={schedule.id}>
                   <td>{schedule.id}</td>
-                  <td>{schedule.name}</td>
+                  <td>{schedule.whoes}</td>
                   <td>{schedule.content}</td>
                   <td>{schedule.time}</td>
                   <td>{schedule.type}</td>
@@ -249,6 +270,7 @@ const ReportTabe = () => {
           postPerPage={postPerPage}
           totalPosts={reportData.length}
           paginate={paginate}
+          toggle={toggle}
         />
       </div>
     </>
