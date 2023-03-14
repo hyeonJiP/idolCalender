@@ -76,18 +76,21 @@
 .artistSection {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
   width: 100%;
   background-color: white;
 }
 article {
   width: 950px;
+
   display: flex;
+  align-items: center;
   flex-direction: column;
 }
 .artistFontWrapper {
   display: flex;
+  align-items: center;
   flex-direction: column;
   text-align: center;
   margin-top: 5rem;
@@ -111,6 +114,7 @@ article {
 
 .artistImageWrapper {
   width: 100%;
+  padding: 0;
   display: flex;
   justify-content: space-between;
   flex-direction: row;

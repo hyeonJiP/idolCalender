@@ -59,42 +59,48 @@ const Calendar = () => {
   const showSidebar = () => setSidebar(!sidebar);
 
   return (
-    <div className={styles.calendar}>
-      <button onClick={showSidebar}>사이드바</button>
-      <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-      <section className={styles.nextSchedule}>
-        <div className={styles.nextSchedule_Title}>
-          <img
-            className={styles.nextSchedule_Icon}
-            src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
-          ></img>
-          <h3 className={styles.nextSchedule_Content}>다가오는 스케줄</h3>
+    <div className={styles.calendarContainer}>
+      <div className={styles.calendar}>
+        <div className={styles.calendarWrap}>
+          <button onClick={showSidebar}>사이드바</button>
+          <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
         </div>
-        <ul className={styles.nextSchedule_List}>
-          {nextDay?.map((day) => {
-            const dateFormat = `${day.when.slice(5, 7)}월 ${day.when.slice(
-              8,
-              10
-            )}일`;
-            return (
-              <li className={styles.nextScheduleItem} key={day.pk}>
-                <div className={styles.nextSchedule_LeftWrapper}>
-                  <span className={styles.nextScheduleDay}>● {dateFormat}</span>
-                </div>
-                <div className={styles.nextSchedule_LightWrapper}>
-                  <img
-                    className={styles.nextscheduleIcon}
-                    src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
-                  ></img>
-                  <p className={styles.nextSchedule_ContentList}>
-                    {day.description}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+        <section className={styles.nextSchedule}>
+          <div className={styles.nextSchedule_Title}>
+            <img
+              className={styles.nextSchedule_Icon}
+              src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
+            ></img>
+            <h3 className={styles.nextSchedule_Content}>다가오는 스케줄</h3>
+          </div>
+          <ul className={styles.nextSchedule_List}>
+            {nextDay?.map((day) => {
+              const dateFormat = `${day.when.slice(5, 7)}월 ${day.when.slice(
+                8,
+                10
+              )}일`;
+              return (
+                <li className={styles.nextScheduleItem} key={day.pk}>
+                  <div className={styles.nextSchedule_LeftWrapper}>
+                    <span className={styles.nextScheduleDay}>
+                      ● {dateFormat}
+                    </span>
+                  </div>
+                  <div className={styles.nextSchedule_LightWrapper}>
+                    <img
+                      className={styles.nextscheduleIcon}
+                      src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
+                    ></img>
+                    <p className={styles.nextSchedule_ContentList}>
+                      {day.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      </div>
     </div>
   );
 };
