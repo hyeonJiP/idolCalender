@@ -1,16 +1,15 @@
+/* 수정 */
 .header {
-  position: fixed;
   width: 100%;
   display: flex;
-  z-index: 100;
+  position: fixed;
+  z-index: 20;
 }
-
 .headerNav {
   width: 100%;
   display: flex;
+  padding: 0 15px;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px;
 }
 
 .navItems {
@@ -40,8 +39,6 @@
   border-radius: 20px;
   padding: 10px 15px;
   border: none;
-  margin-left: 3px;
-  font-size: 0.8rem;
 }
 
 .navImg {

@@ -11,6 +11,8 @@ import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
+import Layout from "./UI/Layout";
+import Calendar from "./pages/calendarPage/hj_calendarPage/Calendar";
 
 //merge
 function App() {
@@ -41,7 +43,24 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
 
           {/* 메인페이지 */}
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
+
+          {/* 캘린더페이지 */}
+          <Route
+            path="/:idolId"
+            element={
+              <Layout>
+                <Calendar />
+              </Layout>
+            }
+          />
 
           {/* 회원가입페이지 */}
           <Route path="/signup" element={<SignUp />} />

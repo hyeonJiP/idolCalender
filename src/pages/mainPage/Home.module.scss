@@ -26,10 +26,9 @@
   display: flex;
   width: calc(300px * 10);
   animation: scroll 15s linear infinite;
-}
-
-.slideBox:hover {
-  animation-play-state: paused;
+  &:hover {
+    animation-play-state: paused;
+  }
 }
 
 /* width: moves the slide track leftwards (-250px) by half (18 images/2 =9) of its width */
@@ -59,14 +58,9 @@
   border-radius: 10px;
   box-shadow: 5.1px 6.1px 21px 0 rgb(0 0 0 / 13%);
   cursor: pointer;
-}
-.slideInner:hover {
-  transform: translateZ(7px);
-}
-
-.slideTop {
-}
-.slideMid {
+  &:hover {
+    transform: translateZ(7px);
+  }
 }
 
 .slideBot {
@@ -109,11 +103,12 @@ article {
   list-style: none;
   text-align: center;
   margin-bottom: 3rem;
+  a {
+    text-decoration: none;
+    color: black;
+  }
 }
-.artistThumnail a {
-  text-decoration: none;
-  color: black;
-}
+
 .artistImageWrapper {
   width: 100%;
   display: flex;
@@ -123,7 +118,6 @@ article {
   /* display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr; */
   margin-top: 4rem;
-  padding: 0;
 }
 .artistName {
   margin-top: 2rem;
