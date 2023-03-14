@@ -8,5 +8,11 @@
   padding: 0;
   p {
     margin: 10px;
+    &:visited {
+      color: black;
+    }
+    &:hover {
+      color: aqua;
+    }
   }
 }

@@ -3,36 +3,34 @@ import EditUser from "./pages/userFormPage/EditUser";
 import LogIn from "./pages/userFormPage/Login";
 import ReportSchedule from "./pages/userFormPage/ReportSchedule";
 import SignUp from "./pages/userFormPage/SignUp";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
+import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 
 function App() {
   const dispatch = useDispatch();
-  const reduxUserToken = useSelector((state) => state.auth.userSessionId);
+  const authData = useSelector((state) => state.auth);
 
-  setCookie("asdf");
+  const csrftoken = getCookie("csrftoken");
+  const isLogin = getCookie("isLogin");
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
-    const userToken = getCookie("sessionid");
-    // console.log("sessionId", userToken);
-    if (userToken) {
-      dispatch(authActions.logIn(userToken));
+    if (isLogin) {
+      dispatch(
+        authActions.logIn({ isLogin: isLogin, userCsrfToken: csrftoken })
+      );
     }
-  }, [dispatch, reduxUserToken]);
+  }, [dispatch, isLogin, csrftoken]);
 
+  console.log(authData);
   return (
     <>
-      {/* {reduxUserToken && (
-        <Admin dataProvider={dataProvider}>
-          <Resource name="admin" list={ListGuesser} />
-        </Admin>
-      )} */}
       <BrowserRouter>
         <ScrollToTop />
 
@@ -47,7 +45,10 @@ function App() {
 
           {/* render={() => (isLogin ? <Redirect to="/" /> : <Login />) */}
           {/* 로그인페이지 */}
-          <Route path="/login" element={<LogIn />} />
+          <Route
+            path="/login"
+            element={isLogin ? <Navigate to="/" /> : <LogIn />}
+          />
           {/* 개인정보수정 */}
           <Route path="/edituser" element={<EditUser />} />
 

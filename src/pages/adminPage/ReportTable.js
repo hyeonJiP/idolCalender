@@ -13,7 +13,7 @@ const ReportTabe = () => {
   const searchRef = useRef();
   const [order, setOrder] = useState("ASC");
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(10);
+  const [postPerPage, setPostPerPage] = useState(8);
 
   const {
     register,
@@ -171,7 +171,9 @@ const ReportTabe = () => {
               },
             })}
           />
-          <button type="submit">스케줄추가하기</button>
+          <button type="submit" className={styles.addSchedule}>
+            스케줄추가하기
+          </button>
         </form>
         <table className={styles.dataTable}>
           <thead>
@@ -231,8 +233,11 @@ const ReportTabe = () => {
                       ✂️
                     </button>
                     <button className={styles.listBtn}>📝</button>
-                    <button onClick={updateScheduleHandler}>
-                      스케줄에 업데이트
+                    <button
+                      onClick={updateScheduleHandler}
+                      className={styles.listBtn}
+                    >
+                      📑
                     </button>
                   </td>
                 </tr>

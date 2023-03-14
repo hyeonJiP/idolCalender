@@ -13,13 +13,12 @@ const EditUser = () => {
     getValues,
   } = useForm();
 
+  /**PUT */
   const onSubmit = (data) => {
-    console.log(1231223142);
     const signUpInform = {
       password: data.password,
       choe: data.choe,
     };
-    console.log(signUpInform);
   };
 
   return (
@@ -123,7 +122,7 @@ const EditUser = () => {
             >
               이전
             </button>
-            <button>회원가입</button>
+            <button>수정하기</button>
           </div>
         </form>
       </div>

@@ -7,9 +7,7 @@ const AdminPage = () => {
   return (
     <>
       <Headar />
-      <div className={styles.adminDiv}>
-        <ReportTabe />
-      </div>
+      <ReportTabe />
     </>
   );
 };
