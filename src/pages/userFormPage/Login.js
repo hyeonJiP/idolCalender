@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styles from "../userFormPage/Login.module.scss";
 import { useForm } from "react-hook-form";
 import choeImg from "../../Img/logo_main.png";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import axios from "axios";
-import { getCookie, setCookie } from "../../cookie/cookie";
+import { setCookie } from "../../cookie/cookie";
 
 axios.defaults.withCredentials = true;
 
@@ -52,9 +52,11 @@ const LogIn = () => {
         withCredentials: true,
       })
       .then((response) => {
+        setIsValid(false);
         return response;
       })
       .catch((error) => {
+        setIsValid(true);
         return error;
       });
 

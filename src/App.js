@@ -19,6 +19,7 @@ function App() {
 
   const csrftoken = getCookie("csrftoken");
   const isLogin = getCookie("isLogin");
+
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
     if (isLogin) {
@@ -41,16 +42,21 @@ function App() {
           <Route path="/" element={<Home />} />
 
           {/* 회원가입페이지 */}
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/signup"
+            element={isLogin ? <Navigate to="/" /> : <SignUp />}
+          />
 
-          {/* render={() => (isLogin ? <Redirect to="/" /> : <Login />) */}
           {/* 로그인페이지 */}
           <Route
             path="/login"
             element={isLogin ? <Navigate to="/" /> : <LogIn />}
           />
           {/* 개인정보수정 */}
-          <Route path="/edituser" element={<EditUser />} />
+          <Route
+            path="/edituser"
+            element={isLogin ? <EditUser /> : <Navigate to="/" />}
+          />
 
           <Route
             path="/report"

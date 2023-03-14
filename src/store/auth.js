@@ -1,5 +1,4 @@
-import { removeCookie, setCookie } from "../cookie/cookie";
-import moment from "moment";
+import { removeCookie } from "../cookie/cookie";
 
 const { createSlice } = require("@reduxjs/toolkit");
 

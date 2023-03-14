@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Cookies, CookiesProvider } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";

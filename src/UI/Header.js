@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "../UI/Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
-import axios from "axios";
 
 const Headar = () => {
   const [navColor, setnavColor] = useState("transparent");

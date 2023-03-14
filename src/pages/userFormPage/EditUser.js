@@ -19,6 +19,7 @@ const EditUser = () => {
       password: data.password,
       choe: data.choe,
     };
+    console.log(signUpInform);
   };
 
   return (

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchingData } from "../../store/reportSchedules-action";
 import { reportSchedulesActions } from "../../store/reportSchedules";
 import Pagenation from "./Pagenation";
+import { BASE_URL } from "../../URL/url";
 
 const ReportTabe = () => {
   const dispatch = useDispatch();
@@ -15,13 +16,13 @@ const ReportTabe = () => {
   // const [isSearching, setIsSearching] = useState(false);
   const [order, setOrder] = useState("ASC");
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(8);
   const [toggle, setToggle] = useState(0);
+  const postPerPage = 8;
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   /**제보받은 스케줄데이터 가져오기 */
@@ -32,20 +33,17 @@ const ReportTabe = () => {
   /**pagenation */
   let indexOfLastPost = currentPage * postPerPage;
   let indexOfFirstPost = indexOfLastPost - postPerPage;
-  let currentPosts = reportData.slice(indexOfFirstPost, indexOfLastPost);
-  // let currentPosts = isSearching
-  //   ? `${searchData.slice(indexOfFirstPost, indexOfLastPost)}`
-  //   : `${reportData.slice(indexOfFirstPost, indexOfLastPost)}`;
-
-  console.log(currentPosts);
+  let currentPosts = searchData.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     setToggle(pageNumber);
   };
 
+  if (searchRef.current === "") {
+    dispatch(reportSchedulesActions.searchSchedule(reportData));
+  }
   /**검색기능 */
-  console.log(searchRef);
   const searchHandler = ({ target }) => {
     searchRef.current = target.value;
 
@@ -55,12 +53,7 @@ const ReportTabe = () => {
     dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
 
-  // if (searchRef === "") {
-  //   setIsSearching(false);
-  // } else {
-  //   setIsSearching(true);
-  // }
-
+  console.log("filter", reportData);
   /**스케줄 추가해주기 */
   const onSubmit = async (data) => {
     const addData = {
@@ -72,41 +65,51 @@ const ReportTabe = () => {
 
     const newData = [...reportData, addData];
 
-    await fetch(
-      "https://react-movie-eb9a3-default-rtdb.firebaseio.com/schedules.json",
-      {
-        method: "PUT",
-        body: JSON.stringify(newData),
-      }
-    );
+    await fetch(`${BASE_URL}`, {
+      method: "PUT",
+      body: JSON.stringify(newData),
+    });
     dispatch(reportSchedulesActions.updateSchedule(newData));
+  };
+
+  /**Sorting Function */
+  const sortingDsc = (data, col) => {
+    const sorted = [...data].sort((a, b) => {
+      if (Number(a[col])) {
+        return a[col] > b[col] ? 1 : -1;
+      }
+
+      return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
+    });
+
+    dispatch(reportSchedulesActions.searchSchedule(sorted));
+
+    setOrder("DSC");
+  };
+
+  const sortingAsc = (data, col) => {
+    const sorted = [...data].sort((a, b) => {
+      if (Number(a[col])) {
+        return a[col] > b[col] ? 1 : -1;
+      }
+
+      return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
+    });
+    dispatch(reportSchedulesActions.searchSchedule(sorted));
+
+    setOrder("ASC");
   };
 
   /**스케줄 정렬기능 */
   const sorting = (col) => {
     if (order === "ASC") {
-      const sorted = [...reportData].sort((a, b) => {
-        if (Number(a[col])) {
-          return a[col] > b[col] ? 1 : -1;
-        }
-
-        return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
-      });
-      //   setIdolSchedule(sorted);
-      dispatch(reportSchedulesActions.updateSchedule(sorted));
-      setOrder("DSC");
+      sortingDsc(searchData, col);
     }
     if (order === "DSC") {
-      const sorted = [...reportData].sort((a, b) => {
-        if (Number(a[col])) {
-          return a[col] < b[col] ? 1 : -1;
-        }
-        return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
-      });
-      //   setIdolSchedule(sorted);
-      dispatch(reportSchedulesActions.updateSchedule(sorted));
-
-      setOrder("ASC");
+      sortingAsc(searchData, col);
+    }
+    if (searchRef.current === "") {
+      dispatch(reportSchedulesActions.searchSchedule(reportData));
     }
   };
 
@@ -242,7 +245,7 @@ const ReportTabe = () => {
               return (
                 <tr key={schedule.id}>
                   <td>{schedule.id}</td>
-                  <td>{schedule.whoes}</td>
+                  <td>{schedule.name}</td>
                   <td>{schedule.content}</td>
                   <td>{schedule.time}</td>
                   <td>{schedule.type}</td>
@@ -268,7 +271,7 @@ const ReportTabe = () => {
         </table>
         <Pagenation
           postPerPage={postPerPage}
-          totalPosts={reportData.length}
+          totalPosts={searchData.length}
           paginate={paginate}
           toggle={toggle}
         />
