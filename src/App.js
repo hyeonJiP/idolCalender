@@ -3,10 +3,11 @@ import EditUser from "./pages/userFormPage/EditUser";
 import LogIn from "./pages/userFormPage/Login";
 import ReportSchedule from "./pages/userFormPage/ReportSchedule";
 import SignUp from "./pages/userFormPage/SignUp";
+import Calendar from "./pages/calendarPage/calendar/Calendar";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";
@@ -54,11 +55,9 @@ function App() {
             element={isLogin ? <Navigate to="/" /> : <LogIn />}
           />
           {/* 개인정보수정 */}
-          <Route
-            path="/edituser"
-            element={isLogin ? <EditUser /> : <Navigate to="/" />}
-          />
+          <Route path="/edituser" element={<EditUser />} />
 
+          <Route path="/calendar" element={<Calendar />} />
           <Route
             path="/report"
             element={
