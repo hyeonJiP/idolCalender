@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { CookiesProvider } from "react-cookie";
+
 import { QueryClientProvider, QueryClient } from "react-query";
 const Client = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -18,6 +19,7 @@ root.render(
       {/* </CookiesProvider> */}
     </Provider>
   </QueryClientProvider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

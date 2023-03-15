@@ -1,3 +1,4 @@
+$buttonBackGroundColor: #bbded6;
 .pageUl {
   list-style: none;
   display: flex;
@@ -6,7 +7,11 @@
   color: white;
   font-weight: bold;
   padding: 0;
-  p {
+  .page {
     margin: 10px;
+  }
+  .pageActive {
+    margin: 10px;
+    color: $buttonBackGroundColor;
   }
 }

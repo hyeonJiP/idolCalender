@@ -5,6 +5,12 @@ import "./Header.scss";
 //import { logoImg } from "../api";
 //import { useQuery } from "react-query";
 
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/auth";
+import axios from "axios";
+import { BASE_URL } from "../URL/url";
+
+
 const Headar = () => {
   // const [navColor, setnavColor] = useState("transparent");
   // const listenScrollEvent = () => {
@@ -18,6 +24,10 @@ const Headar = () => {
   // }, []);
   const [navSize, setnavSize] = useState("6rem");
   const [navColor, setnavColor] = useState("transparent");
+
+  const isLogin = useSelector((state) => state.auth.isLogin);
+  const dispatch = useDispatch();
+
   const listenScrollEvent = () => {
     window.scrollY > 10 ? setnavColor("#ffff") : setnavColor("transparent");
     window.scrollY > 10 ? setnavSize("3rem") : setnavSize("5rem");
@@ -28,6 +38,18 @@ const Headar = () => {
       window.removeEventListener("scroll", listenScrollEvent);
     };
   }, []);
+
+
+  const LogoutHandler = async () => {
+    axios
+      .post(`${BASE_URL}users/logout`, "", {
+        withCredentials: true,
+      })
+      .then((res) => res)
+      .then((data) => console.log(data));
+
+    dispatch(authActions.logOut(false));
+  };
 
   return (
     <div
@@ -56,9 +78,24 @@ const Headar = () => {
         </div>
         <div className="navItems">
           <div className="navItem">
-            <Link to={"/"}>
-              <button className="navBtn">Login</button>
-            </Link>
+
+            {!isLogin ? (
+              <Link to={"/login"}>
+                <>
+                  <button className="navBtn">Login</button>
+                </>
+              </Link>
+            ) : (
+              <>
+                <button className="navBtn">
+                  <Link to="/edituser">내 정보</Link>
+                </button>
+                <button className="navBtn" onClick={LogoutHandler}>
+                  Logout
+                </button>
+              </>
+            )}
+
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Cookies, CookiesProvider } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
-import { getCookie } from "../../cookie/cookie";
+import axios from "axios";
+import { BASE_URL } from "../../URL/url";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
@@ -26,7 +26,7 @@ const ReportSchedule = () => {
     return setBtnActive(target.value);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     let eventType = "";
     if (btnActive === "0") {
       eventType = "broadcast";
@@ -42,26 +42,21 @@ const ReportSchedule = () => {
 
     /**백에 보낼 데이터 */
     const reportData = {
+      whoes: ["4"],
       title: data.title,
       type: eventType,
       location: data.location,
       time: data.startDate,
       content: data.content,
     };
-    const cookieData = getCookie("crsftoken");
-    console.log("cookie", cookieData);
 
-    const BASE_URL = "http://127.0.0.1:8000/api/v1/users/reports/";
-    fetch(BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"), //
-      },
-      body: JSON.stringify(reportData),
-    }).then((res) => console.log(res));
-
-    console.log(reportData);
+    await axios
+      .post(`${BASE_URL}users/reports/`, reportData, {
+        withCredentials: true,
+      })
+      .then((data) => data)
+      .then((res) => console.log(res))
+      .catch((res) => console.log(res));
   };
 
   return (
@@ -151,30 +146,6 @@ const ReportSchedule = () => {
           <div className={styles.errorMessage}>
             {errors.startDate && <p>{errors.startDate.message}</p>}
           </div>
-
-          {/* <div>
-            <input
-              className={styles.dateInput}
-              name="endDate"
-              type="datetime-local"
-              {...register("endDate", {
-                required: {
-                  value: true,
-                  message: "종료일을 입력하세요",
-                },
-                validate: {
-                  check: (val) => {
-                    if (getValues("startDate") > val) {
-                      return "종료일은 시작일 이후로 설정하세요.";
-                    }
-                  },
-                },
-              })}
-            />
-            <div className={styles.errorMessage}>
-              {errors.endDate && <p>{errors.endDate.message}</p>}
-            </div>
-          </div> */}
         </div>
 
         <label>내용을 입력해주세요.</label>
