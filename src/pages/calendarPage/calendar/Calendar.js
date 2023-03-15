@@ -14,7 +14,7 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
