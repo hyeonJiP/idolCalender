@@ -19,24 +19,14 @@ const Home = () => {
   );
 
   const idolId = schedulesData?.slice(0, 10);
-  console.log(idolId);
 
   // useEffect(() => {
   //   (async () => {
-  //     const response = await axios("http://127.0.0.1:8000/api/v1/idols/");
-  //     console.log(response.data[0]);
+  //     await axios
+  //       .get(`${BASE_URL}/schedules/`)
+  //       .then((data) => setidolDate(data.data));
   //   })();
-
-  // },[]);
-  useEffect(() => {
-    (async () => {
-      await axios
-        .get(`${BASE_URL}/schedules/`)
-        .then((data) => setidolDate(data.data));
-    })();
-  }, []);
-
-  console.log("new", idolDate);
+  // }, []);
 
   const data = [
     {
@@ -143,7 +133,7 @@ const Home = () => {
         <div className={styles.home_mainBanner}></div>
         <div className={styles.slider}>
           <div className={styles.slideBox}>
-            {idolDate?.map((data) => {
+            {data?.map((data) => {
               //console.log(schedulesData[0].participant[0].idol_name);
               return (
                 <div className={styles.slide} key={data.pk}>

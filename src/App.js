@@ -9,37 +9,29 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
+import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
-
 import Layout from "./UI/Layout";
-
-import axios from "axios";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
+import axios from "axios";
 
 function App() {
+  /**전역에 토큰 허용 */
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.xsrfHeaderName = "X-CSRFToken";
   const dispatch = useDispatch();
-  const reduxUserToken = useSelector((state) => state.auth.userSessionId);
+  const isLogin = useSelector((state) => state.auth.isLogin);
 
-  setCookie("asdf");
-
-  // const BASE_URL = "http://127.0.0.1:8000/api/v1/idols/";
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await (await fetch(`${BASE_URL}4/schedules`)).json();
-  //     console.log(response);
-  //   })();
-  // });
+  const isLoginCookie = getCookie("isLogin");
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
-    const userToken = getCookie("sessionid");
-    // console.log("sessionId", userToken);
-    if (userToken) {
-      dispatch(authActions.logIn(userToken));
+    console.log(isLoginCookie);
+    if (isLoginCookie) {
+      dispatch(authActions.logIn(true));
     }
-  }, [dispatch, reduxUserToken]);
+  }, [dispatch, isLoginCookie]);
 
   return (
     <>

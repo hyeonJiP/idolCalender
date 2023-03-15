@@ -20,12 +20,6 @@ import { useQuery } from "react-query";
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
-  //     .then((res) => res.json())
-  //     .then((data) => setIdolSchedule(data));
-  // }, []);
-
   // console.log(idolSchedule);
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
@@ -260,9 +254,7 @@ function Show_event({ days }) {
   const schedule = useQuery(["schedule"], fetchData);
   // const [idolSchedule, setIdolSchedule] = useState([]);
 
-  useEffect(() => {
-    console.log("checking", schedule.data);
-  }, [schedule]);
+  useEffect(() => {}, [schedule]);
 
   // console.log(idolSchedule);
   // useEffect(() => {
