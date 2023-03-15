@@ -1,21 +1,15 @@
-import { removeCookie, setCookie } from "../cookie/cookie";
-import moment from "moment";
-
 const { createSlice } = require("@reduxjs/toolkit");
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { usersSessionId: "", userCsrfToken: "" },
+  initialState: { isLogin: false },
   reducers: {
     logIn(state, actions) {
-      state.usersSessionId = actions.payload;
+      console.log(actions.payload);
+      state.isLogin = actions.payload;
     },
-    logOut(state) {
-      // removeCookie("sessionid");
-      // removeCookie("csrftoken");
-      state.usersSessionId = "";
-      state.userCsrfToken = "";
-      console.log();
+    logOut(state, actions) {
+      state.isLogin = actions.payload;
     },
   },
 });

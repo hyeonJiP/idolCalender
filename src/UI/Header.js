@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import "../UI/Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
-import { removeCookie, setCookie } from "../cookie/cookie";
 import axios from "axios";
+import { BASE_URL } from "../URL/url";
 
 const Headar = () => {
   const [navColor, setnavColor] = useState("transparent");
-  const userToken = useSelector((state) => state.auth.userSessionId);
+  const isLogin = useSelector((state) => state.auth.isLogin);
   const dispatch = useDispatch();
 
   const listenScrollEvent = () => {
@@ -22,12 +22,14 @@ const Headar = () => {
   }, []);
 
   const LogoutHandler = async () => {
-    setCookie("asdf");
-    // await fetch("http://127.0.0.1:8000/api/v1/users/logout", {
-    //   method: "POST",
-    // }).then((res) => console.log("logout : API", res));
+    axios
+      .post(`${BASE_URL}users/logout`, "", {
+        withCredentials: true,
+      })
+      .then((res) => res)
+      .then((data) => console.log(data));
 
-    dispatch(authActions.logOut());
+    dispatch(authActions.logOut(false));
   };
 
   return (
@@ -57,7 +59,7 @@ const Headar = () => {
         </div>
         <div className="navItems">
           <div className="navItem">
-            {!userToken ? (
+            {!isLogin ? (
               <Link to={"/login"}>
                 <>
                   <button className="navBtn">Login</button>
