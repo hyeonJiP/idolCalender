@@ -16,7 +16,7 @@ import Layout from "./UI/Layout";
 
 import axios from "axios";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
-
+import Calendar from "./pages/calendarPage/calendar/Calendar";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,7 +83,6 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           {/* 개인정보수정 */}
           <Route path="/edituser" element={<EditUser />} />
-
 
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/calendarpage" element={<CalendarPage />} />
