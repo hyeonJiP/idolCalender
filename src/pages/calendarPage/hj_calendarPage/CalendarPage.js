@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { axiosSchedule } from "../../../api";
 
 const CalendarPage = () => {
+
   const { idolId } = useParams();
 
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -117,3 +118,4 @@ const CalendarPage = () => {
   );
 };
 export default CalendarPage;
+
