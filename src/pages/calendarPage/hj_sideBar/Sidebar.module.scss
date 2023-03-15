@@ -21,6 +21,7 @@
   margin-bottom: 12px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   cursor: pointer;
 }
 .todayTitle {
@@ -30,4 +31,13 @@
   letter-spacing: -0.62px;
   color: white;
   margin-bottom: 30px;
+}
+.hr {
+  margin: 40px 0;
+}
+.sideSchedule_top {
+  padding-bottom: 20px;
+}
+.sideSchedule_bot {
+  padding-bottom: 40px;
 }

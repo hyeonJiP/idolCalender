@@ -3,8 +3,20 @@ import { useParams } from "react-router-dom";
 import styles from "./Calendar.module.scss";
 import { data } from "./CalendarData";
 import Sidebar from "../hj_sideBar/Sidebar";
+import { useQuery } from "react-query";
+import { axiosSchedule } from "../../../api";
+
 const Calendar = () => {
   const { idolId } = useParams();
+
+  const { isLoding: idDataLoding, data: idData } = useQuery(
+    ["info", idolId],
+    () => {
+      return axiosSchedule(idolId);
+    }
+  );
+
+  console.log(idData);
 
   const today = new Date();
 

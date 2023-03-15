@@ -37,6 +37,42 @@ export const SidebarData = [
       },
     ],
   },
+  {
+    title: "Overview",
+
+    subNav: [
+      {
+        title: "Users",
+      },
+      {
+        title: "Revenue",
+      },
+    ],
+  },
+  {
+    title: "Overview",
+
+    subNav: [
+      {
+        title: "Users",
+      },
+      {
+        title: "Revenue",
+      },
+    ],
+  },
+  {
+    title: "Overview",
+
+    subNav: [
+      {
+        title: "Users",
+      },
+      {
+        title: "Revenue",
+      },
+    ],
+  },
   // {
   //   title: "Reports",
 

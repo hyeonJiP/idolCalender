@@ -6,9 +6,9 @@ import { SidebarData } from "./SidebarData";
 import styles from "./Sidebar.module.scss";
 
 const SidebarNav = styled.nav`
-  background: #4856ff;
+  background-color: #5b5be8;
   padding: 0 20px;
-  width: 350px;
+  width: 430px;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -17,6 +17,7 @@ const SidebarNav = styled.nav`
   right: ${({ sidebar }) => (sidebar ? "0" : "-100%")};
   transition: 350ms;
   z-index: 99;
+  overflow: auto;
 `;
 
 const Sidebar = ({ sidebar, setSidebar }) => {
@@ -47,22 +48,47 @@ const Sidebar = ({ sidebar, setSidebar }) => {
               onClick={showSidebar}
             />
           </Link>
-          <h3 className={styles.todayTitle}>
-            오늘의 스케줄을
-            <br />
-            놓치지 마세요
-          </h3>
-          <ul className={styles.todaySchedule_List}>
-            {SidebarData.map((item, index) => {
-              {
-                return (
-                  <li className={styles.todaySchedule_Item} key={index}>
-                    {item.title}
-                  </li>
-                );
-              }
-            })}
-          </ul>
+          <div className={styles.sideSchedule_top}>
+            <h3 className={styles.todayTitle}>
+              오늘의 스케줄을
+              <br />
+              놓치지 마세요
+            </h3>
+            <ul className={styles.todaySchedule_List}>
+              {SidebarData.map((item, index) => {
+                {
+                  return (
+                    <li className={styles.todaySchedule_Item} key={index}>
+                      {item.title}
+                    </li>
+                  );
+                }
+              })}
+            </ul>
+          </div>
+          <hr />
+          <div className={styles.sideSchedule_bot}>
+            <h3 className={styles.todayTitle}>
+              나의 스케줄을
+              <br />
+              놓치지 마세요
+            </h3>
+            <ul className={styles.todaySchedule_List}>
+              {SidebarData.map((item, index) => {
+                {
+                  return (
+                    <li className={styles.todaySchedule_Item} key={index}>
+                      <div className={styles.editDiv_le}>{item.title}</div>
+                      <div className={styles.editDiv_ri}>
+                        <button>수정</button>
+                        <button>삭제</button>
+                      </div>
+                    </li>
+                  );
+                }
+              })}
+            </ul>
+          </div>
         </div>
       </SidebarNav>
     </>

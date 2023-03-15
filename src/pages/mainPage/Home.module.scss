@@ -1,6 +1,6 @@
 .home {
   width: 100%;
-  background-color: pink;
+  background: linear-gradient(#fccec0, #f89598);
 }
 .homeContainer {
   width: 100%;
@@ -95,9 +95,17 @@ article {
   text-align: center;
   margin-top: 5rem;
 }
+.artistImageDiv {
+  width: 215px;
+  height: 215px;
+  border-radius: 70px;
+  cursor: pointer;
+}
 .artistImage {
   width: 215px;
   height: 215px;
+  object-fit: cover;
+  object-position: center;
   border-radius: 70px;
   cursor: pointer;
 }

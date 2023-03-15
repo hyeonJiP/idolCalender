@@ -13,17 +13,23 @@ import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import Calendar from "./pages/calendarPage/hj_calendarPage/Calendar";
+import axios from "axios";
 
 //merge
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userSessionId);
 
-  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
-    .then((data) => data.json())
-    .then((data) => console.log(data));
-
   setCookie("asdf");
+
+  // const BASE_URL = "http://127.0.0.1:8000/api/v1/idols/";
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await (await fetch(`${BASE_URL}4/schedules`)).json();
+  //     console.log(response);
+  //   })();
+  // });
+
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
     const userToken = getCookie("sessionid");
