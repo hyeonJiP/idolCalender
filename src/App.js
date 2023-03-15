@@ -7,7 +7,7 @@ import Calendar from "./pages/calendarPage/calendar/Calendar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie, removeCookie, setCookie } from "./cookie/cookie";

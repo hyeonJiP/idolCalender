@@ -1,7 +1,6 @@
 import "./Calendar.css";
-import test_data from "./data.json";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,23 +14,50 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "@tanstack/react-query";
 
 const Calendar = () => {
-  // const handleClick = (idx) => {
-  //   this.setState({
-  //     isClicked: this.state.isClicked.map((element, index) => {
-  //       return index === idx ? !element : element;
-  //     }),
-  //   });
-  // };
+  const [idolSchedule, setIdolSchedule] = useState([]);
 
-  // let [clicked, setClicked] = useState(false);
+  // useEffect(() => {
+  //   fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+  //     .then((res) => res.json())
+  //     .then((data) => setIdolSchedule(data));
+  // }, []);
 
-  // const toggleActive = (e) => {
-  //   setClicked((prev) => {
-  //     return e.target.value;
-  //   });
-  // };
+  // console.log(idolSchedule);
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+      .then((res) => res.json())
+      .then((data) => {
+        const setIdolSchedule = [];
+        for (let i = 0; i < data.length; i++) {
+          // YYYYMMDD 형태로 변환하는 작업
+          let dateList = data[i].when.split("-");
+          dateList[2] = dateList[2].substr(0, 2);
+          let dateValue = dateList.join("");
+          // console.log("dateValue: " + dateValue);
+
+          // ScheduleType안에 있는 type을 가져오는 작업
+          let typeObj = data[i].ScheduleType;
+          let typeValue = typeObj[Object.keys(typeObj)[0]];
+          // console.log("typeValue: " + typeValue);
+
+          setIdolSchedule.push({
+            date: dateValue,
+            title: data[i].ScheduleTitle,
+            content: data[i].ScheduleContent,
+            category: typeValue,
+          });
+        }
+
+        // console.log("setIdolSchedule:" + setIdolSchedule);
+        // console.log(setIdolSchedule);
+
+        return;
+      });
+    setIdolSchedule(idolSchedule);
+  }, []);
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
@@ -67,12 +93,14 @@ const Calendar = () => {
                 .week(week)
                 .startOf("week")
                 .add(index, "day");
+              // console.log(index);
+              // console.log(days);
 
               //   console.log("data:" + data);
               //   console.log("index:" + index);
               // console.log(moment().format("YYYY.MM"));
 
-              // 오늘 날짜 밑줄 today underline
+              // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
                   <td
@@ -84,12 +112,10 @@ const Calendar = () => {
                     //   )
                     // }
                   >
-                    {/* <div className="today"> */}
                     <span>{days.format("D")}</span>
                     <div className="event-content">
                       <Show_event days={days} />
                     </div>
-                    {/* </div> */}
                   </td>
                 );
                 // 다른 달은 글씨 색 연하게
@@ -103,11 +129,9 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    // onClick={() =>
-                    //   console.log(
-                    //     days.format("M") + "월" + " " + days.format("D") + "일"
-                    //   )
-                    // }
+                    onClick={() =>
+                      console.log("clickedDay: " + days.format("D"))
+                    }
                   >
                     <span
                       value={index}
@@ -199,48 +223,99 @@ const Calendar = () => {
 };
 export default Calendar;
 
+const fetchData = () =>
+  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+    .then((res) => res.json())
+    .then((data) => {
+      const setIdolSchedule = [];
+      for (let i = 0; i < data.length; i++) {
+        // YYYYMMDD 형태로 변환하는 작업
+        let dateList = data[i].when.split("-");
+        dateList[2] = dateList[2].substr(0, 2);
+        let dateValue = dateList.join("");
+
+        // ScheduleType안에 있는 type을 가져오는 작업
+        let typeObj = data[i].ScheduleType;
+        let typeValue = typeObj[Object.keys(typeObj)[0]];
+
+        setIdolSchedule.push({
+          date: dateValue,
+          title: data[i].ScheduleTitle,
+          content: data[i].ScheduleContent,
+          category: typeValue,
+        });
+      }
+      console.log("fetch1", setIdolSchedule);
+      return setIdolSchedule;
+    });
+
 // Show_event(): 달력에 데이터를 보여주는 기능
 function Show_event({ days }) {
+  // console.log(days);
+  // console.log("==========");
+  // console.log("index: " + index);
+  // console.log("days: " + days);
+  const schedule = useQuery(["schedule"], fetchData);
+  // const [idolSchedule, setIdolSchedule] = useState([]);
+
+  useEffect(() => {
+    console.log("checking", schedule.data);
+  }, [schedule]);
+
+  // console.log(idolSchedule);
+  // useEffect(() => {
+  //   console.log(
+  //     "fetch2",
+  //     data.then((res) => res)
+  //   );
+  //   setIdolSchedule(data);
+  // }, []);
+
+  // useEffect(() => {
+  //   // console.log("cccc", idolSchedule);
+  // }, [idolSchedule]);
+
   return (
     <>
-      {test_data.event.map((data, i) => {
+      {schedule.data?.map((data, i) => {
         // console.log(data, i);
         if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
           // console.log(data.type);
-          if (data.type === "broadcast") {
+          if (data.category === "broadcast") {
             return (
               <div key={i} className="broadcast">
-                {data.event}
+                {data.data}
+                {/* {data.content} */}
               </div>
             );
-          } else if (data.type === "release") {
+          } else if (data.category === "release") {
             return (
               <div key={i} className="release">
-                {data.event}
+                {data.data}
               </div>
             );
-          } else if (data.type === "buy") {
+          } else if (data.category === "buy") {
             return (
               <div key={i} className="buy">
-                {data.event}
+                {data.data}
               </div>
             );
-          } else if (data.type === "congratulations") {
+          } else if (data.category === "congrats") {
             return (
               <div key={i} className="congratulations">
-                {data.event}
+                {data.data}
               </div>
             );
-          } else if (data.type === "event") {
+          } else if (data.category === "event") {
             return (
               <div key={i} className="event">
-                {data.event}
+                {data.data}
               </div>
             );
           } else {
             return (
               <div key={i} className="my">
-                {data.event}
+                {data.data}
               </div>
             );
           }
