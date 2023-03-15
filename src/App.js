@@ -12,9 +12,11 @@ import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
-import axios from "axios";
 
-//commit
+import Layout from "./UI/Layout";
+import axios from "axios";
+import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
+
 function App() {
   /**전역에 토큰 허용 */
   axios.defaults.xsrfCookieName = "csrftoken";
@@ -41,7 +43,24 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
 
           {/* 메인페이지 */}
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
+
+          {/* 캘린더페이지 */}
+          <Route
+            path="/:idolId"
+            element={
+              <Layout>
+                <Calendar />
+              </Layout>
+            }
+          />
 
           {/* 회원가입페이지 */}
           <Route
@@ -58,6 +77,7 @@ function App() {
           <Route path="/edituser" element={<EditUser />} />
 
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/calendarpage" element={<CalendarPage />} />
           <Route
             path="/report"
             element={
