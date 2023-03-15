@@ -14,6 +14,7 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { useQuery } from "react-query";
 
 const Calendar = () => {
@@ -57,7 +58,7 @@ const Calendar = () => {
         return;
       });
     setIdolSchedule(idolSchedule);
-  }, []);
+  }, [idolSchedule]);
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());

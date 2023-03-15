@@ -11,11 +11,13 @@ import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
-import Layout from "./UI/Layout";
-import Calendar from "./pages/calendarPage/calendar/Calendar";
-import axios from "axios";
 
-//merge
+import Layout from "./UI/Layout";
+
+import axios from "axios";
+import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
+
+
 function App() {
   const dispatch = useDispatch();
   const reduxUserToken = useSelector((state) => state.auth.userSessionId);
@@ -53,6 +55,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
 
           {/* 메인페이지 */}
+
           <Route
             path="/"
             element={
@@ -80,7 +83,11 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           {/* 개인정보수정 */}
           <Route path="/edituser" element={<EditUser />} />
-          <Route path="/calendar" element={<Calendar />}></Route>
+
+
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/calendarpage" element={<CalendarPage />} />
+
           <Route
             path="/report"
             element={

@@ -6,7 +6,8 @@ import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
 import { axiosSchedule } from "../../../api";
 
-const Calendar = () => {
+const CalendarPage = () => {
+
   const { idolId } = useParams();
 
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -116,4 +117,5 @@ const Calendar = () => {
     </div>
   );
 };
-export default Calendar;
+export default CalendarPage;
+

@@ -12,13 +12,13 @@ const Client = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   /**리액트 redux provider store저장소 참조시켜주기 */
-  <QueryClientProvider client={Client}>
-    <Provider store={store}>
-      {/* <CookiesProvider> */}
+
+  <Provider store={store}>
+    <QueryClientProvider client={Client}>
       <App />
-      {/* </CookiesProvider> */}
-    </Provider>
-  </QueryClientProvider>
+    </QueryClientProvider>
+  </Provider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function
