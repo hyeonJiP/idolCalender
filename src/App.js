@@ -12,12 +12,9 @@ import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
-
-import Layout from "./UI/Layout";
-import Calendar from "./pages/calendarPage/hj_calendarPage/Calendar";
 import axios from "axios";
 
-
+//commit
 function App() {
   /**전역에 토큰 허용 */
   axios.defaults.xsrfCookieName = "csrftoken";
@@ -26,7 +23,6 @@ function App() {
   const isLogin = useSelector((state) => state.auth.isLogin);
 
   const isLoginCookie = getCookie("isLogin");
-
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
@@ -45,24 +41,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
 
           {/* 메인페이지 */}
-          <Route
-            path="/"
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          />
-
-          {/* 캘린더페이지 */}
-          <Route
-            path="/:idolId"
-            element={
-              <Layout>
-                <Calendar />
-              </Layout>
-            }
-          />
+          <Route path="/" element={<Home />} />
 
           {/* 회원가입페이지 */}
           <Route

@@ -6,20 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { CookiesProvider } from "react-cookie";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-import { QueryClientProvider, QueryClient } from "react-query";
-const Client = new QueryClient();
+const client = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   /**리액트 redux provider store저장소 참조시켜주기 */
-  <QueryClientProvider client={Client}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <QueryClientProvider client={client}>
       {/* <CookiesProvider> */}
       <App />
-      {/* </CookiesProvider> */}
-    </Provider>
-  </QueryClientProvider>
-
+    </QueryClientProvider>
+    {/* </CookiesProvider> */}
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

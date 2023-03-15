@@ -14,7 +14,8 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
@@ -227,7 +228,6 @@ const fetchData = () =>
   fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const setIdolSchedule = [];
       for (let i = 0; i < data.length; i++) {
         // YYYYMMDD 형태로 변환하는 작업
