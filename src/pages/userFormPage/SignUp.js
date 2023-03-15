@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "../userFormPage/SignUp.module.scss";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
+import axios from "axios";
 
 const SignUp = () => {
   const {
@@ -25,15 +26,16 @@ const SignUp = () => {
     const signUpInform = {
       email: data.email,
       password: data.password,
-      name: data.name,
+      username: data.name,
       nickname: data.nickname,
-      birth: age,
-      choe: data.choe,
+      age: age,
+      pick: data.choe,
     };
 
     console.log(signUpInform);
 
     /**백에 데이터 POST하기 */
+    axios.post();
     fetch("http://127.0.0.1:8000/api/v1/users/register", {
       method: "POST",
       headers: {

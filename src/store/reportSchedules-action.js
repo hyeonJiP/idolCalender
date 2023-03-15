@@ -1,13 +1,14 @@
+import axios from "axios";
 import { BASE_URL } from "../URL/url";
 import { reportSchedulesActions } from "./reportSchedules";
 
 export const fetchingData = () => {
   return async (dispatch) => {
-    const res = await fetch(`${BASE_URL}users/reports/`);
-    const datas = await res.json();
+    const res = await axios.get(`${BASE_URL}users/reports/`);
+    const datas = await res.data;
 
+    /**새로운 데이터 형식으로 바꿔주기 */
     const newData = [];
-
     for (let data in datas) {
       // console.log(datas[data].whoes[0].idol_name);
       let nameData = 0;

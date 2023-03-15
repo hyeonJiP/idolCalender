@@ -2,16 +2,14 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { isLogin: false, userCsrfToken: "" },
+  initialState: { isLogin: false },
   reducers: {
     logIn(state, actions) {
       console.log(actions.payload);
-      state.isLogin = true;
-      state.userCsrfToken = actions.payload.userCsrfToken;
+      state.isLogin = actions.payload;
     },
-    logOut(state) {
-      state.isLogin = false;
-      state.userCsrfToken = "";
+    logOut(state, actions) {
+      state.isLogin = actions.payload;
     },
   },
 });

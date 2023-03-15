@@ -29,7 +29,7 @@ const Headar = () => {
       .then((res) => res)
       .then((data) => console.log(data));
 
-    dispatch(authActions.logOut());
+    dispatch(authActions.logOut(false));
   };
 
   return (

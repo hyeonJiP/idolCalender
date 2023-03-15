@@ -4,7 +4,6 @@ import LogIn from "./pages/userFormPage/Login";
 import ReportSchedule from "./pages/userFormPage/ReportSchedule";
 import SignUp from "./pages/userFormPage/SignUp";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/auth";
 import { useEffect } from "react";
@@ -19,21 +18,18 @@ function App() {
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
   const dispatch = useDispatch();
-  const authData = useSelector((state) => state.auth);
+  const isLogin = useSelector((state) => state.auth.isLogin);
 
-  const csrftoken = getCookie("csrftoken");
-  const isLogin = getCookie("isLogin");
+  const isLoginCookie = getCookie("isLogin");
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
-    if (isLogin) {
-      dispatch(
-        authActions.logIn({ isLogin: isLogin, userCsrfToken: csrftoken })
-      );
+    console.log(isLoginCookie);
+    if (isLoginCookie) {
+      dispatch(authActions.logIn(true));
     }
-  }, [dispatch, isLogin, csrftoken]);
+  }, [dispatch, isLoginCookie]);
 
-  console.log(authData);
   return (
     <>
       <BrowserRouter>
@@ -70,10 +66,6 @@ function App() {
               </Modal>
             }
           />
-          {/* 스케줄제보하기 */}
-          {/* <Modal>
-          <ReportSchedule />
-          </Modal> */}
         </Routes>
       </BrowserRouter>
     </>

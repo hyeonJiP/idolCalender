@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
-import { getCookie } from "../../cookie/cookie";
 import axios from "axios";
 import { BASE_URL } from "../../URL/url";
 
@@ -50,8 +49,6 @@ const ReportSchedule = () => {
       time: data.startDate,
       content: data.content,
     };
-    const cookieData = getCookie("csrftoken");
-    console.log("cookie", cookieData);
 
     await axios
       .post(`${BASE_URL}users/reports/`, reportData, {
@@ -60,8 +57,6 @@ const ReportSchedule = () => {
       .then((data) => data)
       .then((res) => console.log(res))
       .catch((res) => console.log(res));
-
-    console.log(reportData);
   };
 
   return (
@@ -151,30 +146,6 @@ const ReportSchedule = () => {
           <div className={styles.errorMessage}>
             {errors.startDate && <p>{errors.startDate.message}</p>}
           </div>
-
-          {/* <div>
-            <input
-              className={styles.dateInput}
-              name="endDate"
-              type="datetime-local"
-              {...register("endDate", {
-                required: {
-                  value: true,
-                  message: "종료일을 입력하세요",
-                },
-                validate: {
-                  check: (val) => {
-                    if (getValues("startDate") > val) {
-                      return "종료일은 시작일 이후로 설정하세요.";
-                    }
-                  },
-                },
-              })}
-            />
-            <div className={styles.errorMessage}>
-              {errors.endDate && <p>{errors.endDate.message}</p>}
-            </div>
-          </div> */}
         </div>
 
         <label>내용을 입력해주세요.</label>

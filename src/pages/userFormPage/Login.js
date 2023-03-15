@@ -60,6 +60,7 @@ const LogIn = () => {
       });
 
     const isLogin = res.data.isLogin;
+
     /**로그인 처리 */
     setCookie("isLogin", isLogin);
 
