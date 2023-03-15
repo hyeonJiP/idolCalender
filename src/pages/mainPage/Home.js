@@ -10,7 +10,7 @@ const Home = (props) => {
     {
       id: 1,
       idol_ko_name: "갓세븐",
-      idol_en_name: "GOT",
+      idol_en_name: "카리나",
       idol_image:
         "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
       idal_eventTime: "12:00",
@@ -90,8 +90,8 @@ const Home = (props) => {
     },
     {
       id: 10,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "GOT",
+      idol_ko_name: "갓세븐!!!!!!",
+      idol_en_name: "아이브",
       idol_image:
         "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
       idal_eventTime: "12:00",

@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../userFormPage/SignUp.module.scss";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import axios from "axios";
+import { BASE_URL } from "../../URL/url";
 
 const SignUp = () => {
+  const [isEmailValid, setIsEmailValid] = useState();
+  const [isPasswordValid, setIsPasswordValid] = useState();
+
+  const [isError, setIsError] = useState([]);
   const {
     register,
     formState: { errors },
@@ -13,11 +18,18 @@ const SignUp = () => {
     getValues,
   } = useForm();
 
+  useEffect(() => {
+    isError.email ? setIsEmailValid(isError.email[0]) : setIsEmailValid(false);
+    isError.password
+      ? setIsPasswordValid(isError.password[0])
+      : setIsPasswordValid(false);
+  }, [isEmailValid, isError]);
+
   /**링크 네비게이트 */
   const navigate = useNavigate();
 
   /**회원가입 form 제출시 */
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const year = Number(data.birth.slice(0, 4));
     const date = new Date().getFullYear();
     const age = date - year + 1;
@@ -35,15 +47,18 @@ const SignUp = () => {
     console.log(signUpInform);
 
     /**백에 데이터 POST하기 */
-    axios.post();
-    fetch("http://127.0.0.1:8000/api/v1/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: signUpInform,
-    });
-    navigate("/login");
+    await axios
+      .post(`${BASE_URL}users/`, signUpInform, {
+        withCredentials: true,
+      })
+      .then((data) => data)
+      .catch((data) => {
+        console.log(data.response.data);
+        setIsError(data.response.data);
+      });
+
+    /**회원가입하면 로그인페이지로 이동 */
+    // navigate("/login");
   };
 
   return (
@@ -73,7 +88,8 @@ const SignUp = () => {
             />
           </div>
           <div className={styles.errorMessage}>
-            {errors.email && <p>{errors.email.message}</p>}
+            {(errors.email && <p>{errors.email.message}</p>) ||
+              (isEmailValid && <p> {isEmailValid}</p>)}
           </div>
 
           <div className={styles.typeDiv}>
@@ -104,7 +120,8 @@ const SignUp = () => {
             />
           </div>
           <div className={styles.errorMessage}>
-            {errors.password && <p>{errors.password.message}</p>}
+            {(errors.password && <p>{errors.password.message}</p>) ||
+              (isPasswordValid && <p> {isPasswordValid}</p>)}
           </div>
 
           <div className={styles.typeDiv}>

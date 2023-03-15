@@ -77,7 +77,6 @@ const LogIn = () => {
           <input
             className={styles.logInInput}
             name="email"
-            type="email"
             placeholder="UserEmail"
             {...register("email", {
               required: "ID를 입력해주세요.",

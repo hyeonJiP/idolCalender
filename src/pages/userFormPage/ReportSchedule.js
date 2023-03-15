@@ -42,7 +42,7 @@ const ReportSchedule = () => {
 
     /**백에 보낼 데이터 */
     const reportData = {
-      whoes: ["1"],
+      whoes: ["4"],
       title: data.title,
       type: eventType,
       location: data.location,
