@@ -18,6 +18,7 @@ export function axiosSchedule(idolId) {
     //.catch((e) => console.log(e));
   );
 }
+//commit
 
 export function axiosIdol() {
   return axios(`${BASE_URL}`).then((response) => response.data);
