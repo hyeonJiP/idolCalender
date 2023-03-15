@@ -1,24 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ReportTable.module.scss";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchingData } from "../../store/reportSchedules-action";
 import { reportSchedulesActions } from "../../store/reportSchedules";
 import Pagenation from "./Pagenation";
+import { BASE_URL } from "../../URL/url";
 
 const ReportTabe = () => {
   const dispatch = useDispatch();
   const reportData = useSelector((state) => state.reportSchedule.reportData);
+  const searchData = useSelector((state) => state.reportSchedule.searchData);
 
-  const searchRef = useRef();
+  const [searchInput, setSearchInput] = useState("");
   const [order, setOrder] = useState("ASC");
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(10);
+  const [toggle, setToggle] = useState(0);
+  const postPerPage = 8;
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   /**제보받은 스케줄데이터 가져오기 */
@@ -26,18 +29,38 @@ const ReportTabe = () => {
     dispatch(fetchingData());
   }, [dispatch]);
 
-  /**pagenation */
+  useEffect(() => {}, [searchInput]);
+
+  /**페이지네이션 데이터 */
   let indexOfLastPost = currentPage * postPerPage;
   let indexOfFirstPost = indexOfLastPost - postPerPage;
-  let currentPosts = reportData.slice(indexOfFirstPost, indexOfLastPost);
+  let currentPosts = searchData.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+    setToggle(pageNumber);
   };
+
+  useEffect(() => {
+    if (searchInput === "") {
+      dispatch(reportSchedulesActions.searchSchedule(reportData));
+    }
+  }, [searchInput, dispatch, reportData]);
 
   /**검색기능 */
   const searchHandler = ({ target }) => {
-    searchRef.current = target.value;
+    setSearchInput(target.value);
+
+    console.log(searchInput);
+  };
+
+  const searchFormHandler = (e) => {
+    e.preventDefault();
+    const searchData = reportData.filter((data) => {
+      return data.content.includes(searchInput);
+    });
+    console.group();
+    dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
 
   /**스케줄 추가해주기 */
@@ -51,41 +74,48 @@ const ReportTabe = () => {
 
     const newData = [...reportData, addData];
 
-    await fetch(
-      "https://react-movie-eb9a3-default-rtdb.firebaseio.com/schedules.json",
-      {
-        method: "PUT",
-        body: JSON.stringify(newData),
-      }
-    );
+    await fetch(`${BASE_URL}`, {
+      method: "PUT",
+      body: JSON.stringify(newData),
+    });
     dispatch(reportSchedulesActions.updateSchedule(newData));
+  };
+
+  /**Sorting Function */
+  const sortingDsc = (data, col) => {
+    const sorted = [...data].sort((a, b) => {
+      if (Number(a[col])) {
+        return a[col] > b[col] ? 1 : -1;
+      }
+
+      return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
+    });
+
+    dispatch(reportSchedulesActions.searchSchedule(sorted));
+
+    setOrder("DSC");
+  };
+
+  const sortingAsc = (data, col) => {
+    const sorted = [...data].sort((a, b) => {
+      if (Number(a[col])) {
+        return a[col] < b[col] ? 1 : -1;
+      }
+
+      return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
+    });
+    dispatch(reportSchedulesActions.searchSchedule(sorted));
+
+    setOrder("ASC");
   };
 
   /**스케줄 정렬기능 */
   const sorting = (col) => {
     if (order === "ASC") {
-      const sorted = [...reportData].sort((a, b) => {
-        if (Number(a[col])) {
-          return a[col] > b[col] ? 1 : -1;
-        }
-
-        return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
-      });
-      //   setIdolSchedule(sorted);
-      dispatch(reportSchedulesActions.updateSchedule(sorted));
-      setOrder("DSC");
+      sortingDsc(searchData, col);
     }
     if (order === "DSC") {
-      const sorted = [...reportData].sort((a, b) => {
-        if (Number(a[col])) {
-          return a[col] < b[col] ? 1 : -1;
-        }
-        return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
-      });
-      //   setIdolSchedule(sorted);
-      dispatch(reportSchedulesActions.updateSchedule(sorted));
-
-      setOrder("ASC");
+      sortingAsc(searchData, col);
     }
   };
 
@@ -130,14 +160,21 @@ const ReportTabe = () => {
   return (
     <>
       <div className={styles.scheduleDiv}>
-        <div className={styles.searchDiv}>
+        <form className={styles.searchForm} onSubmit={searchFormHandler}>
           <label>🔍</label>
           <input
             name="searchSchedule"
             onChange={searchHandler}
             placeholder="search"
           />
-        </div>
+          <button type="submit">검색</button>
+          <input
+            className={styles.resetBtn}
+            type="reset"
+            value="x"
+            onClick={() => setSearchInput("")}
+          />
+        </form>
 
         {/**추가할 데이터 */}
         <form
@@ -171,7 +208,9 @@ const ReportTabe = () => {
               },
             })}
           />
-          <button type="submit">스케줄추가하기</button>
+          <button type="submit" className={styles.addSchedule}>
+            스케줄추가하기
+          </button>
         </form>
         <table className={styles.dataTable}>
           <thead>
@@ -181,7 +220,7 @@ const ReportTabe = () => {
                   sorting("id");
                 }}
               >
-                key
+                id
               </th>
               <th
                 onClick={() => {
@@ -231,8 +270,11 @@ const ReportTabe = () => {
                       ✂️
                     </button>
                     <button className={styles.listBtn}>📝</button>
-                    <button onClick={updateScheduleHandler}>
-                      스케줄에 업데이트
+                    <button
+                      onClick={updateScheduleHandler}
+                      className={styles.listBtn}
+                    >
+                      📑
                     </button>
                   </td>
                 </tr>
@@ -242,8 +284,9 @@ const ReportTabe = () => {
         </table>
         <Pagenation
           postPerPage={postPerPage}
-          totalPosts={reportData.length}
+          totalPosts={searchData.length}
           paginate={paginate}
+          toggle={toggle}
         />
       </div>
     </>

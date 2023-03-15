@@ -8,7 +8,7 @@ export const reportSchedulesSlice = createSlice({
       state.reportData = actions.payload;
     },
     searchSchedule(state, actions) {
-      state.reportData = actions.payload;
+      state.searchData = actions.payload;
     },
   },
 });

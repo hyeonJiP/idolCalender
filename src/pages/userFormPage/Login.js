@@ -3,20 +3,16 @@ import styles from "../userFormPage/Login.module.scss";
 import { useForm } from "react-hook-form";
 import choeImg from "../../Img/logo_main.png";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../../store/auth";
 import Layout from "../../UI/Layout";
 import axios from "axios";
-import { getCookie } from "../../cookie/cookie";
+import { setCookie } from "../../cookie/cookie";
+import { BASE_URL } from "../../URL/url";
 
 axios.defaults.withCredentials = true;
 
-const BASE_URL = "http://127.0.0.1:8000/api/v1/users/jwt-login";
-
 const LogIn = () => {
-  const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
-  const userToken = useSelector((state) => state.auth.userToken);
+
   const {
     register,
     handleSubmit,
@@ -24,15 +20,9 @@ const LogIn = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  if (userToken) {
-    navigate("/");
-  }
-
   const goBackHandler = () => {
     navigate("/");
   };
-
-  /**토큰이 있으면(로그인이 되어있으면) */
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
@@ -51,57 +41,32 @@ const LogIn = () => {
     // }
     // await axios({
     //   method: "POST",
-    //   url: "http://127.0.0.1:8000/api/v1/users/login",
+    //   url: BASE_URL,
     //   data: data,
     //   withCredentials: true,
     // }).then((data) => console.log(data));
 
-    axios
-      .post(BASE_URL, data, {
+    const res = await axios
+      .post(`${BASE_URL}users/login/`, data, {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
+        setIsValid(false);
+        return response;
       })
       .catch((error) => {
-        console.log(error);
+        setIsValid(true);
+        return error;
       });
 
-    /**안되는 것... */
-    // const res = await fetch(BASE_URL, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   credentials: "include", //seesion ID
-    //   body: JSON.stringify(data),
-    // });
+    const isLogin = res.data.isLogin;
 
-    // console.log(res);
-
-    /**로그인 response로 받은 token */
-    // console.log("login?", backEndData);
-    /**fetch response 오류가 있을때 (ex: id중복) */
-    // if (!res.ok) {
-    //   setIsValid(true);
-    //   return;
-    // throw new Error("이메일 혹은 비밀번호가 틀립니다.");
-    // }
-
-    /**토큰을 redux에 보냄 */
-    navigate("/");
-    /**토큰을 세션스토리지에 저장 */
-    // const token = res.url;
-    // dispatch(authActions.logIn(token));
-    // tokenRef.current = token;
-    // sessionStorage.setItem("userToken", tokenRef.current);
+    /**로그인 처리 */
+    setCookie("isLogin", isLogin);
 
     /**메인으로 내비게이트 */
+    navigate("/");
   };
-
-  const getC = getCookie("csrftoken");
-
-  console.log(getC);
 
   return (
     <Layout>
@@ -112,7 +77,6 @@ const LogIn = () => {
           <input
             className={styles.logInInput}
             name="email"
-            type="email"
             placeholder="UserEmail"
             {...register("email", {
               required: "ID를 입력해주세요.",
