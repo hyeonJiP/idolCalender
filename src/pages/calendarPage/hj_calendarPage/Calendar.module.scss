@@ -1,0 +1,80 @@
+.calendarContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.calendar {
+  margin: 8vw 0 3vw 0;
+  width: 970px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.calendarWrap {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+.nextSchedule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.nextSchedule_LightWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.nextSchedule_Title {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 25px;
+}
+.nextSchedule_LightWrapper {
+  margin-left: 15px;
+  p {
+    margin-left: 10px;
+  }
+}
+.nextSchedule_Icon {
+  width: 50px;
+  height: 50px;
+}
+.nextSchedule_Content {
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.62px;
+  color: #000;
+  margin-left: 10px;
+}
+.nextSchedule_List {
+  width: 400px;
+  height: 170px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 2vw;
+}
+.nextScheduleItem {
+  box-sizing: border-box;
+  background-color: #efeff1;
+  border-radius: 20px;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.nextscheduleIcon {
+  width: 50px;
+  height: 50px;
+}
+@media (max-width: 376px) {
+}
