@@ -13,6 +13,7 @@ import { getCookie, removeCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
+import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import axios from "axios";
 
 //merge
@@ -67,7 +68,7 @@ function App() {
             path="/:idolId"
             element={
               <Layout>
-                <Calendar />
+                <CalendarPage />
               </Layout>
             }
           />
