@@ -10,7 +10,6 @@ import { authActions } from "../store/auth";
 import axios from "axios";
 import { BASE_URL } from "../URL/url";
 
-
 const Headar = () => {
   // const [navColor, setnavColor] = useState("transparent");
   // const listenScrollEvent = () => {
@@ -38,7 +37,6 @@ const Headar = () => {
       window.removeEventListener("scroll", listenScrollEvent);
     };
   }, []);
-
 
   const LogoutHandler = async () => {
     axios
@@ -78,7 +76,6 @@ const Headar = () => {
         </div>
         <div className="navItems">
           <div className="navItem">
-
             {!isLogin ? (
               <Link to={"/login"}>
                 <>
@@ -95,7 +92,6 @@ const Headar = () => {
                 </button>
               </>
             )}
-
           </div>
         </div>
       </div>

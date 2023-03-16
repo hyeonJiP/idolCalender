@@ -8,16 +8,16 @@ import store from "./store/store";
 import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-const client = new QueryClient();
+const Client = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   /**리액트 redux provider store저장소 참조시켜주기 */
+
   <Provider store={store}>
-    <QueryClientProvider client={client}>
-      {/* <CookiesProvider> */}
+    <QueryClientProvider client={Client}>
       <App />
+      {/* </CookiesProvider> */}
     </QueryClientProvider>
-    {/* </CookiesProvider> */}
   </Provider>
 );
 
