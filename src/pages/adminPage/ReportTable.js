@@ -6,23 +6,24 @@ import { fetchingData } from "../../store/reportSchedules-action";
 import { reportSchedulesActions } from "../../store/reportSchedules";
 import Pagenation from "./Pagenation";
 import { BASE_URL } from "../../URL/url";
+import axios from "axios";
 
 const ReportTabe = () => {
   const dispatch = useDispatch();
   const reportData = useSelector((state) => state.reportSchedule.reportData);
   const searchData = useSelector((state) => state.reportSchedule.searchData);
 
+  /**데이터 검색을 위한 상태 */
   const [searchInput, setSearchInput] = useState("");
+  /**데이터 정렬을 위한 상태 */
   const [order, setOrder] = useState("ASC");
+  /**페이지 네이션을 위한 상태 */
   const [currentPage, setCurrentPage] = useState(1);
   const [toggle, setToggle] = useState(0);
+
   const postPerPage = 8;
 
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   /**제보받은 스케줄데이터 가져오기 */
   useEffect(() => {
@@ -122,9 +123,10 @@ const ReportTabe = () => {
   /**스케줄삭제하기 */
   const deleteScheduleHandler = async ({ target }) => {
     const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
-    console.log(rowIndex);
+    console.log(rowIndex, reportData);
+
     const newIdolSchedule = reportData.filter((schedule) => {
-      return schedule.id !== rowIndex;
+      return schedule.id !== Number(rowIndex);
     });
 
     await fetch(
@@ -139,22 +141,36 @@ const ReportTabe = () => {
 
   /**아이돌 스케줄에 제보받은 스케줄 등록하기 */
   const updateScheduleHandler = async ({ target }) => {
-    const rowIndex =
-      target.parentNode.parentNode.firstElementChild.nextSibling.innerText;
-    console.log(rowIndex);
+    const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
 
-    const newIdolSchedule = reportData.filter((schedule) => {
-      return schedule.name === rowIndex;
+    console.log(rowIndex, searchData);
+
+    const newIdolSchedule = searchData.filter((schedule) => {
+      return schedule.id === Number(rowIndex);
     });
 
-    console.log(newIdolSchedule);
-    fetch(
-      `https://react-movie-eb9a3-default-rtdb.firebaseio.com/${rowIndex}.json`,
-      {
-        method: "POST",
-        body: JSON.stringify(newIdolSchedule),
-      }
-    );
+    const idolPk = newIdolSchedule[0].pick;
+    console.log(idolPk);
+
+    const sendIdolData = {
+      ScheduleTitle: newIdolSchedule[0].ScheduleTitle,
+      ScheduleType: {
+        type: newIdolSchedule[0].ScheduleType,
+        content: newIdolSchedule[0].content,
+      },
+      location: newIdolSchedule[0].location,
+      when: newIdolSchedule[0].when,
+      ScheduleContent: newIdolSchedule[0].content,
+    };
+
+    console.log(sendIdolData);
+
+    await axios
+      .post(`${BASE_URL}idols/${idolPk}/schedules`, sendIdolData, {
+        withCredentials: true,
+      })
+      .then((data) => console.log(data))
+      .catch((data) => console.log(data));
   };
 
   return (
@@ -262,8 +278,8 @@ const ReportTabe = () => {
                     {schedule.name} ({schedule.pick})
                   </td>
                   <td>{schedule.content}</td>
-                  <td>{schedule.time}</td>
-                  <td>{schedule.type}</td>
+                  <td>{schedule.when}</td>
+                  <td>{schedule.ScheduleType}</td>
                   <td>
                     <button
                       onClick={deleteScheduleHandler}

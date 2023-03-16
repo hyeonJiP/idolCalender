@@ -58,14 +58,17 @@ const SignUp = () => {
       .post(`${BASE_URL}users/`, signUpInform, {
         withCredentials: true,
       })
-      .then((data) => console.log(data))
+      /**회원가입 성공 */
+      .then((data) => {
+        console.log(data);
+        /**회원가입하면 로그인페이지로 이동 */
+        navigate("/login");
+      })
+      /**회원가입 실패 */
       .catch((data) => {
         console.log(data.response.data);
         setIsError(data.response.data);
       });
-
-    /**회원가입하면 로그인페이지로 이동 */
-    // navigate("/login");
   };
 
   return (
