@@ -26,26 +26,6 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    // const resData = await fetch("http://127.0.0.1:8000/api/v1/users");
-
-    // const userData = await resData.json();
-    // console.log(userData);
-
-    // const isEmailValid = userData.some((user) => {
-    //   return data.email === user.email;
-    // });
-
-    // if (!isEmailValid) {
-    //   setIsValid(true);
-    //   return;
-    // }
-    // await axios({
-    //   method: "POST",
-    //   url: BASE_URL,
-    //   data: data,
-    //   withCredentials: true,
-    // }).then((data) => console.log(data));
-
     const res = await axios
       .post(`${BASE_URL}users/login/`, data, {
         withCredentials: true,

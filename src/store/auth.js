@@ -5,7 +5,6 @@ export const authSlice = createSlice({
   initialState: { isLogin: false },
   reducers: {
     logIn(state, actions) {
-      console.log(actions.payload);
       state.isLogin = actions.payload;
     },
     logOut(state, actions) {

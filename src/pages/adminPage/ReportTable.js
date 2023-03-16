@@ -258,7 +258,9 @@ const ReportTabe = () => {
               return (
                 <tr key={schedule.id}>
                   <td>{schedule.id}</td>
-                  <td>{schedule.name}</td>
+                  <td>
+                    {schedule.name} ({schedule.pick})
+                  </td>
                   <td>{schedule.content}</td>
                   <td>{schedule.time}</td>
                   <td>{schedule.type}</td>
