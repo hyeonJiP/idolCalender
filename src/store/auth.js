@@ -1,14 +1,16 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
+const initialData = { pick: null, is_admin: null };
+
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { isLogin: false },
+  initialState: { authState: initialData },
   reducers: {
     logIn(state, actions) {
-      state.isLogin = actions.payload;
+      state.authState = actions.payload;
     },
-    logOut(state, actions) {
-      state.isLogin = actions.payload;
+    logOut(state) {
+      state.authState = initialData;
     },
   },
 });

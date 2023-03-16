@@ -21,17 +21,14 @@ function App() {
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.auth.isLogin);
-
-  const isLoginCookie = getCookie("isLogin");
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
-    console.log(isLoginCookie);
+    const isLoginCookie = getCookie("isLogin");
     if (isLoginCookie) {
-      dispatch(authActions.logIn(true));
+      dispatch(authActions.logIn(isLoginCookie));
     }
-  }, [dispatch, isLoginCookie]);
+  }, [dispatch]);
 
   return (
     <>

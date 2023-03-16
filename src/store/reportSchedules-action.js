@@ -11,7 +11,6 @@ export const fetchingData = () => {
     /**새로운 데이터 형식으로 바꿔주기 */
     const newData = [];
     for (let data in datas) {
-      // console.log(datas[data].whoes[0].idol_name);
       let nameData = 0;
       if (!datas[data].whoes[0]) {
         nameData = "";

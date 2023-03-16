@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
 import axios from "axios";
 import { BASE_URL } from "../../URL/url";
+import { useSelector } from "react-redux";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
 const ReportSchedule = () => {
+  const userPick = useSelector((state) => state.auth.authState.pick);
   const [btnActive, setBtnActive] = useState("0");
   const navigate = useNavigate();
   const {
@@ -42,13 +44,15 @@ const ReportSchedule = () => {
 
     /**백에 보낼 데이터 */
     const reportData = {
-      whoes: ["4"],
+      whoes: [userPick],
       title: data.title,
       type: eventType,
       location: data.location,
       time: data.startDate,
       content: data.content,
     };
+
+    console.log(reportData);
 
     await axios
       .post(`${BASE_URL}users/reports/`, reportData, {

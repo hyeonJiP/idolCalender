@@ -5,14 +5,17 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import axios from "axios";
 import { BASE_URL } from "../../URL/url";
+import SignUpOption from "./SignUpOption";
 
 const SignUp = () => {
   const [isEmailValid, setIsEmailValid] = useState();
   const [isPasswordValid, setIsPasswordValid] = useState();
   const [isError, setIsError] = useState([]);
 
-  const [idolList, setIdolList] = useState();
-  const [option, setOption] = useState();
+  const [selectValue, setSelectValue] = useState("");
+  const onChangeSelect = (e) => {
+    setSelectValue(e.target.value);
+  };
 
   const {
     register,
@@ -20,28 +23,6 @@ const SignUp = () => {
     handleSubmit,
     getValues,
   } = useForm();
-
-  /**최애 옵션 */
-  const optionHandler = ({ target }) => {
-    // console.log(target.options[target.selectedIndex].value);
-    setOption(target.options[target.selectedIndex].value);
-  };
-
-  console.log(option);
-
-  useEffect(() => {
-    const idolSelection = async () => {
-      await axios.get(`${BASE_URL}idols/`).then((data) => {
-        console.log(data);
-        const idolName = data.data.map((name) => (
-          <option value={name.pk}>{name.idol_name}</option>
-        ));
-
-        setIdolList(idolName);
-      });
-    };
-    idolSelection();
-  }, []);
 
   /**백 유효성검사 */
   useEffect(() => {
@@ -67,7 +48,7 @@ const SignUp = () => {
       username: data.name,
       nickname: data.nickname,
       age: age,
-      pick: Number(option),
+      pick: Number(selectValue),
     };
 
     console.log(signUpInform);
@@ -255,9 +236,13 @@ const SignUp = () => {
 
           <div className={styles.typeDiv}>
             <label>최애 등록</label>
-            <select onClick={optionHandler} name="choe" {...register("choe")}>
-              <option>최애를 등록해주세요.</option>
-              {idolList}
+            {/* <select value={selectValue} onChange={onChangeSelect}>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select> */}
+            <select value={selectValue} onChange={onChangeSelect}>
+              <SignUpOption />
             </select>
           </div>
 

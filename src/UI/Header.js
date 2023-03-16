@@ -1,32 +1,22 @@
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import "./Header.scss";
-//import { logoImg } from "../api";
-//import { useQuery } from "react-query";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import axios from "axios";
 import { BASE_URL } from "../URL/url";
-
+import { removeCookie } from "../cookie/cookie";
 
 const Headar = () => {
-  // const [navColor, setnavColor] = useState("transparent");
-  // const listenScrollEvent = () => {
-  //   window.scrollY > 10 ? setnavColor("#ffff") : setnavColor("transparent");
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("scroll", listenScrollEvent);
-  //   return () => {
-  //     window.removeEventListener("scroll", listenScrollEvent);
-  //   };
-  // }, []);
   const [navSize, setnavSize] = useState("6rem");
   const [navColor, setnavColor] = useState("transparent");
 
-  const isLogin = useSelector((state) => state.auth.isLogin);
+  const isLogin = useSelector((state) => state.auth.authState.pick);
   const dispatch = useDispatch();
+
+  useEffect(() => {}, [isLogin]);
+  console.log("data", isLogin);
 
   const listenScrollEvent = () => {
     window.scrollY > 10 ? setnavColor("#ffff") : setnavColor("transparent");
@@ -39,7 +29,7 @@ const Headar = () => {
     };
   }, []);
 
-
+  /**로그아웃 */
   const LogoutHandler = async () => {
     axios
       .post(`${BASE_URL}users/logout`, "", {
@@ -48,7 +38,8 @@ const Headar = () => {
       .then((res) => res)
       .then((data) => console.log(data));
 
-    dispatch(authActions.logOut(false));
+    removeCookie("isLogin");
+    dispatch(authActions.logOut());
   };
 
   return (
@@ -78,7 +69,6 @@ const Headar = () => {
         </div>
         <div className="navItems">
           <div className="navItem">
-
             {!isLogin ? (
               <Link to={"/login"}>
                 <>
@@ -95,7 +85,6 @@ const Headar = () => {
                 </button>
               </>
             )}
-
           </div>
         </div>
       </div>

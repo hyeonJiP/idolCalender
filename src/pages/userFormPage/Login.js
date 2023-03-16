@@ -26,26 +26,23 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    const res = await axios
+    await axios
       .post(`${BASE_URL}users/login/`, data, {
         withCredentials: true,
       })
       .then((response) => {
         setIsValid(false);
+        /**로그인 처리 */
+        const responseData = response.data;
+        setCookie("isLogin", responseData);
+        /**메인으로 내비게이트 */
+        navigate("/");
         return response;
       })
       .catch((error) => {
         setIsValid(true);
         return error;
       });
-
-    const isLogin = res.data.isLogin;
-
-    /**로그인 처리 */
-    setCookie("isLogin", isLogin);
-
-    /**메인으로 내비게이트 */
-    navigate("/");
   };
 
   return (
