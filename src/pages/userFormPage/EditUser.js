@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import styles from "./EditUser.module.scss";
+import Option from "./Option";
 
 const EditUser = () => {
   const navigate = useNavigate();
@@ -13,11 +14,16 @@ const EditUser = () => {
     getValues,
   } = useForm();
 
-  /**PUT */
+  const [selectValue, setSelectValue] = useState("");
+  const onChangeSelect = (e) => {
+    setSelectValue(e.target.value);
+  };
+
+  /**회원정보 수정 */
   const onSubmit = (data) => {
     const signUpInform = {
       password: data.password,
-      choe: data.choe,
+      choe: selectValue,
     };
     console.log(signUpInform);
   };
@@ -106,11 +112,8 @@ const EditUser = () => {
 
           <div className={styles.typeDiv}>
             <label>최애 변경</label>
-            <select name="choe" {...register("choe")}>
-              <option>최애를 등록해주세요.</option>
-              <option>idol1</option>
-              <option>idol2</option>
-              <option>idol3</option>
+            <select value={selectValue} onChange={onChangeSelect}>
+              <Option />
             </select>
           </div>
 

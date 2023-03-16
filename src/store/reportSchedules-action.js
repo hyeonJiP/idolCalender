@@ -21,6 +21,7 @@ export const fetchingData = () => {
         id: datas[data].id,
         ScheduleTitle: datas[data].title,
         pick: datas[data].owner.pick,
+        reporter: datas[data].owner.nickname,
         name: nameData,
         when: datas[data].time,
         ScheduleType: datas[data].type,

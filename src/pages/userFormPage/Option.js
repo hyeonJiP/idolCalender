@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../URL/url";
 
-const SignUpOption = () => {
+const Option = () => {
   const [idolList, setIdolList] = useState([]);
 
   /**최애 옵션 */
@@ -26,4 +26,4 @@ const SignUpOption = () => {
   );
 };
 
-export default SignUpOption;
+export default Option;

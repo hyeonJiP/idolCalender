@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "./Header.scss";
 
@@ -6,17 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import axios from "axios";
 import { BASE_URL } from "../URL/url";
-import { removeCookie } from "../cookie/cookie";
+import { removeCookie, setCookie } from "../cookie/cookie";
 
 const Headar = () => {
+  const navigate = useNavigate();
   const [navSize, setnavSize] = useState("6rem");
   const [navColor, setnavColor] = useState("transparent");
 
-  const isLogin = useSelector((state) => state.auth.authState.pick);
+  const isLogin = useSelector((state) => state.auth.authState.pick.idolPk);
+  const isAdmin = useSelector((state) => state.auth.authState.is_admin);
   const dispatch = useDispatch();
 
   useEffect(() => {}, [isLogin]);
-  console.log("data", isLogin);
 
   const listenScrollEvent = () => {
     window.scrollY > 10 ? setnavColor("#ffff") : setnavColor("transparent");
@@ -39,8 +40,18 @@ const Headar = () => {
       .then((data) => console.log(data));
 
     removeCookie("isLogin");
+    setCookie("isLogin", { is_admin: false, pick: false });
     dispatch(authActions.logOut());
+    navigate("/");
+    window.location.reload();
   };
+  if (!isAdmin) {
+    <Link to={"/login"}>
+      <>
+        <button className="navBtn">로그인</button>
+      </>
+    </Link>;
+  }
 
   return (
     <div
@@ -58,6 +69,7 @@ const Headar = () => {
               <img
                 className="navImg"
                 src="https://velog.velcdn.com/images/view_coding/post/6e4d7220-8bc8-4e88-9d4b-f3dd9e09b523/image.png"
+                alt=""
               ></img>
             </Link>
           </div>
@@ -69,11 +81,18 @@ const Headar = () => {
         </div>
         <div className="navItems">
           <div className="navItem">
-            {!isLogin ? (
+            {isAdmin ? (
+              <>
+                <Link to={"/admin"}>
+                  <button className="navBtn">관리자페이지</button>
+                </Link>
+                <button className="navBtn" onClick={LogoutHandler}>
+                  로그아웃
+                </button>
+              </>
+            ) : !isLogin ? (
               <Link to={"/login"}>
-                <>
-                  <button className="navBtn">Login</button>
-                </>
+                <button className="navBtn">로그인</button>
               </Link>
             ) : (
               <>
@@ -81,7 +100,7 @@ const Headar = () => {
                   <Link to="/edituser">내 정보</Link>
                 </button>
                 <button className="navBtn" onClick={LogoutHandler}>
-                  Logout
+                  로그아웃
                 </button>
               </>
             )}

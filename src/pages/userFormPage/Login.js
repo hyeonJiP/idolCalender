@@ -34,14 +34,14 @@ const LogIn = () => {
         setIsValid(false);
         /**로그인 처리 */
         const responseData = response.data;
+        console.log(responseData);
         setCookie("isLogin", responseData);
         /**메인으로 내비게이트 */
         navigate("/");
-        return response;
+        window.location.reload();
       })
       .catch((error) => {
         setIsValid(true);
-        return error;
       });
   };
 

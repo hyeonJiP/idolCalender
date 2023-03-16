@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ReportTable.module.scss";
-import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchingData } from "../../store/reportSchedules-action";
 import { reportSchedulesActions } from "../../store/reportSchedules";
 import Pagenation from "./Pagenation";
 import { BASE_URL } from "../../URL/url";
+import Modal from "../../UI/Modal";
 import axios from "axios";
+import ReportSchedule from "../userFormPage/ReportSchedule";
+import { authActions } from "../../store/auth";
 
 const ReportTabe = () => {
   const dispatch = useDispatch();
@@ -21,9 +23,10 @@ const ReportTabe = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [toggle, setToggle] = useState(0);
 
-  const postPerPage = 8;
+  const [scheduleModal, setScheduleModal] = useState(false);
 
-  const { register, handleSubmit } = useForm();
+  /**페이지당 목록 수 세팅 */
+  const postPerPage = 8;
 
   /**제보받은 스케줄데이터 가져오기 */
   useEffect(() => {
@@ -51,8 +54,6 @@ const ReportTabe = () => {
   /**검색기능 */
   const searchHandler = ({ target }) => {
     setSearchInput(target.value);
-
-    console.log(searchInput);
   };
 
   const searchFormHandler = (e) => {
@@ -64,25 +65,7 @@ const ReportTabe = () => {
     dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
 
-  /**스케줄 추가해주기 */
-  const onSubmit = async (data) => {
-    const addData = {
-      name: data.name,
-      content: data.content,
-      time: data.time,
-    };
-    console.log(addData);
-
-    const newData = [...reportData, addData];
-
-    await fetch(`${BASE_URL}`, {
-      method: "PUT",
-      body: JSON.stringify(newData),
-    });
-    dispatch(reportSchedulesActions.updateSchedule(newData));
-  };
-
-  /**Sorting Function */
+  /**Sorting 함수 */
   const sortingDsc = (data, col) => {
     const sorted = [...data].sort((a, b) => {
       if (Number(a[col])) {
@@ -110,7 +93,6 @@ const ReportTabe = () => {
     setOrder("ASC");
   };
 
-  /**스케줄 정렬기능 */
   const sorting = (col) => {
     if (order === "ASC") {
       sortingDsc(searchData, col);
@@ -120,23 +102,54 @@ const ReportTabe = () => {
     }
   };
 
-  /**스케줄삭제하기 */
-  const deleteScheduleHandler = async ({ target }) => {
+  const showModalHandler = ({ target }) => {
     const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
-    console.log(rowIndex, reportData);
 
-    const newIdolSchedule = reportData.filter((schedule) => {
-      return schedule.id !== Number(rowIndex);
+    console.log(rowIndex, searchData);
+
+    const newIdolSchedule = searchData.filter((schedule) => {
+      return schedule.id === Number(rowIndex);
     });
 
-    await fetch(
-      "https://react-movie-eb9a3-default-rtdb.firebaseio.com/schedules.json",
-      {
-        method: "PUT",
-        body: JSON.stringify(newIdolSchedule),
-      }
-    );
-    dispatch(reportSchedulesActions.updateSchedule(newIdolSchedule));
+    console.log(newIdolSchedule[0].id);
+    console.log(newIdolSchedule[0].pick);
+
+    const modifyPk = {
+      schedulePk: newIdolSchedule[0].id,
+      idolPk: newIdolSchedule[0].pick,
+    };
+
+    dispatch(authActions.adminModify(modifyPk));
+
+    setScheduleModal(true);
+  };
+
+  const hideModalHandler = () => {
+    setScheduleModal(false);
+  };
+
+  /**스케줄삭제하기*/
+  const deleteScheduleHandler = async ({ target }) => {
+    const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
+
+    console.log(rowIndex, searchData);
+
+    const newIdolSchedule = searchData.filter((schedule) => {
+      return schedule.id === Number(rowIndex);
+    });
+
+    console.log(newIdolSchedule[0].id);
+    const idolSchedulePk = newIdolSchedule[0].id;
+
+    axios
+      .delete(`${BASE_URL}users/reports/${idolSchedulePk}`, {
+        withCredentials: true,
+      })
+      .then((data) => {
+        console.log(data);
+        return window.location.reload();
+      })
+      .catch((data) => console.log(data));
   };
 
   /**아이돌 스케줄에 제보받은 스케줄 등록하기 */
@@ -175,6 +188,12 @@ const ReportTabe = () => {
 
   return (
     <>
+      {/* {scheduleModal ? <Modal /> : null} */}
+      {scheduleModal ? (
+        <Modal hideCartHandler={hideModalHandler}>
+          <ReportSchedule hideModalHandler={hideModalHandler} />
+        </Modal>
+      ) : null}
       <div className={styles.scheduleDiv}>
         <form className={styles.searchForm} onSubmit={searchFormHandler}>
           <label>🔍</label>
@@ -192,42 +211,6 @@ const ReportTabe = () => {
           />
         </form>
 
-        {/**추가할 데이터 */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={styles.addScheduleForm}
-        >
-          <label>name</label>
-          <input
-            name="name"
-            {...register("name", {
-              required: {
-                value: true,
-              },
-            })}
-          />
-          <label>content</label>
-          <input
-            name="content"
-            {...register("content", {
-              required: {
-                value: true,
-              },
-            })}
-          />
-          <label>time</label>
-          <input
-            name="time"
-            {...register("time", {
-              required: {
-                value: true,
-              },
-            })}
-          />
-          <button type="submit" className={styles.addSchedule}>
-            스케줄추가하기
-          </button>
-        </form>
         <table className={styles.dataTable}>
           <thead>
             <tr>
@@ -236,35 +219,49 @@ const ReportTabe = () => {
                   sorting("id");
                 }}
               >
-                id
+                Id
               </th>
               <th
                 onClick={() => {
                   sorting("name");
                 }}
               >
-                name
+                Name
+              </th>
+              <th
+                onClick={() => {
+                  sorting("ScheduleTitle");
+                }}
+              >
+                Schedule Title
               </th>
               <th
                 onClick={() => {
                   sorting("content");
                 }}
               >
-                content
+                Content
               </th>
               <th
                 onClick={() => {
-                  sorting("time");
+                  sorting("when");
                 }}
               >
-                time
+                When
               </th>
               <th
                 onClick={() => {
-                  sorting("type");
+                  sorting("ScheduleType");
                 }}
               >
-                type
+                Schedule Type
+              </th>
+              <th
+                onClick={() => {
+                  sorting("reporter");
+                }}
+              >
+                Reporter
               </th>
               <th></th>
             </tr>
@@ -277,9 +274,11 @@ const ReportTabe = () => {
                   <td>
                     {schedule.name} ({schedule.pick})
                   </td>
+                  <td>{schedule.ScheduleTitle}</td>
                   <td>{schedule.content}</td>
                   <td>{schedule.when}</td>
                   <td>{schedule.ScheduleType}</td>
+                  <td>{schedule.reporter}</td>
                   <td>
                     <button
                       onClick={deleteScheduleHandler}
@@ -287,7 +286,12 @@ const ReportTabe = () => {
                     >
                       ✂️
                     </button>
-                    <button className={styles.listBtn}>📝</button>
+                    <button
+                      onClick={showModalHandler}
+                      className={styles.listBtn}
+                    >
+                      📝
+                    </button>
                     <button
                       onClick={updateScheduleHandler}
                       className={styles.listBtn}

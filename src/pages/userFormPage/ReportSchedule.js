@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import styles from "./ReportSchedule.module.scss";
 import axios from "axios";
 import { BASE_URL } from "../../URL/url";
@@ -8,23 +7,23 @@ import { useSelector } from "react-redux";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
-const ReportSchedule = () => {
-  const userPick = useSelector((state) => state.auth.authState.pick);
+const ReportSchedule = (props) => {
+  const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
+  const schedulePk = useSelector(
+    (state) => state.auth.authState.pick.schedulePk
+  );
+  const isAdmin = useSelector((state) => state.auth.authState.is_admin);
+  const authData = useSelector((state) => state.auth.authState);
   const [btnActive, setBtnActive] = useState("0");
-  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  /**뒤로가기 */
-  const goBackHandler = () => {
-    navigate(-1);
-  };
-
+  console.log("auth", authData, "admin", isAdmin);
   /**카테고리에 따라 값 세팅 */
-  const toggleActiveHandler = ({ target }) => {
+  const toggleActiveHandler = async ({ target }) => {
     return setBtnActive(target.value);
   };
 
@@ -54,6 +53,14 @@ const ReportSchedule = () => {
 
     console.log(reportData);
 
+    if (isAdmin) {
+      await axios.put(`${BASE_URL}users/reports/${schedulePk}`, reportData, {
+        withCredentials: true,
+      });
+      window.location.reload();
+      return;
+    }
+
     await axios
       .post(`${BASE_URL}users/reports/`, reportData, {
         withCredentials: true,
@@ -67,7 +74,7 @@ const ReportSchedule = () => {
     <>
       <div className={styles.reportContainer}>
         <h4>X</h4>
-        <h1>제보하기</h1>
+        {!userPick ? <h1>제보하기</h1> : <h1>수정하기</h1>}
         <h4>완료</h4>
       </div>
       <div className={styles.signUp}>
@@ -175,7 +182,7 @@ const ReportSchedule = () => {
         </div>
 
         <div className={styles.buttonDiv}>
-          <button onClick={goBackHandler} type="button">
+          <button onClick={props.hideModalHandler} type="button">
             이전
           </button>
           <button>제보하기</button>

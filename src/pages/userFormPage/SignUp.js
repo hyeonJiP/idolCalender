@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../../UI/Layout";
 import axios from "axios";
 import { BASE_URL } from "../../URL/url";
-import SignUpOption from "./SignUpOption";
+import Option from "./Option";
 
 const SignUp = () => {
   const [isEmailValid, setIsEmailValid] = useState();
@@ -239,13 +239,8 @@ const SignUp = () => {
 
           <div className={styles.typeDiv}>
             <label>최애 등록</label>
-            {/* <select value={selectValue} onChange={onChangeSelect}>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-            </select> */}
             <select value={selectValue} onChange={onChangeSelect}>
-              <SignUpOption />
+              <Option />
             </select>
           </div>
 
