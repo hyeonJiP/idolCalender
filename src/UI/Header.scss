@@ -2,14 +2,16 @@
 .header {
   width: 100%;
   display: flex;
+  justify-content: center;
   position: fixed;
+
   z-index: 20;
 }
 .headerNav {
-  width: 100%;
+  width: 95vw;
   display: flex;
-  padding: 0 15px;
   justify-content: space-between;
+  align-items: center;
 }
 
 .navItems {

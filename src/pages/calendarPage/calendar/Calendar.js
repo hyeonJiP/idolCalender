@@ -17,12 +17,14 @@ import {
 
 import { useQuery } from "react-query";
 
+import Sidebar from "../hj_sideBar/Sidebar";
+
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
   // console.log(idolSchedule);
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+    fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
       .then((res) => res.json())
       .then((data) => {
         const setIdolSchedule = [];
@@ -52,7 +54,7 @@ const Calendar = () => {
         return;
       });
     setIdolSchedule(idolSchedule);
-  }, [idolSchedule]);
+  }, []);
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
@@ -101,11 +103,8 @@ const Calendar = () => {
                   <td
                     key={index}
                     className="today"
-                    // onClick={() =>
-                    //   console.log(
-                    //     days.format("M") + "월" + " " + days.format("D") + "일"
-                    //   )
-                    // }
+                    // 사이드바 온클릭 이벤트
+                    onClick={showSidebar}
                   >
                     <span>{days.format("D")}</span>
                     <div className="event-content">
@@ -124,9 +123,10 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    onClick={() =>
-                      console.log("clickedDay: " + days.format("D"))
-                    }
+                    onClick={showSidebar}
+                    // onClick={() =>
+                    //   console.log("clickedDay: " + days.format("D"))
+                    // }
                   >
                     <span
                       value={index}
@@ -147,6 +147,10 @@ const Calendar = () => {
     }
     return result;
   };
+
+  // 사이드바
+  const [sidebar, setSidebar] = useState(false);
+  const showSidebar = () => setSidebar(!sidebar);
 
   return (
     <div className="calendar-container">
@@ -178,7 +182,10 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
-
+      {/* <button onClick={showSidebar}>사이드바</button>
+          <Sidebar sidebar={sidebar} setSidebar={setSidebar} /> */}
+      {/* 사이드바 */}
+      <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       <div className="category-container">
         <button className="category-btn">
           <FontAwesomeIcon icon={faBroadcastTower} size="sm" /> 방송
@@ -219,7 +226,7 @@ const Calendar = () => {
 export default Calendar;
 
 const fetchData = () =>
-  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+  fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
@@ -268,7 +275,7 @@ function Show_event({ days }) {
   // useEffect(() => {
   //   // console.log("cccc", idolSchedule);
   // }, [idolSchedule]);
-
+  //console.log("뿌려야할 스케줄", schedule.data);
   return (
     <>
       {schedule.data?.map((data, i) => {

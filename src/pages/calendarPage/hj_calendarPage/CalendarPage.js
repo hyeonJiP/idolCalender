@@ -5,11 +5,12 @@ import { data } from "./CalendarData";
 import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
 import { axiosSchedule } from "../../../api";
+import Calendar from "../calendar/Calendar";
 
-const CalendarPage = () => {
-
+const CalendarData = () => {
   const { idolId } = useParams();
 
+  // 아이돌 데이터들
   const { isLoding: idDataLoding, data: idData } = useQuery(
     ["info", idolId],
     () => {
@@ -17,7 +18,11 @@ const CalendarPage = () => {
     }
   );
 
-  console.log(idData);
+  // useEffect(() => {
+  //   console.log(idData);
+  //   const test = idData?.slice(0, 3);
+  //   console.log(test[0].participant[0].idol_name);
+  // }, [idData]);
 
   const today = new Date();
 
@@ -68,15 +73,16 @@ const CalendarPage = () => {
   // console.log(nextDay);
 
   // 사이드바
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+  // const [sidebar, setSidebar] = useState(false);
+  // const showSidebar = () => setSidebar(!sidebar);
 
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
         <div className={styles.calendarWrap}>
-          <button onClick={showSidebar}>사이드바</button>
-          <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+          <Calendar />
+          {/* <button onClick={showSidebar}>사이드바</button>
+          <Sidebar sidebar={sidebar} setSidebar={setSidebar} /> */}
         </div>
         <section className={styles.nextSchedule}>
           <div className={styles.nextSchedule_Title}>
@@ -117,5 +123,4 @@ const CalendarPage = () => {
     </div>
   );
 };
-export default CalendarPage;
-
+export default CalendarData;

@@ -1,30 +1,31 @@
 .calendarContainer {
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 .calendar {
-  margin: 8vw 0 3vw 0;
-  width: 970px;
+  width: 90vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+  //border: 1px solid black;
+  margin-top: 80px;
 }
 .calendarWrap {
-  width: 100%;
+  width: 90vw;
   height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+  //border: 1px solid black;
 }
 .nextSchedule {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  margin: 40px 0;
 }
 .nextSchedule_LightWrapper {
   display: flex;
@@ -35,7 +36,6 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin-top: 25px;
 }
 .nextSchedule_LightWrapper {
   margin-left: 15px;

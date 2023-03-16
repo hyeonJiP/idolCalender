@@ -7,7 +7,7 @@ export const data = [
       content: "방송",
     },
     location: "월드컵 경기장",
-    when: "2023-03-15T18:00:00+09:00",
+    when: "2023-03-18T18:00:00+09:00",
     description: "솔로 데뷔 2주년",
     participant: [
       {
@@ -27,7 +27,7 @@ export const data = [
       content: "축하1",
     },
     location: "수원 경기장",
-    when: "2023-03-15T18:00:00+09:00",
+    when: "2023-03-18T18:00:00+09:00",
     description: "",
     participant: [
       {
@@ -47,7 +47,7 @@ export const data = [
       content: "축하",
     },
     location: "수원 경기장",
-    when: "2023-03-16T18:00:00+09:00",
+    when: "2023-03-19T18:00:00+09:00",
     description: "",
     participant: [
       {
@@ -67,7 +67,7 @@ export const data = [
       content: "",
     },
     location: "월드컵 경기장",
-    when: "2023-03-16T18:00:00+09:00",
+    when: "2023-03-19T18:00:00+09:00",
     description: "솔로 데뷔 3주년",
     participant: [
       {
@@ -87,7 +87,7 @@ export const data = [
       content: "",
     },
     location: "목동 경기장",
-    when: "2023-03-17T18:00:00+09:00",
+    when: "2023-03-20T18:00:00+09:00",
     description: "",
     participant: [
       {
@@ -107,8 +107,8 @@ export const data = [
       content: "축하",
     },
     location: "수원 경기장",
-    when: "2023-03-17T18:00:00+09:00",
-    description: "",
+    when: "2023-03-20T18:00:00+09:00",
+    description: "테스트",
     participant: [
       {
         pk: 2,

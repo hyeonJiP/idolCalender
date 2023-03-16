@@ -62,7 +62,7 @@ function App() {
             path="/:idolId"
             element={
               <Layout>
-                <Calendar />
+                <CalendarPage />
               </Layout>
             }
           />
