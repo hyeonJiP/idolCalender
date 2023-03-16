@@ -9,8 +9,11 @@ import { BASE_URL } from "../../URL/url";
 const SignUp = () => {
   const [isEmailValid, setIsEmailValid] = useState();
   const [isPasswordValid, setIsPasswordValid] = useState();
-
   const [isError, setIsError] = useState([]);
+
+  const [idolList, setIdolList] = useState();
+  const [option, setOption] = useState();
+
   const {
     register,
     formState: { errors },
@@ -18,6 +21,29 @@ const SignUp = () => {
     getValues,
   } = useForm();
 
+  /**최애 옵션 */
+  const optionHandler = ({ target }) => {
+    // console.log(target.options[target.selectedIndex].value);
+    setOption(target.options[target.selectedIndex].value);
+  };
+
+  console.log(option);
+
+  useEffect(() => {
+    const idolSelection = async () => {
+      await axios.get(`${BASE_URL}idols/`).then((data) => {
+        console.log(data);
+        const idolName = data.data.map((name) => (
+          <option value={name.pk}>{name.idol_name}</option>
+        ));
+
+        setIdolList(idolName);
+      });
+    };
+    idolSelection();
+  }, []);
+
+  /**백 유효성검사 */
   useEffect(() => {
     isError.email ? setIsEmailValid(isError.email[0]) : setIsEmailValid(false);
     isError.password
@@ -41,7 +67,7 @@ const SignUp = () => {
       username: data.name,
       nickname: data.nickname,
       age: age,
-      pick: data.choe,
+      pick: Number(option),
     };
 
     console.log(signUpInform);
@@ -51,7 +77,7 @@ const SignUp = () => {
       .post(`${BASE_URL}users/`, signUpInform, {
         withCredentials: true,
       })
-      .then((data) => data)
+      .then((data) => console.log(data))
       .catch((data) => {
         console.log(data.response.data);
         setIsError(data.response.data);
@@ -229,11 +255,9 @@ const SignUp = () => {
 
           <div className={styles.typeDiv}>
             <label>최애 등록</label>
-            <select name="choe" {...register("choe")}>
+            <select onClick={optionHandler} name="choe" {...register("choe")}>
               <option>최애를 등록해주세요.</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
+              {idolList}
             </select>
           </div>
 

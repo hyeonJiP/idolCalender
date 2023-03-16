@@ -225,6 +225,19 @@ function Show_event({ days }) {
     console.log("checking", schedule.data);
   }, [schedule]);
 
+  // console.log(idolSchedule);
+  // useEffect(() => {
+  //   console.log(
+  //     "fetch2",
+  //     data.then((res) => res)
+  //   );
+  //   setIdolSchedule(data);
+  // }, []);
+
+  // useEffect(() => {
+  //   // console.log("cccc", idolSchedule);
+  // }, [idolSchedule]);
+
   return (
     <>
       {schedule.data?.map((data, i) => {
