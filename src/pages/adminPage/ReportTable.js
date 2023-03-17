@@ -59,9 +59,25 @@ const ReportTable = () => {
   const searchFormHandler = (e) => {
     e.preventDefault();
     const searchData = reportData.filter((data) => {
-      return data.content.includes(searchInput);
+      let isTrue = false;
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const value = data[key];
+          if (isNaN(value)) {
+            if (value.includes(searchInput)) {
+              return (isTrue = true);
+            }
+          }
+        }
+      }
+      return (
+        // data.name.includes(searchInput) ||
+        // data.ScheduleTitle.includes(searchInput)
+        // data.includes(searchInput)
+        isTrue
+        // data.map((report) => report.includes(searchInput))
+      );
     });
-    console.group();
     dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
 

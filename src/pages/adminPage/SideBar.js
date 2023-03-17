@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { getCookie } from "../../cookie/cookie";
+import AdminPageHome from "./AdminPageHome";
 import ReportTable from "./ReportTable";
 import styles from "./SideBar.module.scss";
 import UserTable from "./UserTable";
@@ -16,7 +17,15 @@ const SideBar = () => {
             <img alt="" />
             <div className={styles.sideBarTitle}>🤴{adminName}</div>
           </div>
-          <nav>
+          <nav className={styles.sideBarNav}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? `${styles.navAble}` : `${styles.navDisable}`
+              }
+              to="/admin/main"
+            >
+              Main
+            </NavLink>
             <NavLink
               className={({ isActive }) =>
                 isActive ? `${styles.navAble}` : `${styles.navDisable}`
@@ -31,14 +40,13 @@ const SideBar = () => {
               }
               to="/admin/reports"
             >
-              <p>ReportTable</p>
+              ReportTable
             </NavLink>
           </nav>
         </div>
         <Routes>
+          <Route path="/admin/main" element={<AdminPageHome />}></Route>
           <Route path="/userlist" element={<UserTable />}></Route>
-        </Routes>
-        <Routes>
           <Route path="/reports" element={<ReportTable />}></Route>
         </Routes>
       </div>

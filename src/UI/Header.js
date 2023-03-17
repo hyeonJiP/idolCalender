@@ -33,10 +33,10 @@ const Headar = () => {
   /**로그아웃 */
   const LogoutHandler = async () => {
     axios
-      .post(`${BASE_URL}users/logout`, "", {
+      .post(`${BASE_URL}users/logout/`, "", {
         withCredentials: true,
       })
-      .then((res) => res)
+      .then((res) => console.log(res))
       .then((data) => console.log(data));
 
     removeCookie("isLogin");
@@ -45,13 +45,6 @@ const Headar = () => {
     navigate("/");
     window.location.reload();
   };
-  if (!isAdmin) {
-    <Link to={"/login"}>
-      <>
-        <button className="navBtn">로그인</button>
-      </>
-    </Link>;
-  }
 
   return (
     <div
@@ -74,9 +67,11 @@ const Headar = () => {
             </Link>
           </div>
           <div className="navItem navSpan">
-            <Link to={"/:idolId"}>
-              <span className="navItem_span">스케줄 보기</span>
-            </Link>
+            {isLogin ? (
+              <Link to={"/:idolId"}>
+                <span className="navItem_span">스케줄 보기</span>
+              </Link>
+            ) : null}
           </div>
         </div>
         <div className="navItems">

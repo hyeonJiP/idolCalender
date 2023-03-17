@@ -4,13 +4,23 @@
 }
 
 .navAble {
-  color: white;
   font-weight: bold;
+  font-size: 1.1rem;
   text-decoration-line: none;
+  margin: 6px;
 }
 
 .navDisable {
   text-decoration-line: none;
+  font-size: 1.1rem;
+  color: white;
+
+  margin: 6px;
+}
+
+.sideBarNav {
+  display: flex;
+  flex-direction: column;
 }
 
 .sideBar {

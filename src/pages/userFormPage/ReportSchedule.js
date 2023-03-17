@@ -32,13 +32,13 @@ const ReportSchedule = (props) => {
     if (btnActive === "0") {
       eventType = "broadcast";
     } else if (btnActive === "1") {
-      eventType = "발매";
+      eventType = "release";
     } else if (btnActive === "2") {
       eventType = "buy";
     } else if (btnActive === "3") {
-      eventType = "축하";
+      eventType = "congrats";
     } else if (btnActive === "4") {
-      eventType = "행사";
+      eventType = "event";
     }
 
     /**백에 보낼 데이터 */
