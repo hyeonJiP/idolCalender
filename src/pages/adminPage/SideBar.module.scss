@@ -1,0 +1,46 @@
+.adminContents {
+  display: flex;
+  flex-direction: row;
+}
+
+.navAble {
+  color: white;
+  font-weight: bold;
+  text-decoration-line: none;
+}
+
+.navDisable {
+  text-decoration-line: none;
+}
+
+.sideBar {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 100vh;
+  background-color: antiquewhite;
+
+  nav {
+    width: 100%;
+    margin-top: 20px;
+    p {
+      margin: 5px 0 5px 0;
+    }
+  }
+
+  img {
+    width: 150px;
+    height: 150px;
+    background-color: gainsboro;
+    border-radius: 100%;
+  }
+
+  .sideBarUser {
+    border-right: 1px solid #e0e0e0;
+    width: 100%;
+    font-size: 20px;
+  }
+}

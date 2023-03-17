@@ -10,7 +10,7 @@ import axios from "axios";
 import ReportSchedule from "../userFormPage/ReportSchedule";
 import { authActions } from "../../store/auth";
 
-const ReportTabe = () => {
+const ReportTable = () => {
   const dispatch = useDispatch();
   const reportData = useSelector((state) => state.reportSchedule.reportData);
   const searchData = useSelector((state) => state.reportSchedule.searchData);
@@ -188,7 +188,6 @@ const ReportTabe = () => {
 
   return (
     <>
-      {/* {scheduleModal ? <Modal /> : null} */}
       {scheduleModal ? (
         <Modal hideCartHandler={hideModalHandler}>
           <ReportSchedule hideModalHandler={hideModalHandler} />
@@ -315,4 +314,4 @@ const ReportTabe = () => {
   );
 };
 
-export default ReportTabe;
+export default ReportTable;

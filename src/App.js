@@ -16,13 +16,14 @@ import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
 import axios from "axios";
-
 function App() {
   const dispatch = useDispatch();
 
   if (!getCookie("isLogin")) {
     setCookie("isLogin", { is_admin: false, pick: false });
   }
+
+  console.log(getCookie("isLogin"));
 
   /**전역에 토큰 허용 */
   axios.defaults.xsrfCookieName = "csrftoken";
@@ -36,12 +37,14 @@ function App() {
         pick: { idolPk: isLoginCookie.pick, schedulePk: null },
         is_admin: isLoginCookie.is_admin,
       };
-
       dispatch(authActions.logIn(loginData));
     }
   }, [dispatch]);
 
   let isAdmin = getCookie("isLogin").is_admin;
+
+  console.log(isAdmin);
+
   let isLogin = getCookie("isLogin").pick;
 
   return (
@@ -50,13 +53,24 @@ function App() {
         <ScrollToTop />
 
         <Routes>
-          <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
           {/* 관리자페이지 */}
           <Route
-            path="/admin"
+            path="/admin/*"
             element={isAdmin ? <AdminPage /> : <Navigate to={"/"} />}
           />
-          {/* <Route path="/admin" element={<AdminPage />} /> */}
+
+          {/* <Route
+            path="/admin"
+            element={
+              isAdmin ? (
+                <AdminPage />
+              ) : (
+                <>
+                  <Navigate to={"/"} />
+                </>
+              )
+            }
+          /> */}
 
           {/* 메인페이지 */}
           <Route
