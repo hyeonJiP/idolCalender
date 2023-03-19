@@ -9,14 +9,12 @@ import Modal from "../../UI/Modal";
 import axios from "axios";
 import ReportSchedule from "../userFormPage/ReportSchedule";
 import { authActions } from "../../store/auth";
+import SearchData from "./table/SearchData";
 
 const ReportTable = () => {
   const dispatch = useDispatch();
-  const reportData = useSelector((state) => state.reportSchedule.reportData);
   const searchData = useSelector((state) => state.reportSchedule.searchData);
 
-  /**데이터 검색을 위한 상태 */
-  const [searchInput, setSearchInput] = useState("");
   /**데이터 정렬을 위한 상태 */
   const [order, setOrder] = useState("ASC");
   /**페이지 네이션을 위한 상태 */
@@ -33,8 +31,6 @@ const ReportTable = () => {
     dispatch(fetchingData());
   }, [dispatch]);
 
-  useEffect(() => {}, [searchInput]);
-
   /**페이지네이션 데이터 */
   let indexOfLastPost = currentPage * postPerPage;
   let indexOfFirstPost = indexOfLastPost - postPerPage;
@@ -43,42 +39,6 @@ const ReportTable = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     setToggle(pageNumber);
-  };
-
-  useEffect(() => {
-    if (searchInput === "") {
-      dispatch(reportSchedulesActions.searchSchedule(reportData));
-    }
-  }, [searchInput, dispatch, reportData]);
-
-  /**검색기능 */
-  const searchHandler = ({ target }) => {
-    setSearchInput(target.value);
-  };
-
-  const searchFormHandler = (e) => {
-    e.preventDefault();
-    const searchData = reportData.filter((data) => {
-      let isTrue = false;
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          const value = data[key];
-          if (isNaN(value)) {
-            if (value.includes(searchInput)) {
-              return (isTrue = true);
-            }
-          }
-        }
-      }
-      return (
-        // data.name.includes(searchInput) ||
-        // data.ScheduleTitle.includes(searchInput)
-        // data.includes(searchInput)
-        isTrue
-        // data.map((report) => report.includes(searchInput))
-      );
-    });
-    dispatch(reportSchedulesActions.searchSchedule(searchData));
   };
 
   /**Sorting 함수 */
@@ -190,6 +150,8 @@ const ReportTable = () => {
       location: newIdolSchedule[0].location,
       when: newIdolSchedule[0].when,
       ScheduleContent: newIdolSchedule[0].content,
+      participant: [{ idol_name: newIdolSchedule[0].name }],
+      // participant: [],
     };
 
     console.log(sendIdolData);
@@ -210,22 +172,7 @@ const ReportTable = () => {
         </Modal>
       ) : null}
       <div className={styles.scheduleDiv}>
-        <form className={styles.searchForm} onSubmit={searchFormHandler}>
-          <label>🔍</label>
-          <input
-            name="searchSchedule"
-            onChange={searchHandler}
-            placeholder="search"
-          />
-          <button type="submit">검색</button>
-          <input
-            className={styles.resetBtn}
-            type="reset"
-            value="x"
-            onClick={() => setSearchInput("")}
-          />
-        </form>
-
+        <SearchData />
         <table className={styles.dataTable}>
           <thead>
             <tr>

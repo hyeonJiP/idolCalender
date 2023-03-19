@@ -21,6 +21,7 @@
 .sideBarNav {
   display: flex;
   flex-direction: column;
+  // text-align: start;
 }
 
 .sideBar {
@@ -29,12 +30,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: 30%;
   height: 100vh;
   background-color: antiquewhite;
 
   nav {
-    width: 100%;
     margin-top: 20px;
     p {
       margin: 5px 0 5px 0;
@@ -52,5 +52,24 @@
     border-right: 1px solid #e0e0e0;
     width: 100%;
     font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sideBar {
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
+@media (max-width: 376px) {
+  .adminContents {
+    display: flex;
+    flex-direction: column;
+  }
+  .sideBar {
+    width: 100%;
   }
 }

@@ -1,3 +1,10 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+  faUsers,
+  faHome,
+  faUserGear,
+} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { getCookie } from "../../cookie/cookie";
@@ -15,7 +22,10 @@ const SideBar = () => {
         <div className={styles.sideBar}>
           <div className={styles.sideBarUser}>
             <img alt="" />
-            <div className={styles.sideBarTitle}>🤴{adminName}</div>
+            <div className={styles.sideBarTitle}>
+              <FontAwesomeIcon icon={faUserGear} />
+              {adminName}
+            </div>
           </div>
           <nav className={styles.sideBarNav}>
             <NavLink
@@ -24,6 +34,7 @@ const SideBar = () => {
               }
               to="/admin/main"
             >
+              <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
               Main
             </NavLink>
             <NavLink
@@ -32,6 +43,7 @@ const SideBar = () => {
               }
               to="/admin/userlist"
             >
+              <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>
               UserList
             </NavLink>
             <NavLink
@@ -40,6 +52,7 @@ const SideBar = () => {
               }
               to="/admin/reports"
             >
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
               ReportTable
             </NavLink>
           </nav>
