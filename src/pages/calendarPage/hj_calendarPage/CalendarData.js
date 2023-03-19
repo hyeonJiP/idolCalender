@@ -1,4 +1,4 @@
-export const data = [
+export const calendarDatas = [
   {
     pk: 1,
     ScheduleTitle: "BROADCAST",

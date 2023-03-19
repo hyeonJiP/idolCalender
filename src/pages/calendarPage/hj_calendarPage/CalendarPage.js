@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./Calendar.module.scss";
-import { data } from "./CalendarData";
+import { calendarDatas } from "./CalendarData";
 import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
-import { axiosSchedule } from "../../../api";
+import { axiosSchedule, axiosSchedules } from "../../../api";
 import Calendar from "../calendar/Calendar";
+import FilterableProductTable from "./TestPage";
+import ItemList from "./Test";
+import Test from "./Test";
 
 const CalendarData = () => {
   const { idolId } = useParams();
+  const [dateList, setDateList] = useState([]);
 
   // 아이돌 데이터들
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -17,45 +21,47 @@ const CalendarData = () => {
       return axiosSchedule(idolId);
     }
   );
+  //console.log(idData);
 
-  // useEffect(() => {
-  //   console.log(idData);
-  //   const test = idData?.slice(0, 3);
-  //   console.log(test[0].participant[0].idol_name);
-  // }, [idData]);
+  const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
+    "schedules",
+    axiosSchedules
+  );
+  // console.log(schedulesData);
 
+  // 다가오는 스케줄
   const today = new Date();
 
+  // 3일 이후 날짜 구하기
   var one_after = new Date(today.setDate(today.getDate() + 1));
   var two_after = new Date(today.setDate(today.getDate() + 1));
   var three_after = new Date(today.setDate(today.getDate() + 1));
 
+  // 3일 이후 날짜 문자화해서 년,월,일 정보 슬라이스
   const one_after_slice = JSON.stringify(one_after).slice(1, 11);
   const two_after_slice = JSON.stringify(two_after).slice(1, 11);
   const three_after_slice = JSON.stringify(three_after).slice(1, 11);
 
-  const oneType = data.filter(
+  const oneType = idData?.filter(
     (item) => item.when.slice(0, 10) === one_after_slice
   );
 
-  const twoType = data.filter(
+  const twoType = idData?.filter(
     (item) => item.when.slice(0, 10) === two_after_slice
   );
 
-  const threeType = data.filter(
+  const threeType = idData?.filter(
     (item) => item.when.slice(0, 10) === three_after_slice
   );
 
   const type = (type) => {
-    for (var i = 0; i < type.length; i++) {
-      if (type[i].description.length > 0) {
-        //a = type[i].description;
+    for (var i = 0; i < type?.length; i++) {
+      if (type[i].ScheduleContent.length > 0) {
         const a = type[i];
         return a;
       }
     }
   };
-
   const nextDay = [];
   const dayType = [oneType, twoType, threeType];
 
@@ -64,13 +70,7 @@ const CalendarData = () => {
       nextDay.push(type(dayType[i]));
     }
   }
-
-  // if (type(oneType)) {
-  //   nextDay.push(type(oneType));
-  // }
-
-  // const nextDay = [type(oneType), type(twoType), type(threeType)];
-  // console.log(nextDay);
+  console.log(nextDay);
 
   // 사이드바
   // const [sidebar, setSidebar] = useState(false);
@@ -111,14 +111,40 @@ const CalendarData = () => {
                       src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
                     ></img>
                     <p className={styles.nextSchedule_ContentList}>
-                      {day.description}
+                      {day.ScheduleContent}
                     </p>
                   </div>
                 </li>
               );
             })}
+            {/* {nextDay?.map((day) => {
+              const dateFormat = `${day.when.slice(5, 7)}월 ${day.when.slice(
+                8,
+                10
+              )}일`;
+              return (
+                <li className={styles.nextScheduleItem} key={day.pk}>
+                  <div className={styles.nextSchedule_LeftWrapper}>
+                    <span className={styles.nextScheduleDay}>
+                      ● {dateFormat}
+                    </span>
+                  </div>
+                  <div className={styles.nextSchedule_LightWrapper}>
+                    <img
+                      className={styles.nextscheduleIcon}
+                      src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
+                    ></img>
+                    <p className={styles.nextSchedule_ContentList}>
+                      {day.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })} */}
           </ul>
         </section>
+        <FilterableProductTable />
+        {/* <Test /> */}
       </div>
     </div>
   );

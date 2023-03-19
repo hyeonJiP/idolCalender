@@ -279,7 +279,7 @@ function Show_event({ days }) {
   return (
     <>
       {schedule.data?.map((data, i) => {
-        // console.log(data, i);
+        //console.log(data, i);
         if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
           // console.log(data.type);
           if (data.category === "broadcast") {
