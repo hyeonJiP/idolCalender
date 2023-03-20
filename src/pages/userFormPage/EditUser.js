@@ -18,6 +18,7 @@ const EditUser = () => {
 
   /**최애 선택 */
   const [selectValue, setSelectValue] = useState(userData.pick);
+  console.log(selectValue);
   const onChangeSelect = (e) => {
     setSelectValue(e.target.value);
   };
@@ -114,6 +115,7 @@ const EditUser = () => {
 
           <div className={styles.typeDiv}>
             <label>최애 변경</label>
+            <input type="checkbox" name="onoff-switch" />
             <select value={selectValue} onChange={onChangeSelect}>
               <Option />
             </select>

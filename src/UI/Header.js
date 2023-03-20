@@ -78,7 +78,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to="/adminPage">
+                <Link to="/admin">
                   <button className="navBtn">관리자페이지</button>
                 </Link>
                 <button className="navBtn" onClick={LogoutHandler}>

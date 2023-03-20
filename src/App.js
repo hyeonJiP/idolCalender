@@ -9,15 +9,20 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie, setCookie } from "./cookie/cookie";
-
+import { getCookie } from "./cookie/cookie";
+import styles from "./App.module.scss";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
 import axios from "axios";
+import ReportTable from "./pages/adminPage/table/ReportTable";
 function App() {
   const dispatch = useDispatch();
+
+  // if (!getCookie("isLogin")) {
+  //   setCookie("isLogin", { is_admin: false, pick: false });
+  // }
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
@@ -32,10 +37,6 @@ function App() {
       dispatch(authActions.logIn(loginData));
     }
   }, [dispatch]);
-
-  if (!getCookie("isLogin")) {
-    setCookie("isLogin", { is_admin: false, pick: false });
-  }
 
   /**전역에 토큰 허용 */
   axios.defaults.xsrfCookieName = "csrftoken";
@@ -53,14 +54,13 @@ function App() {
         <Routes>
           {/* 관리자페이지 */}
           <Route
-            path="/adminpage/*"
+            path="/admin/"
             element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
-          />
-
-          <Route
-            path="/abc"
-            element={isAdmin ? <EditUser /> : <Navigate to="/" />}
-          />
+          >
+            <Route path="reporttable" element={<ReportTable />} />
+            <Route path="main" element={<ReportTable />} />
+            <Route path="userlist" element={<ReportTable />} />
+          </Route>
 
           {/* 메인페이지 */}
           <Route
