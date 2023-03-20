@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../cookie/cookie";
 import Layout from "../../UI/Layout";
 import styles from "./EditUser.module.scss";
 import Option from "./Option";
 
 const EditUser = () => {
+  const userData = getCookie("isLogin");
   const navigate = useNavigate();
   const {
     register,
@@ -14,7 +16,8 @@ const EditUser = () => {
     getValues,
   } = useForm();
 
-  const [selectValue, setSelectValue] = useState("");
+  /**최애 선택 */
+  const [selectValue, setSelectValue] = useState(userData.pick);
   const onChangeSelect = (e) => {
     setSelectValue(e.target.value);
   };
@@ -23,9 +26,8 @@ const EditUser = () => {
   const onSubmit = (data) => {
     const signUpInform = {
       password: data.password,
-      choe: selectValue,
     };
-    console.log(signUpInform);
+    console.log(signUpInform, "최애선택", Number(selectValue));
   };
 
   return (
@@ -46,7 +48,7 @@ const EditUser = () => {
         <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.typeAbsoluteDiv}>
             <label>아이디</label>
-            <div className={styles.absoluteInform}>chhw130</div>
+            <div className={styles.absoluteInform}>{userData.email}</div>
           </div>
           <div className={styles.typeDiv}>
             <label>비밀번호 변경</label>
@@ -107,7 +109,7 @@ const EditUser = () => {
 
           <div className={styles.typeAbsoluteDiv}>
             <label>별명</label>
-            <div className={styles.absoluteInform}>Choe</div>
+            <div className={styles.absoluteInform}>{userData.nickname}</div>
           </div>
 
           <div className={styles.typeDiv}>

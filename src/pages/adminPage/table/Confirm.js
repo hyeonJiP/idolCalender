@@ -1,7 +1,9 @@
 import axios from "axios";
 import React from "react";
 import { useSelector } from "react-redux";
+import { CancelButton } from "../../../UI/Button";
 import { BASE_URL } from "../../../URL/url";
+import styles from "./Confirm.module.scss";
 
 const Confirm = (props) => {
   const idolSchedulePk = useSelector(
@@ -34,20 +36,31 @@ const Confirm = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.confirmDiv}>
       {props.scheduleModal === "del" ? (
         <>
-          <div>정말 삭제하시겠습니까??</div>
-          <button onClick={props.hideModalHandler}>취소</button>
-          <button onClick={deleteScheduleHandler}>삭제하기</button>
+          <h3>데이터를 삭제하시겠습니까??</h3>
+          <p>삭제하신 데이턴는 복구가 불가능합니다.</p>
+
+          <CancelButton hideModalHandler={props.hideModalHandler}>
+            취소
+          </CancelButton>
+          <button className={styles.confirmBtn} onClick={deleteScheduleHandler}>
+            삭제하기
+          </button>
         </>
-      ) : (
+      ) : props.scheduleModal === "upload" ? (
         <>
-          <div>정말 아이돌스케줄에 업로드 하시겠습니까??</div>
-          <button onClick={props.hideModalHandler}>취소</button>
-          <button onClick={upLoadScheduleHandler}>등록하기</button>
+          <h3>아이돌스케줄에 업로드 하시겠습니까??</h3>
+          <p>업로드한 아이돌 스케줄은은 관리자페이지에서 삭제됩니다.</p>
+          <CancelButton hideModalHandler={props.hideModalHandler}>
+            취소
+          </CancelButton>
+          <button className={styles.confirmBtn} onClick={upLoadScheduleHandler}>
+            등록하기
+          </button>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

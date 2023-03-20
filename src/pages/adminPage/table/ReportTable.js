@@ -274,15 +274,18 @@ const ReportTable = () => {
                     <FontAwesomeIcon
                       icon={faPenToSquare}
                       onClick={modifyModalHandler}
+                      style={{ color: "red" }}
                     />
                     <FontAwesomeIcon
                       icon={faTrashCan}
                       onClick={deleteModalHandler}
+                      style={{ color: "grey" }}
                     />
 
                     <FontAwesomeIcon
                       icon={faFileArrowUp}
                       onClick={updateScheduleHandler}
+                      style={{ color: "skyblue" }}
                     />
                   </td>
                 </tr>
