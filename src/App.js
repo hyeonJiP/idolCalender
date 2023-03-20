@@ -19,31 +19,29 @@ import axios from "axios";
 function App() {
   const dispatch = useDispatch();
 
-  if (!getCookie("isLogin")) {
-    setCookie("isLogin", { is_admin: false, pick: false });
-  }
-
-  console.log(getCookie("isLogin"));
-
-  /**전역에 토큰 허용 */
-  axios.defaults.xsrfCookieName = "csrftoken";
-  axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
     const isLoginCookie = getCookie("isLogin");
+
     if (isLoginCookie) {
       const loginData = {
         pick: { idolPk: isLoginCookie.pick, schedulePk: null },
         is_admin: isLoginCookie.is_admin,
       };
+
       dispatch(authActions.logIn(loginData));
     }
   }, [dispatch]);
 
-  let isAdmin = getCookie("isLogin").is_admin;
+  if (!getCookie("isLogin")) {
+    setCookie("isLogin", { is_admin: false, pick: false });
+  }
 
-  console.log(isAdmin);
+  /**전역에 토큰 허용 */
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+  let isAdmin = getCookie("isLogin").is_admin;
 
   let isLogin = getCookie("isLogin").pick;
 
@@ -55,22 +53,14 @@ function App() {
         <Routes>
           {/* 관리자페이지 */}
           <Route
-            path="/admin/*"
-            element={isAdmin ? <AdminPage /> : <Navigate to={"/"} />}
+            path="/adminpage/*"
+            element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
           />
 
-          {/* <Route
-            path="/admin"
-            element={
-              isAdmin ? (
-                <AdminPage />
-              ) : (
-                <>
-                  <Navigate to={"/"} />
-                </>
-              )
-            }
-          /> */}
+          <Route
+            path="/abc"
+            element={isAdmin ? <EditUser /> : <Navigate to="/" />}
+          />
 
           {/* 메인페이지 */}
           <Route

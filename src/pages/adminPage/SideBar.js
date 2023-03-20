@@ -9,9 +9,9 @@ import React from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { getCookie } from "../../cookie/cookie";
 import AdminPageHome from "./AdminPageHome";
-import ReportTable from "./ReportTable";
 import styles from "./SideBar.module.scss";
-import UserTable from "./UserTable";
+import UserTable from "./table/UserTable";
+import ReportTable from "./table/ReportTable";
 
 const SideBar = () => {
   const adminName = getCookie("isLogin").nickname;
@@ -32,7 +32,7 @@ const SideBar = () => {
               className={({ isActive }) =>
                 isActive ? `${styles.navAble}` : `${styles.navDisable}`
               }
-              to="/admin/main"
+              to="/adminpage/main"
             >
               <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
               Main
@@ -41,7 +41,7 @@ const SideBar = () => {
               className={({ isActive }) =>
                 isActive ? `${styles.navAble}` : `${styles.navDisable}`
               }
-              to="/admin/userlist"
+              to="/adminpage/userlist"
             >
               <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>
               UserList
@@ -50,7 +50,7 @@ const SideBar = () => {
               className={({ isActive }) =>
                 isActive ? `${styles.navAble}` : `${styles.navDisable}`
               }
-              to="/admin/reports"
+              to="/adminpage/reports"
             >
               <FontAwesomeIcon icon={faMagnifyingGlass} />
               ReportTable
@@ -58,7 +58,7 @@ const SideBar = () => {
           </nav>
         </div>
         <Routes>
-          <Route path="/admin/main" element={<AdminPageHome />}></Route>
+          <Route path="/adminpage/main" element={<AdminPageHome />}></Route>
           <Route path="/userlist" element={<UserTable />}></Route>
           <Route path="/reports" element={<ReportTable />}></Route>
         </Routes>

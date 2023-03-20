@@ -56,7 +56,7 @@ const Calendar = () => {
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
-  //   console.log(getMoment);
+  console.log(getMoment);
 
   const today = getMoment;
 

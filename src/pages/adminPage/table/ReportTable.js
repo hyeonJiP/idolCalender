@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ReportTable.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchingData } from "../../store/reportSchedules-action";
-import { reportSchedulesActions } from "../../store/reportSchedules";
+import { fetchingData } from "../../../store/reportSchedules-action";
+import { reportSchedulesActions } from "../../../store/reportSchedules";
 import Pagenation from "./Pagenation";
-import { BASE_URL } from "../../URL/url";
-import Modal from "../../UI/Modal";
+import { BASE_URL } from "../../../URL/url";
+import Modal from "../../../UI/Modal";
 import axios from "axios";
-import ReportSchedule from "../userFormPage/ReportSchedule";
-import { authActions } from "../../store/auth";
-import SearchData from "./table/SearchData";
+import ReportSchedule from "../../userFormPage/ReportSchedule";
+import { authActions } from "../../../store/auth";
+import SearchData from "./SearchData";
+import {
+  faBroadcastTower,
+  faCalendarCheck,
+  faCompactDisc,
+  faFileArrowUp,
+  faGift,
+  faPenToSquare,
+  faStore,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Confirm from "../table/Confirm";
 
 const ReportTable = () => {
   const dispatch = useDispatch();
   const searchData = useSelector((state) => state.reportSchedule.searchData);
+  const [upLoadData, setUpLoadData] = useState([]);
+  const [idolPk, setIdolPk] = useState("");
 
   /**데이터 정렬을 위한 상태 */
   const [order, setOrder] = useState("ASC");
   /**페이지 네이션을 위한 상태 */
   const [currentPage, setCurrentPage] = useState(1);
   const [toggle, setToggle] = useState(0);
-
   const [scheduleModal, setScheduleModal] = useState(false);
 
   /**페이지당 목록 수 세팅 */
@@ -41,18 +54,15 @@ const ReportTable = () => {
     setToggle(pageNumber);
   };
 
-  /**Sorting 함수 */
+  /**테이블 정렬 함수 */
   const sortingDsc = (data, col) => {
     const sorted = [...data].sort((a, b) => {
       if (Number(a[col])) {
         return a[col] > b[col] ? 1 : -1;
       }
-
       return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
     });
-
     dispatch(reportSchedulesActions.searchSchedule(sorted));
-
     setOrder("DSC");
   };
 
@@ -65,7 +75,6 @@ const ReportTable = () => {
       return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
     });
     dispatch(reportSchedulesActions.searchSchedule(sorted));
-
     setOrder("ASC");
   };
 
@@ -78,68 +87,49 @@ const ReportTable = () => {
     }
   };
 
-  const showModalHandler = ({ target }) => {
+  /**데이터 수정 */
+  const modifyModalHandler = ({ target }) => {
     const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
-
-    console.log(rowIndex, searchData);
 
     const newIdolSchedule = searchData.filter((schedule) => {
       return schedule.id === Number(rowIndex);
     });
 
-    console.log(newIdolSchedule[0].id);
-    console.log(newIdolSchedule[0].pick);
+    const newData = {
+      schedulePk: newIdolSchedule[0].id,
+      idolPk: newIdolSchedule[0].pick,
+    };
+    dispatch(authActions.adminModify(newData));
 
-    const modifyPk = {
+    setScheduleModal("mod");
+  };
+
+  /**스케줄삭제하기*/
+  const deleteModalHandler = ({ target }) => {
+    const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
+
+    const newIdolSchedule = searchData.filter((schedule) => {
+      return schedule.id === Number(rowIndex);
+    });
+
+    const newData = {
       schedulePk: newIdolSchedule[0].id,
       idolPk: newIdolSchedule[0].pick,
     };
 
-    dispatch(authActions.adminModify(modifyPk));
-
-    setScheduleModal(true);
-  };
-
-  const hideModalHandler = () => {
-    setScheduleModal(false);
-  };
-
-  /**스케줄삭제하기*/
-  const deleteScheduleHandler = async ({ target }) => {
-    const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
-
-    console.log(rowIndex, searchData);
-
-    const newIdolSchedule = searchData.filter((schedule) => {
-      return schedule.id === Number(rowIndex);
-    });
-
-    console.log(newIdolSchedule[0].id);
-    const idolSchedulePk = newIdolSchedule[0].id;
-
-    axios
-      .delete(`${BASE_URL}users/reports/${idolSchedulePk}`, {
-        withCredentials: true,
-      })
-      .then((data) => {
-        console.log(data);
-        return window.location.reload();
-      })
-      .catch((data) => console.log(data));
+    dispatch(authActions.adminModify(newData));
+    setScheduleModal("del");
   };
 
   /**아이돌 스케줄에 제보받은 스케줄 등록하기 */
   const updateScheduleHandler = async ({ target }) => {
     const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
 
-    console.log(rowIndex, searchData);
-
     const newIdolSchedule = searchData.filter((schedule) => {
       return schedule.id === Number(rowIndex);
     });
 
     const idolPk = newIdolSchedule[0].pick;
-    console.log(idolPk);
 
     const sendIdolData = {
       ScheduleTitle: newIdolSchedule[0].ScheduleTitle,
@@ -151,26 +141,36 @@ const ReportTable = () => {
       when: newIdolSchedule[0].when,
       ScheduleContent: newIdolSchedule[0].content,
       participant: [{ idol_name: newIdolSchedule[0].name }],
-      // participant: [],
     };
 
-    console.log(sendIdolData);
+    setIdolPk(idolPk);
+    setUpLoadData(sendIdolData);
+    setScheduleModal("upload");
+  };
 
-    await axios
-      .post(`${BASE_URL}idols/${idolPk}/schedules`, sendIdolData, {
-        withCredentials: true,
-      })
-      .then((data) => console.log(data))
-      .catch((data) => console.log(data));
+  /**모달 숨기는 것 */
+  const hideModalHandler = () => {
+    setScheduleModal(false);
   };
 
   return (
     <>
-      {scheduleModal ? (
+      {scheduleModal === "mod" ? (
         <Modal hideCartHandler={hideModalHandler}>
           <ReportSchedule hideModalHandler={hideModalHandler} />
         </Modal>
+      ) : scheduleModal === "del" || scheduleModal === "upload" ? (
+        <Modal hideCartHandler={hideModalHandler}>
+          <Confirm
+            idolPk={idolPk}
+            upLoadData={upLoadData}
+            scheduleModal={scheduleModal}
+            hideModalHandler={hideModalHandler}
+          />
+        </Modal>
       ) : null}
+
+      {scheduleModal}
       <div className={styles.scheduleDiv}>
         <SearchData />
         <table className={styles.dataTable}>
@@ -195,7 +195,7 @@ const ReportTable = () => {
                   sorting("ScheduleTitle");
                 }}
               >
-                Schedule Title
+                Title
               </th>
               <th
                 onClick={() => {
@@ -216,7 +216,7 @@ const ReportTable = () => {
                   sorting("ScheduleType");
                 }}
               >
-                Schedule Type
+                Type
               </th>
               <th
                 onClick={() => {
@@ -230,6 +230,35 @@ const ReportTable = () => {
           </thead>
           <tbody>
             {currentPosts.map((schedule) => {
+              const scheduleType = () => {
+                const dataType = schedule.ScheduleType;
+                return dataType === "broadcast" ? (
+                  <td className={styles.broadcast}>
+                    <FontAwesomeIcon icon={faBroadcastTower} />
+                    {schedule.ScheduleType}
+                  </td>
+                ) : dataType === "buy" ? (
+                  <td className={styles.buy}>
+                    <FontAwesomeIcon icon={faStore} />
+                    {schedule.ScheduleType}
+                  </td>
+                ) : dataType === "event" ? (
+                  <td className={styles.event}>
+                    <FontAwesomeIcon icon={faCalendarCheck} />
+                    {schedule.ScheduleType}
+                  </td>
+                ) : dataType === "congrats" ? (
+                  <td className={styles.congrats}>
+                    <FontAwesomeIcon icon={faGift} />
+                    {schedule.ScheduleType}
+                  </td>
+                ) : (
+                  <td className={styles.release}>
+                    <FontAwesomeIcon icon={faCompactDisc} />
+                    {schedule.ScheduleType}
+                  </td>
+                );
+              };
               return (
                 <tr key={schedule.id}>
                   <td>{schedule.id}</td>
@@ -238,28 +267,23 @@ const ReportTable = () => {
                   </td>
                   <td>{schedule.ScheduleTitle}</td>
                   <td>{schedule.content}</td>
-                  <td>{schedule.when}</td>
-                  <td>{schedule.ScheduleType}</td>
+                  <td>{schedule.when.slice(0, 16)}</td>
+                  {scheduleType()}
                   <td>{schedule.reporter}</td>
                   <td>
-                    <button
-                      onClick={deleteScheduleHandler}
-                      className={styles.listBtn}
-                    >
-                      ✂️
-                    </button>
-                    <button
-                      onClick={showModalHandler}
-                      className={styles.listBtn}
-                    >
-                      📝
-                    </button>
-                    <button
+                    <FontAwesomeIcon
+                      icon={faPenToSquare}
+                      onClick={modifyModalHandler}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      onClick={deleteModalHandler}
+                    />
+
+                    <FontAwesomeIcon
+                      icon={faFileArrowUp}
                       onClick={updateScheduleHandler}
-                      className={styles.listBtn}
-                    >
-                      📑
-                    </button>
+                    />
                   </td>
                 </tr>
               );

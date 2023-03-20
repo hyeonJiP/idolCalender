@@ -19,7 +19,6 @@ const SearchData = () => {
 
   useEffect(() => {
     axios.get(`${BASE_URL}idols`).then((res) => {
-      console.log(res.data);
       setIdolSearchName(res.data.map((data) => data.idol_name));
     });
   }, []);
@@ -59,7 +58,7 @@ const SearchData = () => {
       />
       <datalist id="data-options" className={styles.searchInput}>
         {idolSearchName.map((schedule) => (
-          <option value={schedule} />
+          <option key={Math.random()} value={schedule} />
         ))}
       </datalist>
       <button type="submit">검색</button>

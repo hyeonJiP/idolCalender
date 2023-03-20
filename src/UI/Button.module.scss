@@ -1,0 +1,20 @@
+.button {
+  color: white;
+  border: 0px;
+  margin: 30px 5px 0 5px;
+  border-radius: 30px;
+  width: 150px;
+  height: 60px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.cancel {
+  @extend .button;
+  background-color: #a7a8b1;
+}
+
+.confirm {
+  @extend .button;
+  background-color: #4856ff;
+}

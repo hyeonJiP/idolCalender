@@ -1,5 +1,6 @@
 .adminContents {
   display: flex;
+  width: 100vw;
   flex-direction: row;
 }
 
@@ -18,24 +19,21 @@
   margin: 6px;
 }
 
-.sideBarNav {
-  display: flex;
-  flex-direction: column;
-  // text-align: start;
-}
-
 .sideBar {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 30%;
+  width: 30vw;
   height: 100vh;
   background-color: antiquewhite;
 
   nav {
     margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
     p {
       margin: 5px 0 5px 0;
     }

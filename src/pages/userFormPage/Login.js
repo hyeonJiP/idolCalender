@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../userFormPage/Login.module.scss";
 import { useForm } from "react-hook-form";
 import choeImg from "../../Img/logo_main.png";
@@ -11,7 +11,9 @@ import { BASE_URL } from "../../URL/url";
 axios.defaults.withCredentials = true;
 
 const LogIn = () => {
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState("");
+
+  useEffect(() => {}, [isValid]);
 
   const {
     register,
@@ -26,6 +28,7 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
+    console.log(data);
     await axios
       .post(`${BASE_URL}users/login/`, data, {
         withCredentials: true,
@@ -41,7 +44,8 @@ const LogIn = () => {
         window.location.reload();
       })
       .catch((error) => {
-        setIsValid(true);
+        setIsValid(error.response.data);
+        console.log(error.response.data);
       });
   };
 
@@ -71,7 +75,8 @@ const LogIn = () => {
           <div className={styles.errorMessage}>
             {(errors.email && <p>{errors.email.message}</p>) ||
               (errors.password && <p>{errors.password.message}</p>) ||
-              (isValid && <p>아이디나 비밀번호가 다릅니다.</p>)}
+              (isValid.error && <p>비밀번호가 틀렸습니다.</p>) ||
+              (isValid.detail && <p>계정이 없습니다.</p>)}
           </div>
           <div className={styles.goSignUp}>
             <button

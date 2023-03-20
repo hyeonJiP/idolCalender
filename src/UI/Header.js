@@ -67,7 +67,7 @@ const Headar = () => {
             </Link>
           </div>
           <div className="navItem navSpan">
-            {isLogin ? (
+            {!isAdmin ? (
               <Link to={"/:idolId"}>
                 <span className="navItem_span">스케줄 보기</span>
               </Link>
@@ -78,7 +78,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to={"/admin"}>
+                <Link to="/adminPage">
                   <button className="navBtn">관리자페이지</button>
                 </Link>
                 <button className="navBtn" onClick={LogoutHandler}>
