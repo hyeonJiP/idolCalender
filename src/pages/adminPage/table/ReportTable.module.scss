@@ -85,14 +85,20 @@ $buttonColor: white;
 }
 
 .broadcast {
+  @extend .typeBox;
+
   color: #443c68;
   font-weight: bold;
 }
 .buy {
+  @extend .typeBox;
+
   color: #609966;
   font-weight: bold;
 }
 .event {
+  @extend .typeBox;
+
   color: #537fe7;
 }
 .congrats {

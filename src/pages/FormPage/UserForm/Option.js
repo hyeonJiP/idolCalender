@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../../URL/url";
+import { BASE_URL } from "../../../URL/url";
 
 const Option = () => {
   const [idolList, setIdolList] = useState([]);

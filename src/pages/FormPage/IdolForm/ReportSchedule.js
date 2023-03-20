@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./ReportSchedule.module.scss";
 import axios from "axios";
-import { BASE_URL } from "../../URL/url";
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../../../URL/url";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
@@ -13,7 +13,6 @@ const ReportSchedule = (props) => {
     (state) => state.auth.authState.pick.schedulePk
   );
   const isAdmin = useSelector((state) => state.auth.authState.is_admin);
-  const authData = useSelector((state) => state.auth.authState);
   const [btnActive, setBtnActive] = useState("0");
   const {
     register,
@@ -21,7 +20,6 @@ const ReportSchedule = (props) => {
     handleSubmit,
   } = useForm();
 
-  console.log("auth", authData, "admin", isAdmin);
   /**카테고리에 따라 값 세팅 */
   const toggleActiveHandler = async ({ target }) => {
     return setBtnActive(target.value);
@@ -51,8 +49,6 @@ const ReportSchedule = (props) => {
       content: data.content,
     };
 
-    console.log(reportData);
-
     if (isAdmin) {
       await axios.put(`${BASE_URL}users/reports/${schedulePk}`, reportData, {
         withCredentials: true,
@@ -73,9 +69,9 @@ const ReportSchedule = (props) => {
   return (
     <>
       <div className={styles.reportContainer}>
-        <h4>X</h4>
+        <div></div>
         {!userPick ? <h1>제보하기</h1> : <h1>수정하기</h1>}
-        <h4>완료</h4>
+        <div></div>
       </div>
       <div className={styles.signUp}>
         <hr />

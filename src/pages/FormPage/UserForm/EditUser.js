@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../../cookie/cookie";
-import Layout from "../../UI/Layout";
+import { getCookie } from "../../../cookie/cookie";
+import Layout from "../../../UI/Layout";
 import styles from "./EditUser.module.scss";
 import Option from "./Option";
 

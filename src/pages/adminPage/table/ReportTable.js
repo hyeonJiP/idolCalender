@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchingData } from "../../../store/reportSchedules-action";
 import { reportSchedulesActions } from "../../../store/reportSchedules";
 import Pagenation from "./Pagenation";
-import { BASE_URL } from "../../../URL/url";
 import Modal from "../../../UI/Modal";
-import axios from "axios";
-import ReportSchedule from "../../userFormPage/ReportSchedule";
+import ReportSchedule from "../../FormPage/IdolForm/ReportSchedule";
 import { authActions } from "../../../store/auth";
 import SearchData from "./SearchData";
 import {
@@ -69,7 +67,7 @@ const ReportTable = () => {
   const sortingAsc = (data, col) => {
     const sorted = [...data].sort((a, b) => {
       if (Number(a[col])) {
-        return a[col] < b[col] ? 1 : -1;
+        return a[col] > b[col] ? 1 : -1;
       }
 
       return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;

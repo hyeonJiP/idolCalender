@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import styles from "../userFormPage/SignUp.module.scss";
+import styles from "./SignUp.module.scss";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Layout from "../../UI/Layout";
+import Layout from "../../../UI/Layout";
 import axios from "axios";
-import { BASE_URL } from "../../URL/url";
+import { BASE_URL } from "../../../URL/url";
 import Option from "./Option";
-import Modal from "../../UI/Modal";
+import Modal from "../../../UI/Modal";
 import SignUpSuccess from "./SignUpSuccess";
 
 const SignUp = () => {
+  /**백에서 해준 유효성 테스트 */
   const [isEmailValid, setIsEmailValid] = useState();
   const [isPasswordValid, setIsPasswordValid] = useState();
   const [isPickValid, setIsPickValid] = useState();
@@ -18,6 +19,7 @@ const SignUp = () => {
   /**회원가입 확인 모달창 */
   const [signUpModal, setSignUpModal] = useState(false);
 
+  /**옵션 선택 */
   const [selectValue, setSelectValue] = useState("");
   const onChangeSelect = (e) => {
     setSelectValue(e.target.value);
@@ -70,8 +72,6 @@ const SignUp = () => {
       .then((data) => {
         console.log(data);
         setSignUpModal(true);
-        /**회원가입하면 로그인페이지로 이동 */
-        // navigate("/login");
       })
       /**회원가입 실패 */
       .catch((data) => {
@@ -139,8 +139,12 @@ const SignUp = () => {
                   pattern: {
                     // eslint-disable-next-line
                     // value: /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g,
+
                     value:
+                      // eslint-disable-next-line
                       /^[A-Za-z0-9`~!@#\$%\^&\*\(\)\{\}\[\]\-_=\+\\|;:'"<>,\./\?]{8,20}$/,
+                    // eslint-disable-next-line
+
                     message: "특수문자 1개 이상 넣어주세요.",
                   },
                 })}

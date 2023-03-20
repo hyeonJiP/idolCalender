@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "../userFormPage/Login.module.scss";
+import styles from "./Login.module.scss";
 import { useForm } from "react-hook-form";
-import choeImg from "../../Img/logo_main.png";
+import choeImg from "../../../Img/logo_main.png";
 import { useNavigate } from "react-router-dom";
-import Layout from "../../UI/Layout";
+import Layout from "../../../UI/Layout";
 import axios from "axios";
-import { setCookie } from "../../cookie/cookie";
-import { BASE_URL } from "../../URL/url";
+import { setCookie } from "../../../cookie/cookie";
+import { BASE_URL } from "../../../URL/url";
 
 axios.defaults.withCredentials = true;
 
@@ -22,10 +22,6 @@ const LogIn = () => {
   } = useForm();
   const navigate = useNavigate();
 
-  const goBackHandler = () => {
-    navigate("/");
-  };
-
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
     console.log(data);
@@ -39,7 +35,6 @@ const LogIn = () => {
         const responseData = response.data;
         console.log(responseData);
         setCookie("isLogin", responseData);
-        /**메인으로 내비게이트 */
         navigate("/");
         window.location.reload();
       })
@@ -89,7 +84,12 @@ const LogIn = () => {
             </button>
           </div>
           <div className={styles.buttonDiv}>
-            <button onClick={goBackHandler} type="button">
+            <button
+              onClick={() => {
+                navigate("/");
+              }}
+              type="button"
+            >
               홈으로
             </button>
             <button type="submit">로그인</button>

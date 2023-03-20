@@ -1,8 +1,5 @@
 import Modal from "./UI/Modal";
-import EditUser from "./pages/userFormPage/EditUser";
-import LogIn from "./pages/userFormPage/Login";
-import ReportSchedule from "./pages/userFormPage/ReportSchedule";
-import SignUp from "./pages/userFormPage/SignUp";
+import EditUser from "./pages/FormPage/UserForm/EditUser";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "./store/auth";
@@ -10,13 +7,16 @@ import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
 import { getCookie } from "./cookie/cookie";
-import styles from "./App.module.scss";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
 import axios from "axios";
 import ReportTable from "./pages/adminPage/table/ReportTable";
+import ReportSchedule from "./pages/FormPage/IdolForm/ReportSchedule";
+import LogIn from "./pages/FormPage/UserForm/Login";
+import SignUp from "./pages/FormPage/UserForm/SignUp";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ function App() {
             path="/admin/"
             element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
           >
-            <Route path="reporttable" element={<ReportTable />} />
+            <Route path="report" element={<ReportTable />} />
             <Route path="main" element={<ReportTable />} />
             <Route path="userlist" element={<ReportTable />} />
           </Route>
@@ -68,16 +68,6 @@ function App() {
             element={
               <Layout>
                 <Home />
-              </Layout>
-            }
-          />
-
-          {/* 캘린더페이지 */}
-          <Route
-            path="/abc"
-            element={
-              <Layout>
-                <Calendar />
               </Layout>
             }
           />

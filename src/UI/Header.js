@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "./Header.scss";
-
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import axios from "axios";
