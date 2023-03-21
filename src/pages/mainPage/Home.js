@@ -196,8 +196,10 @@ const Home = () => {
                           src={data.idol_profile}
                           alt="아티스트 이미지"
                         ></img>
-                        <h3 className={styles.artistName}>{data.idol_name}</h3>
-                        <p className={styles.artistFont}>{data.idol_group}</p>
+                        <h3 className={styles.artistName}>
+                          {data.idol_name_kr}
+                        </h3>
+                        <p className={styles.artistFont}>{data.idol_name_en}</p>
                       </Link>
                     </li>
                   ))}

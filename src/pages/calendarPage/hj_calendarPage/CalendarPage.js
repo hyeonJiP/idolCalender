@@ -6,9 +6,10 @@ import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
 import { axiosSchedule, axiosSchedules } from "../../../api";
 import Calendar from "../calendar/Calendar";
-import FilterableProductTable from "./TestPage";
-import ItemList from "./Test";
+//import FilterableProductTable from "./TestPage";
 import Test from "./Test";
+import Test2 from "./Test2";
+import Category from "./Category";
 
 const CalendarData = () => {
   const { idolId } = useParams();
@@ -30,17 +31,26 @@ const CalendarData = () => {
   // console.log(schedulesData);
 
   // 다가오는 스케줄
+  // 3일 이후 날짜 구하기
+
   const today = new Date();
 
-  // 3일 이후 날짜 구하기
-  var one_after = new Date(today.setDate(today.getDate() + 1));
-  var two_after = new Date(today.setDate(today.getDate() + 1));
-  var three_after = new Date(today.setDate(today.getDate() + 1));
+  const one_after = new Date(today);
+  one_after.setDate(today.getDate() + 1);
+
+  const two_after = new Date(today);
+  two_after.setDate(today.getDate() + 2);
+
+  const three_after = new Date(today);
+  three_after.setDate(today.getDate() + 3);
 
   // 3일 이후 날짜 문자화해서 년,월,일 정보 슬라이스
-  const one_after_slice = JSON.stringify(one_after).slice(1, 11);
-  const two_after_slice = JSON.stringify(two_after).slice(1, 11);
-  const three_after_slice = JSON.stringify(three_after).slice(1, 11);
+  const one_after_slice = one_after.toISOString().slice(0, 10);
+  //console.log(one_after_slice);
+  const two_after_slice = two_after.toISOString().slice(0, 10);
+  //console.log(two_after_slice);
+  const three_after_slice = three_after.toISOString().slice(0, 10);
+  //console.log(three_after_slice);
 
   const oneType = idData?.filter(
     (item) => item.when.slice(0, 10) === one_after_slice
@@ -56,7 +66,7 @@ const CalendarData = () => {
 
   const type = (type) => {
     for (var i = 0; i < type?.length; i++) {
-      if (type[i].ScheduleContent.length > 0) {
+      if (type[i].ScheduleTitle.length > 0) {
         const a = type[i];
         return a;
       }
@@ -111,7 +121,7 @@ const CalendarData = () => {
                       src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
                     ></img>
                     <p className={styles.nextSchedule_ContentList}>
-                      {day.ScheduleContent}
+                      {day.ScheduleTitle}
                     </p>
                   </div>
                 </li>
@@ -143,8 +153,10 @@ const CalendarData = () => {
             })} */}
           </ul>
         </section>
-        <FilterableProductTable />
-        {/* <Test /> */}
+        {/* <FilterableProductTable /> */}
+        {/* <Category idolId={idolId} idData={idData} /> */}
+        <Test />
+        {/* <Test2 /> */}
       </div>
     </div>
   );

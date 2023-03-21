@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./test.css";
+//import styles from "./Test.module.css";
 
 const schedule = [
   {
@@ -42,19 +42,34 @@ const schedule = [
 
 const FilterableProductTable = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-  const [isShown, setIsShown] = useState(true);
 
-  const handleClick = (index) => {
-    setActiveIndex(index);
-    setIsShown(!isShown);
+  const handleClick = (category) => {
+    setActiveIndex(activeIndex === category ? null : category);
   };
 
   const types = [...new Set(schedule.map((item) => item.category))];
   //console.log(types);
+
+  // const [isToggle, setIsToggle] = useState(false)
+  // const [isBuyData, isSetBuyData] = useState([])
+  // if(buy 버튼이 눌렸을때){
+  //   setIsToggle(!isToggle)
+  //   isToggle ? axios.get(setBuy(set)) : null
+
+  // }
+  // }
+  // const data = {
+  //   congrat :{},
+  //   event : {},
+  //   broad : {},
+  //   isBuyData : {},
+  //   release : {}
+
+  // }
   return (
     <div>
       {types.map((type, index) => (
-        <button onClick={() => handleClick(index)} key={index}>
+        <button onClick={() => handleClick(type)} key={index}>
           {type}
         </button>
       ))}
@@ -67,7 +82,14 @@ const FilterableProductTable = () => {
         </ul> */}
       </div>
       {types.map((type, index) => (
-        <div key={index} className="testDiv">
+        <div
+          key={index}
+          className="testDiv"
+          style={{
+            display:
+              activeIndex === null || activeIndex === type ? "flex" : "none",
+          }}
+        >
           {schedule
             .filter((item) => item.category === type)
             .map((item, index) => (
@@ -75,10 +97,13 @@ const FilterableProductTable = () => {
                 key={index}
                 className={item.category}
                 style={{
-                  display: activeIndex === index || isShown ? "block" : "none",
+                  display:
+                    activeIndex === null || activeIndex === type
+                      ? "flex"
+                      : "none",
                 }}
-                // style={{ display: isShown ? "block" : "none" }}
               >
+                {console.log("mapdata", item)}
                 {item.data}
               </div>
             ))}
