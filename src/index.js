@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 
 import { QueryClientProvider, QueryClient } from "react-query";
+import { BrowserRouter } from "react-router-dom";
 const Client = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
 
   <Provider store={store}>
     <QueryClientProvider client={Client}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </QueryClientProvider>
   </Provider>
 );

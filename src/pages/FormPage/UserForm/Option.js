@@ -19,7 +19,7 @@ const Option = () => {
     <>
       {idolList.map((data) => (
         <option key={data.pk} value={data.pk}>
-          {data.idol_name}
+          {data.idol_name_kr}
         </option>
       ))}
     </>

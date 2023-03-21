@@ -37,10 +37,10 @@ const SideBar = () => {
             className={({ isActive }) =>
               isActive ? `${styles.navAble}` : `${styles.navDisable}`
             }
-            to="/managepage/userlist"
+            to="/managepage/idollist"
           >
             <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>
-            UserList
+            idolList
           </NavLink>
           <NavLink
             className={({ isActive }) =>

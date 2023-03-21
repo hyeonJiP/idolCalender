@@ -28,7 +28,7 @@ const ReportTable = () => {
   const [idolPk, setIdolPk] = useState("");
 
   /**데이터 정렬을 위한 상태 */
-  const [order, setOrder] = useState("ASC");
+  const [order, setOrder] = useState("DSC");
   /**페이지 네이션을 위한 상태 */
   const [currentPage, setCurrentPage] = useState(1);
   const [toggle, setToggle] = useState(0);
@@ -41,6 +41,8 @@ const ReportTable = () => {
   useEffect(() => {
     dispatch(fetchingData());
   }, [dispatch]);
+
+  const reportData = useSelector((state) => state.reportSchedule.reportData);
 
   /**페이지네이션 데이터 */
   let indexOfLastPost = currentPage * postPerPage;
@@ -55,23 +57,28 @@ const ReportTable = () => {
   /**테이블 정렬 함수 */
   const sortingTable = (data, col, sortType) => {
     const sorted = [...data].sort((a, b) => {
-      if (Number(a[col])) {
-        return a[col] > b[col] ? 1 : -1;
-      }
       if (sortType === "ASC") {
         setOrder("DSC");
-
-        return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
+        if (Number(a[col])) {
+          return a[col] > b[col] ? 1 : -1;
+        } else {
+          return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
+        }
       } else {
         setOrder("ASC");
 
-        return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
+        if (Number(a[col])) {
+          return a[col] < b[col] ? 1 : -1;
+        } else {
+          return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
+        }
       }
     });
     dispatch(reportSchedulesActions.searchSchedule(sorted));
   };
 
   const sorting = (col) => {
+    console.log(col);
     sortingTable(searchData, col, order);
   };
 
@@ -158,7 +165,7 @@ const ReportTable = () => {
 
       {scheduleModal}
       <div className={styles.scheduleDiv}>
-        <SearchData />
+        <SearchData reportData={reportData} isReportTable={true} />
         <table className={styles.dataTable}>
           <thead>
             <tr>

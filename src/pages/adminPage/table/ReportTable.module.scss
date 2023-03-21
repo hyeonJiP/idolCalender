@@ -2,6 +2,7 @@ $buttonBackGroundColor: #bbded6;
 $buttonColor: white;
 
 .scheduleDiv {
+  margin-top: 50px;
   width: 100vw;
   padding: 20px;
   background-color: white;
@@ -46,6 +47,10 @@ $buttonColor: white;
   overflow-y: scroll;
   font-size: 1rem;
 
+  img {
+    width: 60px;
+    height: 60px;
+  }
   thead {
     background-color: #ff9494;
 
@@ -56,7 +61,8 @@ $buttonColor: white;
     }
   }
   td {
-    padding: 20px;
+    padding: 5px;
+
     svg {
       margin: 4px;
       path {
@@ -65,7 +71,7 @@ $buttonColor: white;
     }
   }
   tbody {
-    height: 30px;
+    height: 20px;
     overflow: auto;
     font-size: 0.9rem;
     tr {

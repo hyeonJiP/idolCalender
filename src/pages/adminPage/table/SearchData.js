@@ -1,15 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { idolDataActions } from "../../../store/idolData";
 import { reportSchedulesActions } from "../../../store/reportSchedules";
 import { BASE_URL } from "../../../URL/url";
 import styles from "./SearchData.module.scss";
 
-const SearchData = () => {
+const SearchData = ({ idolData, reportData, isReportTable, isIdolTable }) => {
   const dispatch = useDispatch();
-  const reportData = useSelector((state) => state.reportSchedule.reportData);
   const [idolSearchName, setIdolSearchName] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+
+  /**idolTable에서의 검색인지 reportTable에서의 검색인지 판단*/
+  const newData = isReportTable ? reportData : isIdolTable ? idolData : null;
+  const actionType = isReportTable
+    ? reportSchedulesActions.searchSchedule
+    : isIdolTable
+    ? idolDataActions.searchIdolData
+    : null;
 
   /**존재하는 아이돌목록 */
   useEffect(() => {
@@ -21,9 +29,9 @@ const SearchData = () => {
   /**검색하기 인풋의 값 */
   useEffect(() => {
     if (searchInput === "") {
-      dispatch(reportSchedulesActions.searchSchedule(reportData));
+      dispatch(actionType(newData));
     }
-  }, [searchInput, dispatch, reportData]);
+  }, [searchInput, dispatch, newData, actionType]);
 
   const searchHandler = ({ target }) => {
     setSearchInput(target.value);
@@ -32,7 +40,7 @@ const SearchData = () => {
   /**검색하기 form 제출했을때 */
   const searchFormHandler = (e) => {
     e.preventDefault();
-    const searchData = reportData.filter((data) => {
+    const searchData = newData.filter((data) => {
       let isTrue = false;
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
@@ -46,7 +54,7 @@ const SearchData = () => {
       }
       return isTrue;
     });
-    dispatch(reportSchedulesActions.searchSchedule(searchData));
+    dispatch(actionType(searchData));
   };
   return (
     <form className={styles.searchForm} onSubmit={searchFormHandler}>

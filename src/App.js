@@ -1,6 +1,6 @@
 import Modal from "./UI/Modal";
 import EditUser from "./pages/FormPage/UserForm/EditUser";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "./store/auth";
 import { useEffect } from "react";
@@ -16,6 +16,9 @@ import ReportTable from "./pages/adminPage/table/ReportTable";
 import ReportSchedule from "./pages/FormPage/IdolForm/ReportSchedule";
 import LogIn from "./pages/FormPage/UserForm/Login";
 import SignUp from "./pages/FormPage/UserForm/SignUp";
+import { fetchingIdolData } from "./store/idolData-action";
+import IdolTable from "./pages/adminPage/table/IdolTable";
+import AdminMain from "./pages/adminPage/table/AdminMain";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ function App() {
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
+  /**초기 로그인 데이터는 없는걸로 표시 */
   if (!getCookie("isLogin")) {
     setCookie("isLogin", { is_admin: false, pick: false });
   }
@@ -41,68 +45,66 @@ function App() {
       dispatch(authActions.logIn(loginData));
     }
   }, [dispatch]);
-
   const isAdmin = getCookie("isLogin").is_admin;
-
   const isLogin = getCookie("isLogin").pick;
 
-  console.log("userData", getCookie("isLogin"));
+  useEffect(() => {
+    dispatch(fetchingIdolData());
+  }, [dispatch]);
 
   return (
     <>
-      <BrowserRouter>
-        <ScrollToTop />
+      <ScrollToTop />
 
-        <Routes>
-          {/* 관리자페이지 */}
-          <Route
-            path="/managepage"
-            element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
-          >
-            <Route path="report" element={<ReportTable />} />
-            <Route path="main" element={<ReportTable />} />
-            <Route path="userlist" element={<ReportTable />} />
-          </Route>
+      <Routes>
+        {/* 관리자페이지 */}
+        <Route
+          path="/managepage/*"
+          element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
+        >
+          <Route path="main" element={<AdminMain />} />
+          <Route path="report" element={<ReportTable />} />
+          <Route path="idollist" element={<IdolTable />} />
+        </Route>
 
-          {/* 메인페이지 */}
-          <Route
-            path="/"
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          />
+        {/* 메인페이지 */}
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <Home />
+            </Layout>
+          }
+        />
 
-          {/* 회원가입페이지 */}
-          <Route path="/signup" element={<SignUp />} />
+        {/* 회원가입페이지 */}
+        <Route path="/signup" element={<SignUp />} />
 
-          {/* 로그인페이지 */}
-          <Route
-            path="/login"
-            element={isLogin || isAdmin ? <Navigate to="/" /> : <LogIn />}
-            // element={<LogIn />}
-          />
-          {/* 개인정보수정 */}
-          <Route
-            path="/edituser"
-            element={!isLogin ? <Navigate to="/" /> : <EditUser />}
-          />
+        {/* 로그인페이지 */}
+        <Route
+          path="/login"
+          element={isLogin || isAdmin ? <Navigate to="/" /> : <LogIn />}
+          // element={<LogIn />}
+        />
+        {/* 개인정보수정 */}
+        <Route
+          path="/edituser"
+          element={!isLogin ? <Navigate to="/" /> : <EditUser />}
+        />
 
-          <Route path="/calendar" element={<Calendar />} />
+        <Route path="/calendar" element={<Calendar />} />
 
-          <Route path="/calendarpage" element={<CalendarPage />} />
+        <Route path="/calendarpage" element={<CalendarPage />} />
 
-          <Route
-            path="/report"
-            element={
-              <Modal>
-                <ReportSchedule />
-              </Modal>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+        <Route
+          path="/report"
+          element={
+            <Modal>
+              <ReportSchedule />
+            </Modal>
+          }
+        />
+      </Routes>
     </>
   );
 }

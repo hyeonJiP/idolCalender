@@ -55,7 +55,7 @@ const SignUp = () => {
     const signUpInform = {
       email: data.email,
       password: data.password,
-      username: data.name,
+      name: data.name,
       nickname: data.nickname,
       age: age,
       pick: Number(selectValue),
