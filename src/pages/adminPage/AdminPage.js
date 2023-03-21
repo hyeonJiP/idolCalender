@@ -1,12 +1,13 @@
 import React from "react";
-import Headar from "../../UI/Header";
+import Layout from "../../UI/Layout";
 import SideBar from "./SideBar";
 
 const AdminPage = () => {
   return (
     <>
-      <Headar />
-      <SideBar />
+      <Layout>
+        <SideBar />
+      </Layout>
     </>
   );
 };

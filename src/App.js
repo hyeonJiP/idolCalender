@@ -6,7 +6,7 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie } from "./cookie/cookie";
+import { getCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
@@ -20,9 +20,13 @@ import SignUp from "./pages/FormPage/UserForm/SignUp";
 function App() {
   const dispatch = useDispatch();
 
-  // if (!getCookie("isLogin")) {
-  //   setCookie("isLogin", { is_admin: false, pick: false });
-  // }
+  /**전역에 토큰 허용 */
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+  if (!getCookie("isLogin")) {
+    setCookie("isLogin", { is_admin: false, pick: false });
+  }
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
@@ -38,13 +42,11 @@ function App() {
     }
   }, [dispatch]);
 
-  /**전역에 토큰 허용 */
-  axios.defaults.xsrfCookieName = "csrftoken";
-  axios.defaults.xsrfHeaderName = "X-CSRFToken";
+  const isAdmin = getCookie("isLogin").is_admin;
 
-  let isAdmin = getCookie("isLogin").is_admin;
+  const isLogin = getCookie("isLogin").pick;
 
-  let isLogin = getCookie("isLogin").pick;
+  console.log("userData", getCookie("isLogin"));
 
   return (
     <>
@@ -54,7 +56,7 @@ function App() {
         <Routes>
           {/* 관리자페이지 */}
           <Route
-            path="/admin/"
+            path="/managepage"
             element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
           >
             <Route path="report" element={<ReportTable />} />

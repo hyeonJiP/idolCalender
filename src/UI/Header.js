@@ -16,7 +16,7 @@ const Headar = () => {
   const isAdmin = useSelector((state) => state.auth.authState.is_admin);
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [isLogin]);
+  // useEffect(() => {}, [isLogin]);
 
   const listenScrollEvent = () => {
     window.scrollY > 10 ? setnavColor("#ffff") : setnavColor("transparent");
@@ -57,7 +57,7 @@ const Headar = () => {
       <div className="headerNav">
         <div className="navItems">
           <div className="navItem">
-            <Link to={"/"}>
+            <Link to="/">
               <img
                 className="navImg"
                 src="https://velog.velcdn.com/images/view_coding/post/6e4d7220-8bc8-4e88-9d4b-f3dd9e09b523/image.png"
@@ -77,7 +77,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to="/admin">
+                <Link to="/managepage">
                   <button className="navBtn">관리자페이지</button>
                 </Link>
                 <button className="navBtn" onClick={LogoutHandler}>
@@ -85,7 +85,7 @@ const Headar = () => {
                 </button>
               </>
             ) : !isLogin ? (
-              <Link to={"/login"}>
+              <Link to="/login">
                 <button className="navBtn">로그인</button>
               </Link>
             ) : (

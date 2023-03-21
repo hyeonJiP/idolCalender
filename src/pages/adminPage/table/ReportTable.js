@@ -53,36 +53,26 @@ const ReportTable = () => {
   };
 
   /**테이블 정렬 함수 */
-  const sortingDsc = (data, col) => {
+  const sortingTable = (data, col, sortType) => {
     const sorted = [...data].sort((a, b) => {
       if (Number(a[col])) {
         return a[col] > b[col] ? 1 : -1;
       }
-      return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
-    });
-    dispatch(reportSchedulesActions.searchSchedule(sorted));
-    setOrder("DSC");
-  };
+      if (sortType === "ASC") {
+        setOrder("DSC");
 
-  const sortingAsc = (data, col) => {
-    const sorted = [...data].sort((a, b) => {
-      if (Number(a[col])) {
-        return a[col] > b[col] ? 1 : -1;
+        return a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1;
+      } else {
+        setOrder("ASC");
+
+        return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
       }
-
-      return a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1;
     });
     dispatch(reportSchedulesActions.searchSchedule(sorted));
-    setOrder("ASC");
   };
 
   const sorting = (col) => {
-    if (order === "ASC") {
-      sortingDsc(searchData, col);
-    }
-    if (order === "DSC") {
-      sortingAsc(searchData, col);
-    }
+    sortingTable(searchData, col, order);
   };
 
   /**데이터 수정 */
@@ -105,7 +95,6 @@ const ReportTable = () => {
   /**스케줄삭제하기*/
   const deleteModalHandler = ({ target }) => {
     const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
-
     const newIdolSchedule = searchData.filter((schedule) => {
       return schedule.id === Number(rowIndex);
     });
@@ -122,7 +111,6 @@ const ReportTable = () => {
   /**아이돌 스케줄에 제보받은 스케줄 등록하기 */
   const updateScheduleHandler = async ({ target }) => {
     const rowIndex = target.parentNode.parentNode.firstElementChild.innerText;
-
     const newIdolSchedule = searchData.filter((schedule) => {
       return schedule.id === Number(rowIndex);
     });
@@ -146,7 +134,7 @@ const ReportTable = () => {
     setScheduleModal("upload");
   };
 
-  /**모달 숨기는 것 */
+  /**모달 숨기는 함수 */
   const hideModalHandler = () => {
     setScheduleModal(false);
   };

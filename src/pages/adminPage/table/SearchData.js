@@ -11,22 +11,25 @@ const SearchData = () => {
   const [idolSearchName, setIdolSearchName] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
-  useEffect(() => {
-    if (searchInput === "") {
-      dispatch(reportSchedulesActions.searchSchedule(reportData));
-    }
-  }, [searchInput, dispatch, reportData]);
-
+  /**존재하는 아이돌목록 */
   useEffect(() => {
     axios.get(`${BASE_URL}idols`).then((res) => {
       setIdolSearchName(res.data.map((data) => data.idol_name));
     });
   }, []);
 
+  /**검색하기 인풋의 값 */
+  useEffect(() => {
+    if (searchInput === "") {
+      dispatch(reportSchedulesActions.searchSchedule(reportData));
+    }
+  }, [searchInput, dispatch, reportData]);
+
   const searchHandler = ({ target }) => {
     setSearchInput(target.value);
   };
 
+  /**검색하기 form 제출했을때 */
   const searchFormHandler = (e) => {
     e.preventDefault();
     const searchData = reportData.filter((data) => {
