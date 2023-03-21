@@ -147,7 +147,7 @@ const Home = () => {
                         <span>{data.ScheduleTitle}</span>
                       </div>
                       <div className={styles.slideBot}>
-                        <span>{data.participant[0].idol_name}</span>
+                        <span>{data.participant[0].idol_name_kr}</span>
                       </div>
                     </div>
                   </div>
