@@ -34,14 +34,13 @@ const LogIn = () => {
         /**로그인 처리 */
         console.log(response);
         const responseData = response.data;
-        // console.log(responseData);
         setCookie("isLogin", responseData);
         navigate("/");
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((error) => {
-        // setIsValid(error.response.data);
-        // console.log(error);
+        setIsValid(error.response.data);
+        console.log(error);
       });
   };
 

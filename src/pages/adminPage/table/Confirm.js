@@ -24,13 +24,14 @@ const Confirm = (props) => {
   };
 
   const upLoadScheduleHandler = async () => {
+    console.log(props.upLoadData);
     await axios
       .post(`${BASE_URL}idols/${idolPk}/schedules`, props.upLoadData, {
         withCredentials: true,
       })
       .then((data) => {
         console.log(data);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((data) => console.log(data));
   };

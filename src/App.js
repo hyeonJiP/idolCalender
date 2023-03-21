@@ -19,6 +19,7 @@ import SignUp from "./pages/FormPage/UserForm/SignUp";
 import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
+import { NotFound } from "react-admin";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/managepage/*"
+          path="/adminpage/*"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -104,6 +105,8 @@ function App() {
             </Modal>
           }
         />
+
+        <Route element={<NotFound />} path="/*" />
       </Routes>
     </>
   );

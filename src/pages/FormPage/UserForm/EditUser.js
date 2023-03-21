@@ -1,8 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../../cookie/cookie";
 import Layout from "../../../UI/Layout";
+import { BASE_URL } from "../../../URL/url";
 import styles from "./EditUser.module.scss";
 import Option from "./Option";
 
@@ -25,10 +27,18 @@ const EditUser = () => {
 
   /**회원정보 수정 */
   const onSubmit = (data) => {
-    const signUpInform = {
-      password: data.password,
+    const changeData = {
+      old_password: data.oldPassword,
+      new_password: data.newPassword,
     };
-    console.log(signUpInform, "최애선택", Number(selectValue));
+    // console.log(changeData, "최애선택", Number(selectValue));
+
+    axios
+      .put(`${BASE_URL}users/edit/password`, changeData, {
+        withCredentials: true,
+      })
+      .then((data) => console.log(data))
+      .catch((res) => console.log(res));
   };
 
   return (
@@ -52,12 +62,37 @@ const EditUser = () => {
             <div className={styles.absoluteInform}>{userData.email}</div>
           </div>
           <div className={styles.typeDiv}>
+            <label>기존비밀번호</label>
+            <input
+              name="oldPassword"
+              type="password"
+              placeholder="기존 비밀번호를 입력해야 비밀번호 변경이 가능합니다!!"
+              {...register("oldPassword", {
+                required: {
+                  value: true,
+                  message: "비밀번호를 입력하세요.",
+                },
+                minLength: {
+                  value: 8,
+                  message: "비밀번호는 8자 이상 입력하세요.",
+                },
+                maxLength: {
+                  value: 16,
+                  message: "비밀번호는 16자 이하로 입력하세요.",
+                },
+              })}
+            />
+          </div>
+          <div className={styles.errorMessage}>
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
+          <div className={styles.typeDiv}>
             <label>비밀번호 변경</label>
             <input
-              name="password"
+              name="newPassword"
               type="password"
-              placeholder="비밀번호"
-              {...register("password", {
+              placeholder="새로운 비밀번호"
+              {...register("newPassword", {
                 required: {
                   value: true,
                   message: "비밀번호를 입력하세요.",
@@ -93,7 +128,7 @@ const EditUser = () => {
                 required: true,
                 validate: {
                   check: (val) => {
-                    if (getValues("password") !== val) {
+                    if (getValues("newPassword") !== val) {
                       return "비밀번호가 일치하지 않습니다.";
                     }
                   },
@@ -113,13 +148,13 @@ const EditUser = () => {
             <div className={styles.absoluteInform}>{userData.nickname}</div>
           </div>
 
-          <div className={styles.typeDiv}>
-            <label>최애 변경</label>
+          {/* <div className={styles.typeDiv}> */}
+          {/* <label>최애 변경</label>
             <input type="checkbox" name="onoff-switch" />
             <select value={selectValue} onChange={onChangeSelect}>
               <Option />
-            </select>
-          </div>
+            </select> */}
+          {/* </div> */}
 
           <div className={styles.buttonDiv}>
             <button

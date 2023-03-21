@@ -35,7 +35,7 @@ const ReportTable = () => {
   const [scheduleModal, setScheduleModal] = useState(false);
 
   /**페이지당 목록 수 세팅 */
-  const postPerPage = 8;
+  const postPerPage = 10;
 
   /**제보받은 스케줄데이터 가져오기 */
   useEffect(() => {
@@ -78,7 +78,6 @@ const ReportTable = () => {
   };
 
   const sorting = (col) => {
-    console.log(col);
     sortingTable(searchData, col, order);
   };
 
@@ -133,7 +132,7 @@ const ReportTable = () => {
       location: newIdolSchedule[0].location,
       when: newIdolSchedule[0].when,
       ScheduleContent: newIdolSchedule[0].content,
-      participant: [{ idol_name: newIdolSchedule[0].name }],
+      participant: [{ idol_name_kr: newIdolSchedule[0].name }],
     };
 
     setIdolPk(idolPk);

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import axios from "axios";
 import { BASE_URL } from "../URL/url";
-import { removeCookie, setCookie } from "../cookie/cookie";
+import { setCookie } from "../cookie/cookie";
 
 const Headar = () => {
   const navigate = useNavigate();
@@ -15,8 +15,6 @@ const Headar = () => {
   const isLogin = useSelector((state) => state.auth.authState.pick.idolPk);
   const isAdmin = useSelector((state) => state.auth.authState.is_admin);
   const dispatch = useDispatch();
-
-  // useEffect(() => {}, [isLogin]);
 
   const listenScrollEvent = () => {
     window.scrollY > 10 ? setnavColor("#ffff") : setnavColor("transparent");
@@ -37,12 +35,11 @@ const Headar = () => {
       })
       .then((res) => console.log(res))
       .then((data) => console.log(data));
-
-    removeCookie("isLogin");
+    console.log("logout");
     setCookie("isLogin", { is_admin: false, pick: false });
     dispatch(authActions.logOut());
-    navigate("/");
-    window.location.reload();
+    // navigate("/");
+    // window.location.reload();
   };
 
   return (
@@ -77,7 +74,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to="/managepage">
+                <Link to="/adminpage">
                   <button className="navBtn">관리자페이지</button>
                 </Link>
                 <button className="navBtn" onClick={LogoutHandler}>

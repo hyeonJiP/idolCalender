@@ -14,7 +14,7 @@ export const fetchingData = () => {
       if (!datas[data].whoes[0]) {
         nameData = "";
       } else {
-        nameData = datas[data].whoes[0].idol_name;
+        nameData = datas[data].whoes[0].idol_name_kr;
       }
 
       newData.push({
@@ -29,7 +29,6 @@ export const fetchingData = () => {
         content: datas[data].content,
       });
     }
-    // console.log(newData);
 
     dispatch(reportSchedulesActions.updateSchedule(newData));
   };

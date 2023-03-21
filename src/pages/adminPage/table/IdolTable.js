@@ -30,8 +30,6 @@ const IdolTable = () => {
   let indexOfFirstPost = indexOfLastPost - postPerPage;
   let currentPosts = searchData.slice(indexOfFirstPost, indexOfLastPost);
 
-  console.log(currentPosts);
-
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     setToggle(pageNumber);
@@ -80,7 +78,7 @@ const IdolTable = () => {
             <th>profile</th>
             <th
               onClick={() => {
-                sorting("idol_name");
+                sorting("idol_name_kr");
               }}
             >
               Name
@@ -111,7 +109,9 @@ const IdolTable = () => {
                 <td>
                   <img src={idol.idol_profile} alt="" />
                 </td>
-                <td>{idol.idol_name}</td>
+                <td>
+                  {idol.idol_name_kr}({idol.idol_name_en})
+                </td>
                 <td>{idol.idol_group}</td>
                 <td>{idol.idol_solo}</td>
                 <td>
