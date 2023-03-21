@@ -136,7 +136,7 @@ const Home = () => {
             {data?.map((data) => {
               //console.log(schedulesData[0].participant[0].idol_name);
               return (
-                <div className={styles.slide} key={data.pk}>
+                <div className={styles.slide} key={Math.random()}>
                   <div className={styles.slideInner}>
                     <div className={styles.slideContent}>
                       <div className={styles.slideTop}>
