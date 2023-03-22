@@ -18,11 +18,15 @@ import {
 
 import { useQuery } from "react-query";
 
+import Sidebar from "../hj_sideBar/Sidebar";
+import { axiosSchedule } from "../../../api";
+import { useParams } from "react-router-dom";
+
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+    fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
       .then((res) => res.json())
       .then((data) => {
         const setIdolSchedule = [];
@@ -46,7 +50,7 @@ const Calendar = () => {
         return;
       });
     setIdolSchedule(idolSchedule);
-  }, [idolSchedule]);
+  }, []);
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
@@ -103,9 +107,10 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    onClick={() =>
-                      console.log("clickedDay: " + days.format("D"))
-                    }
+                    onClick={showSidebar}
+                    // onClick={() =>
+                    //   console.log("clickedDay: " + days.format("D"))
+                    // }
                   >
                     <span value={index}>{days.format("D")}</span>
                     <div className="event-content">
@@ -121,6 +126,29 @@ const Calendar = () => {
     return result;
   };
 
+  // 사이드바
+  const [sidebar, setSidebar] = useState(false);
+  const showSidebar = () => setSidebar(!sidebar);
+
+  const { idolId } = useParams();
+  const { isLoding: idDataLoding, data: idData } = useQuery(
+    ["info", idolId],
+    () => {
+      return axiosSchedule(idolId);
+    }
+  );
+  //console.log(idData[0].ScheduleType.type);
+
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [isShown, setIsShown] = useState(true);
+
+  const handleClick = (index) => {
+    setActiveIndex(index);
+    setIsShown(!isShown);
+  };
+
+  const types = [...new Set(idData?.map((item) => item.ScheduleType.type))];
+  console.log(types);
   return (
     <div className="calendar-container">
       <div className="control-container">
@@ -151,12 +179,21 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
-
+      {/* <button onClick={showSidebar}>사이드바</button>
+          <Sidebar sidebar={sidebar} setSidebar={setSidebar} /> */}
+      {/* 사이드바 */}
+      <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       <div className="category-container">
-        <button className="category-btn">
+        {/* {types.map((type, index) => (
+          <button onClick={() => handleClick(index)} key={index}>
+            {type}
+          </button>
+        ))} */}
+
+        <button className="category-btn" onClick={() => handleClick(1)}>
           <FontAwesomeIcon icon={faBroadcastTower} size="sm" /> 방송
         </button>
-        <button className="category-btn">
+        <button className="category-btn" onClick={() => handleClick(2)}>
           <FontAwesomeIcon icon={faCompactDisc} size="sm" /> 발매
         </button>
         <button className="category-btn">
@@ -192,7 +229,7 @@ const Calendar = () => {
 export default Calendar;
 
 const fetchData = () =>
-  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
+  fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
     .then((res) => res.json())
     .then((data) => {
       const setIdolSchedule = [];
@@ -237,12 +274,31 @@ function Show_event({ days }) {
   // useEffect(() => {
   //   // console.log("cccc", idolSchedule);
   // }, [idolSchedule]);
-
+  //console.log("뿌려야할 스케줄", schedule.data);
   return (
     <>
       {schedule.data?.map((data, i) => {
-        // console.log(data, i);
+        //console.log(data, i);
+        //console.log(schedule.data);
         if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
+          // {types.map((type, index) => (
+          //   <div key={index} className="testDiv">
+          //     {schedule
+          //       .filter((item) => item.category === type)
+          //       .map((item, index) => (
+          //         <div
+          //           key={index}
+          //           className={item.category}
+          //           style={{
+          //             display: activeIndex === index || isShown ? "block" : "none",
+          //           }}
+          //           // style={{ display: isShown ? "block" : "none" }}
+          //         >
+          //           {item.data}
+          //         </div>
+          //       ))}
+          //   </div>
+          // ))}
           // console.log(data.type);
           if (data.category === "broadcast") {
             return (
