@@ -51,7 +51,7 @@ body {
   margin: 0 auto;
   margin-bottom: 40px;
   padding: 40px 20px 80px 20px;
-  width: 70vw;
+  width: 60vw;
   border-radius: 20px;
   background-color: white;
   hr {
@@ -92,13 +92,14 @@ body {
 .typeDiv {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 85%;
   height: 35px;
   margin-top: 20px;
   input {
-    width: 360px;
+    width: 25vw;
     height: 80%;
     border: 1px solid black;
+    font-size: 0.7rem;
   }
   select {
     width: 360px;
@@ -108,13 +109,13 @@ body {
 .typeAbsoluteDiv {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 85%;
   height: 3vh;
   margin-bottom: 3vh;
   margin-top: 2vh;
   .absoluteInform {
     position: relative;
-    width: 360px;
+    width: 25vw;
     font-size: 0.8rem;
   }
 }
@@ -140,11 +141,13 @@ body {
 }
 
 @media (max-width: 768px) {
+  .signUp {
+    width: 70vw;
+  }
   .typeAbsoluteDiv {
-    width: 100%;
     height: 24px;
     .absoluteInform {
-      width: 250px;
+      width: 30vw;
     }
   }
   .signUpContainer {
@@ -162,6 +165,7 @@ body {
   }
 
   .editForm {
+    padding: 20px;
     label {
       font-size: 0.7rem;
     }
@@ -171,10 +175,9 @@ body {
     }
   }
   .typeDiv {
-    width: 100%;
     height: 24px;
     input {
-      width: 250px;
+      width: 30vw;
       height: 20px;
     }
   }
@@ -215,6 +218,7 @@ body {
   }
   .signUp {
     padding: 10px;
+    width: 80vw;
   }
   .editForm {
     padding: 20px;

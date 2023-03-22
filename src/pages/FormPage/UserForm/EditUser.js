@@ -6,6 +6,7 @@ import { getCookie } from "../../../cookie/cookie";
 import Layout from "../../../UI/Layout";
 import { BASE_URL } from "../../../URL/url";
 import styles from "./EditUser.module.scss";
+import EditUserImg from "./EditUserImg";
 import Option from "./Option";
 
 const EditUser = () => {
@@ -50,10 +51,7 @@ const EditUser = () => {
           <div className={styles.userImg}>
             <div className={styles.imgInner}></div>
           </div>
-          <div className={styles.containerBtnDiv}>
-            <button>변경</button>
-            <button>삭제</button>
-          </div>
+          <EditUserImg />
         </div>
         <hr />
         <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
