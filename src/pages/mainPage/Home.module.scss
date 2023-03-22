@@ -1,5 +1,5 @@
 .home {
-  width: 100vw;
+  width: 100%;
   background: linear-gradient(#fccec0, #f89598);
 }
 .homeContainer {
@@ -83,7 +83,7 @@
   flex-direction: column;
   //justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   background-color: white;
 }
 article {
@@ -136,13 +136,18 @@ article {
   margin-top: 4rem;
 }
 .artistName {
-  margin-top: 2rem;
+  //margin-top: 2rem;
+  margin: 0;
+  padding-top: 20px;
   font-weight: 800;
   font-size: 1.2rem;
   letter-spacing: -0.19px;
   cursor: pointer;
+  //border: 1px solid black;
 }
 .artistFont {
+  margin: 0;
+  //border: 1px solid black;
   font-size: 1.2rem;
   letter-spacing: -0.19px;
   cursor: pointer;
@@ -185,7 +190,6 @@ article {
     width: 22vw;
   } */
   .artistName {
-    margin-top: 2vw;
     font-size: 2.5vw;
   }
   .artistFont {
@@ -227,7 +231,6 @@ article {
     margin-top: 2.5vw;
   }
   .artistName {
-    margin-top: 2vw;
     font-size: 3vw;
   }
   .artistFont {

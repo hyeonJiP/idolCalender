@@ -1,5 +1,5 @@
 .calendarContainer {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,25 +56,26 @@
 }
 .nextSchedule_List {
   width: 400px;
-  height: 170px;
   list-style: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 0 2vw;
+  //border: 1px solid black;
 }
 .nextScheduleItem {
   box-sizing: border-box;
   background-color: #efeff1;
   border-radius: 20px;
-  padding: 12px 25px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 .nextscheduleIcon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 @media (max-width: 376px) {
 }

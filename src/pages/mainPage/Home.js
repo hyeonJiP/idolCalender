@@ -132,19 +132,22 @@ const Home = () => {
         <div className={styles.slider}>
           <div className={styles.slideBox}>
             {schedulesData?.map((data) => {
-              //console.log(schedulesData[0].participant[0].idol_name);
+              const dateFormat = `${data.when.slice(5, 7)}월 ${data.when.slice(
+                8,
+                10
+              )}일`;
               return (
                 <div className={styles.slide} key={Math.random()}>
                   <div className={styles.slideInner}>
                     <div className={styles.slideContent}>
                       <div className={styles.slideTop}>
-                        <span>{data.when}</span>
+                        <span>{dateFormat}</span>
                       </div>
                       <div className={styles.slideMid}>
                         <span>{data.ScheduleTitle}</span>
                       </div>
                       <div className={styles.slideBot}>
-                        <span>{data.participant[0].idol_name}</span>
+                        <span>{data.participant[0].idol_name_kr}</span>
                       </div>
                     </div>
                   </div>
@@ -193,8 +196,10 @@ const Home = () => {
                           src={data.idol_profile}
                           alt="아티스트 이미지"
                         ></img>
-                        <h3 className={styles.artistName}>{data.idol_name}</h3>
-                        <p className={styles.artistFont}>{data.idol_group}</p>
+                        <h3 className={styles.artistName}>
+                          {data.idol_name_kr}
+                        </h3>
+                        <p className={styles.artistFont}>{data.idol_name_en}</p>
                       </Link>
                     </li>
                   ))}
