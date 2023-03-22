@@ -7,28 +7,28 @@ export const fetchingData = () => {
     const res = await axios.get(`${BASE_URL}users/reports/`);
     const datas = await res.data;
 
-    console.log(datas);
     /**새로운 데이터 형식으로 바꿔주기 */
     const newData = [];
     for (let data in datas) {
-      // console.log(datas[data].whoes[0].idol_name);
       let nameData = 0;
       if (!datas[data].whoes[0]) {
         nameData = "";
       } else {
-        nameData = datas[data].whoes[0].idol_name;
+        nameData = datas[data].whoes[0].idol_name_kr;
       }
 
       newData.push({
         id: datas[data].id,
+        ScheduleTitle: datas[data].title,
         pick: datas[data].owner.pick,
+        reporter: datas[data].owner.nickname,
         name: nameData,
-        time: datas[data].time,
-        type: datas[data].type,
+        when: datas[data].time,
+        ScheduleType: datas[data].type,
+        location: datas[data].location,
         content: datas[data].content,
       });
     }
-    // console.log(newData);
 
     dispatch(reportSchedulesActions.updateSchedule(newData));
   };

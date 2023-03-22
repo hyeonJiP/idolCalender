@@ -1,12 +1,12 @@
-import React from "react";
-import Headar from "../../UI/Header";
-import ReportTabe from "./ReportTable";
+import Layout from "../../UI/Layout";
+import SideBar from "./SideBar";
 
 const AdminPage = () => {
   return (
     <>
-      <Headar />
-      <ReportTabe />
+      <Layout>
+        <SideBar />
+      </Layout>
     </>
   );
 };
