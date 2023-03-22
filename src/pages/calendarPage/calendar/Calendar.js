@@ -1,4 +1,5 @@
 import "./Calendar.css";
+import "./fetchData";
 
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -24,7 +25,6 @@ import { useParams } from "react-router-dom";
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
-  //console.log(idolSchedule);
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
       .then((res) => res.json())
@@ -35,12 +35,10 @@ const Calendar = () => {
           let dateList = data[i].when.split("-");
           dateList[2] = dateList[2].substr(0, 2);
           let dateValue = dateList.join("");
-          // console.log("dateValue: " + dateValue);
 
           // ScheduleType안에 있는 type을 가져오는 작업
           let typeObj = data[i].ScheduleType;
           let typeValue = typeObj[Object.keys(typeObj)[0]];
-          // console.log("typeValue: " + typeValue);
 
           setIdolSchedule.push({
             date: dateValue,
@@ -49,10 +47,6 @@ const Calendar = () => {
             category: typeValue,
           });
         }
-
-        // console.log("setIdolSchedule:" + setIdolSchedule);
-        // console.log(setIdolSchedule);
-
         return;
       });
     setIdolSchedule(idolSchedule);
@@ -60,7 +54,6 @@ const Calendar = () => {
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
-  console.log(getMoment.format("YYYY/MM/DD"));
 
   const today = getMoment;
 
@@ -92,22 +85,11 @@ const Calendar = () => {
                 .week(week)
                 .startOf("week")
                 .add(index, "day");
-              // console.log(index);
-              // console.log(days);
-
-              //   console.log("data:" + data);
-              //   console.log("index:" + index);
-              // console.log(moment().format("YYYY.MM"));
 
               // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
-                  <td
-                    key={index}
-                    className="today"
-                    // 사이드바 온클릭 이벤트
-                    onClick={showSidebar}
-                  >
+                  <td key={index} className="today">
                     <span>{days.format("D")}</span>
                     <div className="event-content">
                       <Show_event days={days} />
@@ -130,13 +112,7 @@ const Calendar = () => {
                     //   console.log("clickedDay: " + days.format("D"))
                     // }
                   >
-                    <span
-                      value={index}
-                      // className={"click" + (index == clicked ? "active" : "")}
-                      // onClick={toggleActive}
-                    >
-                      {days.format("D")}
-                    </span>
+                    <span value={index}>{days.format("D")}</span>
                     <div className="event-content">
                       <Show_event days={days} />
                     </div>
@@ -256,7 +232,6 @@ const fetchData = () =>
   fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const setIdolSchedule = [];
       for (let i = 0; i < data.length; i++) {
         // YYYYMMDD 형태로 변환하는 작업
@@ -281,14 +256,11 @@ const fetchData = () =>
 
 // Show_event(): 달력에 데이터를 보여주는 기능
 function Show_event({ days }) {
-  // console.log(days);
-  // console.log("==========");
-  // console.log("index: " + index);
-  // console.log("days: " + days);
   const schedule = useQuery(["schedule"], fetchData);
-  // const [idolSchedule, setIdolSchedule] = useState([]);
 
-  useEffect(() => {}, [schedule]);
+  useEffect(() => {
+    console.log("checking", schedule.data);
+  }, [schedule]);
 
   // console.log(idolSchedule);
   // useEffect(() => {
@@ -332,7 +304,6 @@ function Show_event({ days }) {
             return (
               <div key={i} className="broadcast">
                 {data.data}
-                {/* {data.content} */}
               </div>
             );
           } else if (data.category === "release") {
