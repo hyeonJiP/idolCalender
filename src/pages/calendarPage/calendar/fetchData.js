@@ -1,8 +1,12 @@
-const fetchData = () =>
-  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
-    .then((res) => res.json())
-    .then((data) => {
+import axios from "axios";
+
+export const fetchData = (pk) =>
+  axios
+    .get(`http://127.0.0.1:8000/api/v1/idols/1/schedules`)
+    .then((response) => {
       const setIdolSchedule = [];
+      const data = response.data;
+
       for (let i = 0; i < data.length; i++) {
         // YYYYMMDD 형태로 변환하는 작업
         let dateList = data[i].when.split("-");
@@ -20,6 +24,8 @@ const fetchData = () =>
           category: typeValue,
         });
       }
-      console.log("fetch1", setIdolSchedule);
+
+      console.log("axios1", setIdolSchedule);
+
       return setIdolSchedule;
     });

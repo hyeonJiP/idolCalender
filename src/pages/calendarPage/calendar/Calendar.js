@@ -1,6 +1,8 @@
-import "./Calendar.css";
-import "./fetchData";
+// import "./Calendar.css";
+import styles from "./Calendar.module.scss";
+import { fetchData } from "./fetchData";
 
+import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,38 +17,42 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { useQuery } from "react-query";
 
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
-      .then((res) => res.json())
-      .then((data) => {
-        const setIdolSchedule = [];
-        for (let i = 0; i < data.length; i++) {
-          // YYYYMMDD 형태로 변환하는 작업
-          let dateList = data[i].when.split("-");
+    const fetchIdolSchedule = async (pk) => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/v1/idols/${pk}/schedules`
+        );
+        const data = response.data;
+        const idolSchedule = data.map((schedule) => {
+          const dateList = schedule.when.split("-");
           dateList[2] = dateList[2].substr(0, 2);
-          let dateValue = dateList.join("");
+          const dateValue = dateList.join("");
 
-          // ScheduleType안에 있는 type을 가져오는 작업
-          let typeObj = data[i].ScheduleType;
-          let typeValue = typeObj[Object.keys(typeObj)[0]];
+          const typeObj = schedule.ScheduleType;
+          const typeValue = typeObj[Object.keys(typeObj)[0]];
 
-          setIdolSchedule.push({
+          return {
             date: dateValue,
-            title: data[i].ScheduleTitle,
-            content: data[i].ScheduleContent,
+            title: schedule.ScheduleTitle,
+            content: schedule.ScheduleContent,
             category: typeValue,
-          });
-        }
-        return;
-      });
-    setIdolSchedule(idolSchedule);
-  }, [idolSchedule]);
+          };
+        });
+        setIdolSchedule(idolSchedule);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchIdolSchedule();
+  }, []);
+
+  const [selectedDay, setSelectedDay] = useState(null);
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
@@ -85,10 +91,24 @@ const Calendar = () => {
               // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
-                  <td key={index} className="today">
-                    <span>{days.format("D")}</span>
-                    <div className="event-content">
-                      <Show_event days={days} />
+                  <td
+                    key={index}
+                    onClick={() => setSelectedDay(days)}
+                    className={styles.today}
+                  >
+                    <span
+                      className={
+                        selectedDay &&
+                        selectedDay.format("YYYYMMDD") ===
+                          days.format("YYYYMMDD")
+                          ? styles.selected
+                          : null
+                      }
+                    >
+                      {days.format("D")}
+                    </span>
+                    <div className={styles.eventContent}>
+                      <ShowEvent days={days} />
                     </div>
                   </td>
                 );
@@ -101,15 +121,21 @@ const Calendar = () => {
                 );
               } else {
                 return (
-                  <td
-                    key={index}
-                    onClick={() =>
-                      console.log("clickedDay: " + days.format("D"))
-                    }
-                  >
-                    <span value={index}>{days.format("D")}</span>
-                    <div className="event-content">
-                      <Show_event days={days} />
+                  <td key={index} onClick={() => setSelectedDay(days)}>
+                    <span
+                      value={index}
+                      className={
+                        selectedDay &&
+                        selectedDay.format("YYYYMMDD") ===
+                          days.format("YYYYMMDD")
+                          ? styles.selected
+                          : null
+                      }
+                    >
+                      {days.format("D")}
+                    </span>
+                    <div className={styles.eventContent}>
+                      <ShowEvent days={days} />
                     </div>
                   </td>
                 );
@@ -122,10 +148,10 @@ const Calendar = () => {
   };
 
   return (
-    <div className="calendar-container">
-      <div className="control-container">
+    <div className={styles.calendarContainer}>
+      <div className={styles.controlContainer}>
         <button
-          className="prev-btn"
+          className={styles.prevBtn}
           onClick={() => {
             // clone() 은 기존의 moment가 아닌 새로운 객체를 반환했다는 의미
             setMoment(getMoment.clone().subtract(1, "month"));
@@ -133,9 +159,9 @@ const Calendar = () => {
         >
           <FontAwesomeIcon icon={faChevronLeft} size="lg" />
         </button>
-        <span className="title">{today.format("YYYY.MM")}</span>
+        <span className={styles.title}>{today.format("YYYY.MM")}</span>
         <button
-          className="next-btn"
+          className={styles.nextBtn}
           onClick={() => {
             setMoment(getMoment.clone().add(1, "month"));
           }}
@@ -143,7 +169,7 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faChevronRight} size="lg" />
         </button>
         <button
-          className="today-btn"
+          className={styles.todayBtn}
           onClick={() => {
             setMoment(moment());
           }}
@@ -152,23 +178,23 @@ const Calendar = () => {
         </button>
       </div>
 
-      <div className="category-container">
-        <button className="category-btn">
+      <div className={styles.categoryContainer}>
+        <button className={styles.categoryBtn}>
           <FontAwesomeIcon icon={faBroadcastTower} size="sm" /> 방송
         </button>
-        <button className="category-btn">
+        <button className={styles.categoryBtn}>
           <FontAwesomeIcon icon={faCompactDisc} size="sm" /> 발매
         </button>
-        <button className="category-btn">
+        <button className={styles.categoryBtn}>
           <FontAwesomeIcon icon={faStore} size="sm" /> 구매
         </button>
-        <button className="category-btn">
+        <button className={styles.categoryBtn}>
           <FontAwesomeIcon icon={faGift} size="sm" /> 축하
         </button>
-        <button className="category-btn">
+        <button className={styles.categoryBtn}>
           <FontAwesomeIcon icon={faCalendarCheck} size="sm" /> 행사
         </button>
-        <button className="category-btn">
+        <button className={styles.categoryBtn}>
           <FontAwesomeIcon icon={faUser} size="sm" /> my
         </button>
       </div>
@@ -191,98 +217,48 @@ const Calendar = () => {
 };
 export default Calendar;
 
-const fetchData = () =>
-  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
-    .then((res) => res.json())
-    .then((data) => {
-      const setIdolSchedule = [];
-      for (let i = 0; i < data.length; i++) {
-        // YYYYMMDD 형태로 변환하는 작업
-        let dateList = data[i].when.split("-");
-        dateList[2] = dateList[2].substr(0, 2);
-        let dateValue = dateList.join("");
-
-        // ScheduleType안에 있는 type을 가져오는 작업
-        let typeObj = data[i].ScheduleType;
-        let typeValue = typeObj[Object.keys(typeObj)[0]];
-
-        setIdolSchedule.push({
-          date: dateValue,
-          title: data[i].ScheduleTitle,
-          content: data[i].ScheduleContent,
-          category: typeValue,
-        });
-      }
-      console.log("fetch1", setIdolSchedule);
-      return setIdolSchedule;
-    });
-
-// Show_event(): 달력에 데이터를 보여주는 기능
-function Show_event({ days }) {
-  const schedule = useQuery(["schedule"], fetchData);
+function ShowEvent({ days }) {
+  const { data: schedule } = useQuery(["schedule"], fetchData);
 
   useEffect(() => {
-    console.log("checking", schedule.data);
+    // console.log("checking", schedule);
   }, [schedule]);
 
-  // console.log(idolSchedule);
-  // useEffect(() => {
-  //   console.log(
-  //     "fetch2",
-  //     data.then((res) => res)
-  //   );
-  //   setIdolSchedule(data);
-  // }, []);
+  const renderScheduleData = () => {
+    return schedule?.map((data, i) => {
+      if (days.format("YYYYMMDD") === moment(data.date).format("YYYYMMDD")) {
+        let categoryStyle = styles.my;
 
-  // useEffect(() => {
-  //   // console.log("cccc", idolSchedule);
-  // }, [idolSchedule]);
-
-  return (
-    <>
-      {schedule.data?.map((data, i) => {
-        // console.log(data, i);
-        if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
-          // console.log(data.type);
-          if (data.category === "broadcast") {
-            return (
-              <div key={i} className="broadcast">
-                {data.data}
-              </div>
-            );
-          } else if (data.category === "release") {
-            return (
-              <div key={i} className="release">
-                {data.data}
-              </div>
-            );
-          } else if (data.category === "buy") {
-            return (
-              <div key={i} className="buy">
-                {data.data}
-              </div>
-            );
-          } else if (data.category === "congrats") {
-            return (
-              <div key={i} className="congratulations">
-                {data.data}
-              </div>
-            );
-          } else if (data.category === "event") {
-            return (
-              <div key={i} className="event">
-                {data.data}
-              </div>
-            );
-          } else {
-            return (
-              <div key={i} className="my">
-                {data.data}
-              </div>
-            );
-          }
+        switch (data.category) {
+          case "broadcast":
+            categoryStyle = styles.broadcast;
+            break;
+          case "release":
+            categoryStyle = styles.release;
+            break;
+          case "buy":
+            categoryStyle = styles.buy;
+            break;
+          case "congrats":
+            categoryStyle = styles.congrats;
+            break;
+          case "event":
+            categoryStyle = styles.event;
+            break;
+          default:
+            break;
         }
-      })}
-    </>
-  );
+
+        return (
+          <div key={i} className={categoryStyle}>
+            {data.data}
+          </div>
+        );
+      }
+
+      return null;
+    });
+  };
+
+  return <>{renderScheduleData()}</>;
 }

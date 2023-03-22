@@ -9,11 +9,10 @@ import ScrollToTop from "./UI/ScrollUP";
 import { getCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
-
 import axios from "axios";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
-import axios from "axios";
+
 import ReportTable from "./pages/adminPage/table/ReportTable";
 import ReportSchedule from "./pages/FormPage/IdolForm/ReportSchedule";
 import LogIn from "./pages/FormPage/UserForm/Login";
@@ -22,6 +21,7 @@ import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
 import { NotFound } from "react-admin";
+import UserSchedule from "./pages/calendarPage/myschedule/UserSchedule";
 
 function App() {
   const dispatch = useDispatch();
@@ -95,9 +95,7 @@ function App() {
           element={!isLogin ? <Navigate to="/" /> : <EditUser />}
         />
 
-        <Route path="/calendar" element={<Calendar />} />
-
-        <Route path="/calendarpage" element={<CalendarPage />} />
+        <Route path="/userschedule" element={<UserSchedule />} />
 
         <Route
           path="/report"
