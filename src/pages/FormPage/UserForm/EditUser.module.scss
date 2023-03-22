@@ -51,7 +51,7 @@ body {
   margin: 0 auto;
   margin-bottom: 40px;
   padding: 40px 20px 80px 20px;
-  width: 60vw;
+  width: 65vw;
   border-radius: 20px;
   background-color: white;
   hr {
@@ -71,7 +71,7 @@ body {
 }
 
 .errorMessage {
-  width: 90%;
+  width: 85%;
   height: 20px;
   margin: auto 0;
   display: flex;
@@ -79,7 +79,7 @@ body {
   p {
     color: #bf1650;
     position: relative;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin: 0;
   }
 
@@ -183,12 +183,8 @@ body {
   }
 
   .errorMessage {
-    width: 65%;
     height: 20px;
     margin: auto 0;
-    p {
-      left: 35%;
-    }
   }
 
   .containerBtnDiv {

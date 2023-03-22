@@ -35,11 +35,10 @@ const Headar = () => {
       })
       .then((res) => console.log(res))
       .then((data) => console.log(data));
-    console.log("logout");
     setCookie("isLogin", { is_admin: false, pick: false });
     dispatch(authActions.logOut());
-    // navigate("/");
-    // window.location.reload();
+    navigate("/");
+    window.location.reload();
   };
 
   return (

@@ -6,7 +6,7 @@ import { getCookie } from "../../../cookie/cookie";
 import Layout from "../../../UI/Layout";
 import { BASE_URL } from "../../../URL/url";
 import styles from "./EditUser.module.scss";
-import EditUserImg from "./EditUserImg";
+import EditUserImg from "./EditUserImg.js";
 import Option from "./Option";
 
 const EditUser = () => {
