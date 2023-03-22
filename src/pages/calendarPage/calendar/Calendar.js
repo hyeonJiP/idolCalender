@@ -171,7 +171,7 @@ const Calendar = () => {
     setIsShown(!isShown);
   };
 
-  const types = [...new Set(idData?.map((item) => item.ScheduleType.type))];
+  const types = [...new Set(idData.map((item) => item.ScheduleType.type))];
   console.log(types);
   return (
     <div className="calendar-container">
