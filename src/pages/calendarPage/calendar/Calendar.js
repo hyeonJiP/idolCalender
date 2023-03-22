@@ -18,11 +18,13 @@ import {
 import { useQuery } from "react-query";
 
 import Sidebar from "../hj_sideBar/Sidebar";
+import { axiosSchedule } from "../../../api";
+import { useParams } from "react-router-dom";
 
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
-  // console.log(idolSchedule);
+  //console.log(idolSchedule);
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/idols/1/schedules")
       .then((res) => res.json())
@@ -152,6 +154,25 @@ const Calendar = () => {
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
 
+  const { idolId } = useParams();
+  const { isLoding: idDataLoding, data: idData } = useQuery(
+    ["info", idolId],
+    () => {
+      return axiosSchedule(idolId);
+    }
+  );
+  //console.log(idData[0].ScheduleType.type);
+
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [isShown, setIsShown] = useState(true);
+
+  const handleClick = (index) => {
+    setActiveIndex(index);
+    setIsShown(!isShown);
+  };
+
+  const types = [...new Set(idData?.map((item) => item.ScheduleType.type))];
+  console.log(types);
   return (
     <div className="calendar-container">
       <div className="control-container">
@@ -187,10 +208,16 @@ const Calendar = () => {
       {/* 사이드바 */}
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       <div className="category-container">
-        <button className="category-btn">
+        {/* {types.map((type, index) => (
+          <button onClick={() => handleClick(index)} key={index}>
+            {type}
+          </button>
+        ))} */}
+
+        <button className="category-btn" onClick={() => handleClick(1)}>
           <FontAwesomeIcon icon={faBroadcastTower} size="sm" /> 방송
         </button>
-        <button className="category-btn">
+        <button className="category-btn" onClick={() => handleClick(2)}>
           <FontAwesomeIcon icon={faCompactDisc} size="sm" /> 발매
         </button>
         <button className="category-btn">
@@ -279,8 +306,27 @@ function Show_event({ days }) {
   return (
     <>
       {schedule.data?.map((data, i) => {
-        // console.log(data, i);
+        //console.log(data, i);
+        //console.log(schedule.data);
         if (days.format("YYYYMMDD") == moment(data.date).format("YYYYMMDD")) {
+          // {types.map((type, index) => (
+          //   <div key={index} className="testDiv">
+          //     {schedule
+          //       .filter((item) => item.category === type)
+          //       .map((item, index) => (
+          //         <div
+          //           key={index}
+          //           className={item.category}
+          //           style={{
+          //             display: activeIndex === index || isShown ? "block" : "none",
+          //           }}
+          //           // style={{ display: isShown ? "block" : "none" }}
+          //         >
+          //           {item.data}
+          //         </div>
+          //       ))}
+          //   </div>
+          // ))}
           // console.log(data.type);
           if (data.category === "broadcast") {
             return (
