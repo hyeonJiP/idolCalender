@@ -5,6 +5,8 @@ import * as AiIcons from "react-icons/ai";
 import { SidebarData } from "./SidebarData";
 import styles from "./Sidebar.module.scss";
 
+import UserSchedule from "../myschedule/UserSchedule";
+
 const SidebarNav = styled.nav`
   background-color: #5b5be8;
   padding: 0 20px;
@@ -73,21 +75,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
               <br />
               놓치지 마세요
             </h3>
-            <ul className={styles.todaySchedule_List}>
-              {SidebarData.map((item, index) => {
-                {
-                  return (
-                    <li className={styles.todaySchedule_Item} key={index}>
-                      <div className={styles.editDiv_le}>{item.title}</div>
-                      <div className={styles.editDiv_ri}>
-                        <button>수정</button>
-                        <button>삭제</button>
-                      </div>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
+            <UserSchedule />
           </div>
         </div>
       </SidebarNav>

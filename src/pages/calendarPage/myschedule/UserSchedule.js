@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./UserSchedule.module.scss";
 
 const UserSchedule = () => {
   const [todos, setTodos] = useState([]);
@@ -99,35 +100,44 @@ const UserSchedule = () => {
   return (
     <div>
       <h1>UserSchedule</h1>
-      <form>
-        <div>
-          <label htmlFor="title">Title: </label>
+      <form className={styles.form}>
+        <div className={styles.div}>
+          <label htmlFor="title" className={styles.label}>
+            Title:{" "}
+          </label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className={styles.input}
           />
         </div>
         <div>
-          <label htmlFor="contents">Contents: </label>
+          <label htmlFor="contents" className={styles.label}>
+            Contents:{" "}
+          </label>
           <input
             type="text"
             id="contents"
             value={contents}
             onChange={(e) => setContents(e.target.value)}
+            className={styles.input}
           />
         </div>
         <div>
-          <label htmlFor="when">When: </label>
+          <label htmlFor="when" className={styles.label}>
+            When:{" "}
+          </label>
           <input
             type="date"
             id="when"
             value={when}
             onChange={(e) => setWhen(e.target.value)}
+            className={styles.input}
           />
         </div>
-        <button type="button" onClick={handleAddTodo}>
+        <button type="button" onClick={handleAddTodo} className={styles.button}>
           Add Todo
         </button>
       </form>
@@ -137,36 +147,51 @@ const UserSchedule = () => {
             {editableTodoId === todo.id ? (
               <div>
                 <div>
-                  <label htmlFor="title">Title: </label>
+                  <label htmlFor="title" className={styles.label}>
+                    Title:{" "}
+                  </label>
                   <input
                     type="text"
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    className={styles.input}
                   />
                 </div>
                 <div>
-                  <label htmlFor="contents">Contents: </label>
+                  <label htmlFor="contents" className={styles.label}>
+                    Contents:{" "}
+                  </label>
                   <input
                     type="text"
                     id="contents"
                     value={contents}
                     onChange={(e) => setContents(e.target.value)}
+                    className={styles.input}
                   />
                 </div>
                 <div>
-                  <label htmlFor="when">When: </label>
+                  <label htmlFor="when" className={styles.label}>
+                    When:{" "}
+                  </label>
                   <input
                     type="text"
                     id="when"
                     value={when}
                     onChange={(e) => setWhen(e.target.value)}
+                    className={styles.input}
                   />
                 </div>
-                <button type="button" onClick={() => handleUpdateTodo(todo.id)}>
-                  Update
-                </button>
-                <button type="button" onClick={() => setEditableTodoId(null)}>
+                <button
+                  type="button"
+                  onClick={() => handleUpdateTodo(todo.id)}
+                  className={styles.button}
+                ></button>
+                <button
+                  type="button"
+                  onClick={() => setEditableTodoId(null)}
+                  className={styles.button}
+                >
                   Cancel
                 </button>
               </div>
@@ -181,7 +206,11 @@ const UserSchedule = () => {
                 <div>
                   <strong>When:</strong> {todo.when}
                 </div>
-                <button type="button" onClick={() => handleEditTodo(todo.id)}>
+                <button
+                  type="button"
+                  onClick={() => handleEditTodo(todo.id)}
+                  className={styles.button}
+                >
                   Edit
                 </button>
                 <button type="button" onClick={() => handleDeleteTodo(todo.id)}>

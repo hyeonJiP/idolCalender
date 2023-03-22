@@ -80,7 +80,7 @@ const CalendarData = () => {
       nextDay.push(type(dayType[i]));
     }
   }
-  console.log(nextDay);
+  // console.log(nextDay);
 
   // 사이드바
   // const [sidebar, setSidebar] = useState(false);

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const fetchData = (pk) =>
+export const fetchData = (idolId) =>
   axios
-    .get(`http://127.0.0.1:8000/api/v1/idols/1/schedules`)
+    .get(`http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`)
     .then((response) => {
       const setIdolSchedule = [];
       const data = response.data;
@@ -25,7 +25,7 @@ export const fetchData = (pk) =>
         });
       }
 
-      console.log("axios1", setIdolSchedule);
+      //console.log("axios1", setIdolSchedule);
 
       return setIdolSchedule;
     });

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faUser,
   faRotateRight,
@@ -18,15 +19,21 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
+import Sidebar from "../hj_sideBar/Sidebar";
+import { axiosSchedule } from "../../../api";
+import { useParams } from "react-router";
 
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
-  useEffect(() => {
-    const fetchIdolSchedule = async (pk) => {
+  // 아이돌 pk 정보 가져오기
+  const { idolId } = useParams();
+  console.log(idolId);
+  useEffect((idolId) => {
+    const fetchIdolSchedule = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/v1/idols/${pk}/schedules`
+          `http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`
         );
         const data = response.data;
         const idolSchedule = data.map((schedule) => {
@@ -93,7 +100,10 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    onClick={() => setSelectedDay(days)}
+                    onClick={() => {
+                      setSelectedDay(days);
+                      showSidebar();
+                    }}
                     className={styles.today}
                   >
                     <span
@@ -121,7 +131,13 @@ const Calendar = () => {
                 );
               } else {
                 return (
-                  <td key={index} onClick={() => setSelectedDay(days)}>
+                  <td
+                    key={index}
+                    onClick={() => {
+                      setSelectedDay(days);
+                      showSidebar();
+                    }}
+                  >
                     <span
                       value={index}
                       className={
@@ -135,7 +151,7 @@ const Calendar = () => {
                       {days.format("D")}
                     </span>
                     <div className={styles.eventContent}>
-                      <ShowEvent days={days} />
+                      <ShowEvent days={days} idolId={idolId} />
                     </div>
                   </td>
                 );
@@ -146,6 +162,19 @@ const Calendar = () => {
     }
     return result;
   };
+
+  const buttons = [
+    { pk: 1, type: "broadcast", content: "방송", icon: faBroadcastTower },
+    { pk: 2, type: "event", content: "행사", icon: faCalendarCheck },
+    { pk: 3, type: "release", content: "발매", icon: faCompactDisc },
+    { pk: 4, type: "congratulations", content: "축하", icon: faGift },
+    { pk: 5, type: "buy", content: "구매", icon: faStore },
+    { pk: 6, type: "my", content: "My", icon: faUser },
+  ];
+  //console.log(buttons[0].icon);
+
+  const [sidebar, setSidebar] = useState(false);
+  const showSidebar = () => setSidebar(!sidebar);
 
   return (
     <div className={styles.calendarContainer}>
@@ -177,26 +206,16 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
+      <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+      {/* 버튼 */}
 
       <div className={styles.categoryContainer}>
-        <button className={styles.categoryBtn}>
-          <FontAwesomeIcon icon={faBroadcastTower} size="sm" /> 방송
-        </button>
-        <button className={styles.categoryBtn}>
-          <FontAwesomeIcon icon={faCompactDisc} size="sm" /> 발매
-        </button>
-        <button className={styles.categoryBtn}>
-          <FontAwesomeIcon icon={faStore} size="sm" /> 구매
-        </button>
-        <button className={styles.categoryBtn}>
-          <FontAwesomeIcon icon={faGift} size="sm" /> 축하
-        </button>
-        <button className={styles.categoryBtn}>
-          <FontAwesomeIcon icon={faCalendarCheck} size="sm" /> 행사
-        </button>
-        <button className={styles.categoryBtn}>
-          <FontAwesomeIcon icon={faUser} size="sm" /> my
-        </button>
+        {buttons.map((btn) => (
+          <button className={styles.categoryBtn} key={btn.pk}>
+            <FontAwesomeIcon icon={btn.icon} size="sm" />
+            {btn.content}
+          </button>
+        ))}
       </div>
       <table>
         <tbody>
@@ -217,8 +236,11 @@ const Calendar = () => {
 };
 export default Calendar;
 
-function ShowEvent({ days }) {
-  const { data: schedule } = useQuery(["schedule"], fetchData);
+function ShowEvent({ days, idolId }) {
+  //const { idolId } = useParams();
+  const { data: schedule } = useQuery(["schedule", idolId], () =>
+    fetchData(idolId)
+  );
 
   useEffect(() => {
     // console.log("checking", schedule);
