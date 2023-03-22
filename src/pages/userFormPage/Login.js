@@ -27,7 +27,7 @@ const LogIn = () => {
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
     const res = await axios
-      .post(`${BASE_URL}users/login/`, data, {
+      .post(`${BASE_URL}users/login`, data, {
         withCredentials: true,
       })
       .then((response) => {
@@ -36,6 +36,7 @@ const LogIn = () => {
       })
       .catch((error) => {
         setIsValid(true);
+        console.log(error);
         return error;
       });
 
