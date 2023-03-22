@@ -1,0 +1,241 @@
+$btnColor: #4856ff;
+
+body {
+  background-color: #f9f9f9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  height: 130vh;
+}
+
+.title {
+  padding: 70px 0px 30px 0;
+}
+
+.signUpContainer {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+
+  .userImg {
+    background-color: #a7a8b1;
+    z-index: 0;
+
+    &::after {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+    width: 150px;
+    position: relative;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    .imgInner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  button {
+    background-color: $btnColor;
+    border: 0;
+    margin: 3px;
+    color: white;
+    width: 70px;
+    height: 30px;
+    font-weight: bold;
+  }
+}
+
+.signUp {
+  margin: 0 auto;
+  margin-bottom: 40px;
+  padding: 40px 20px 80px 20px;
+  width: 70vw;
+  border-radius: 20px;
+  background-color: white;
+  hr {
+    width: 100%;
+    margin-top: 3vh;
+  }
+}
+
+.editForm {
+  align-items: flex-start;
+  padding: 40px;
+  width: 90%;
+  label {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+}
+
+.errorMessage {
+  width: 90%;
+  height: 20px;
+  margin: auto 0;
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: #bf1650;
+    position: relative;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  p::before {
+    display: inline;
+    content: "⚠ ";
+  }
+}
+
+.typeDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: 35px;
+  margin-top: 20px;
+  input {
+    width: 360px;
+    height: 80%;
+    border: 1px solid black;
+  }
+  select {
+    width: 360px;
+  }
+}
+
+.typeAbsoluteDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: 3vh;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
+  .absoluteInform {
+    position: relative;
+    width: 360px;
+    font-size: 0.8rem;
+  }
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  button {
+    &:nth-child(1) {
+      background-color: #a7a8b1;
+    }
+    background-color: $btnColor;
+    color: white;
+    border: 0px;
+    margin: 90px 10px 0 0;
+    border-radius: 30px;
+    width: 170px;
+    height: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+@media (max-width: 768px) {
+  .typeAbsoluteDiv {
+    width: 100%;
+    height: 24px;
+    .absoluteInform {
+      width: 250px;
+    }
+  }
+  .signUpContainer {
+    .userImg {
+      background-color: #a7a8b1;
+      z-index: 0;
+      width: 130px;
+
+      .imgInner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .editForm {
+    label {
+      font-size: 0.7rem;
+    }
+    select {
+      width: 250px;
+      height: 22px;
+    }
+  }
+  .typeDiv {
+    width: 100%;
+    height: 24px;
+    input {
+      width: 250px;
+      height: 20px;
+    }
+  }
+
+  .errorMessage {
+    width: 65%;
+    height: 20px;
+    margin: auto 0;
+    p {
+      left: 35%;
+    }
+  }
+
+  .containerBtnDiv {
+    button {
+      width: 60px;
+      height: 25px;
+    }
+  }
+  .buttonDiv {
+    display: flex;
+    button {
+      margin: 5vh 20px 0 0;
+      width: 120px;
+      height: 40px;
+    }
+  }
+}
+
+@media (max-width: 376px) {
+  .buttonDiv {
+    display: flex;
+    button {
+      margin: 8vh 20px 0 0;
+      width: 100px;
+      height: 40px;
+    }
+  }
+  .signUp {
+    padding: 10px;
+  }
+  .editForm {
+    padding: 20px;
+    input {
+      width: 150px;
+      height: 17px;
+    }
+    .absoluteInform {
+      width: 150px;
+      height: 17px;
+    }
+    select {
+      width: 150px;
+      height: 17px;
+    }
+  }
+
+  .containerBtnDiv {
+    button {
+      width: 60px;
+      height: 30px;
+    }
+  }
+}
