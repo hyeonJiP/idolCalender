@@ -7,7 +7,6 @@ import styles from "./Home.module.scss";
 
 const Home = () => {
   const { isLoding: idolLoding, data: idolData } = useQuery("idol", axiosIdol);
-  const [idolDate, setidolDate] = useState();
   //console.log(idolData);
 
   const slideImage = idolData?.slice(0, 4);
@@ -17,8 +16,9 @@ const Home = () => {
     "schedules",
     axiosSchedules
   );
+  console.log(schedulesData);
 
-  const idolId = schedulesData?.slice(0, 10);
+  // const [idolDate, setidolDate] = useState();
 
   // useEffect(() => {
   //   (async () => {
@@ -28,103 +28,101 @@ const Home = () => {
   //   })();
   // }, []);
 
-  const data = [
-    {
-      id: 1,
-      idol_ko_name: "갓세븐",
+  // const data = [
+  //   {
+  //     id: 1,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 2,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 3,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 4,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 5,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 6,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 7,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 8,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 9,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  //   {
+  //     id: 10,
+  //     idol_ko_name: "갓세븐",
+  //     idol_en_name: "GOT",
+  //     idol_image:
+  //       "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
+  //     idal_eventTime: "12:00",
+  //     idal_eventDay: "Blackpink 6th Month",
+  //   },
+  // ];
+  //console.log(data);
 
-      idol_en_name: "카리나",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 2,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "22",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 3,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "33",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 4,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "44",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 5,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "55",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 6,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "66",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 7,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "77",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 8,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "88",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 9,
-      idol_ko_name: "갓세븐",
-      idol_en_name: "99",
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-    {
-      id: 10,
-
-      idol_ko_name: "갓세븐!!!!!!",
-      idol_en_name: "아이브",
-
-      idol_image:
-        "https://image.blip.kr/v1/file/9de421cbe5d01b2747c76424ce50d9a4",
-      idal_eventTime: "12:00",
-      idal_eventDay: "Blackpink 6th Month",
-    },
-  ];
-
-  const mainImage = data.slice(0, 4);
+  //const mainImage = data.slice(0, 4);
   //console.log(mainImage);
 
   return (
@@ -133,20 +131,23 @@ const Home = () => {
         <div className={styles.home_mainBanner}></div>
         <div className={styles.slider}>
           <div className={styles.slideBox}>
-            {data?.map((data) => {
-              //console.log(schedulesData[0].participant[0].idol_name);
+            {schedulesData?.map((data) => {
+              const dateFormat = `${data.when.slice(5, 7)}월 ${data.when.slice(
+                8,
+                10
+              )}일`;
               return (
                 <div className={styles.slide} key={Math.random()}>
                   <div className={styles.slideInner}>
                     <div className={styles.slideContent}>
                       <div className={styles.slideTop}>
-                        <span>{data.when}</span>
+                        <span>{dateFormat}</span>
                       </div>
                       <div className={styles.slideMid}>
                         <span>{data.ScheduleTitle}</span>
                       </div>
                       <div className={styles.slideBot}>
-                        <span>{data.pk}</span>
+                        {/* <span>{data.participant[0].idol_name_kr}</span> */}
                       </div>
                     </div>
                   </div>
@@ -195,8 +196,10 @@ const Home = () => {
                           src={data.idol_profile}
                           alt="아티스트 이미지"
                         ></img>
-                        <h3 className={styles.artistName}>{data.idol_name}</h3>
-                        <p className={styles.artistFont}>{data.idol_group}</p>
+                        <h3 className={styles.artistName}>
+                          {data.idol_name_kr}
+                        </h3>
+                        <p className={styles.artistFont}>{data.idol_name_en}</p>
                       </Link>
                     </li>
                   ))}
