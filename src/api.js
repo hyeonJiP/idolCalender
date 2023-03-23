@@ -28,11 +28,21 @@ export function axiosSchedules() {
   return axios(`${BASE_URL}/schedules/`).then((response) => response.data);
 }
 
-// useEffect(() => {
-//   (async () => {
-//     const response = await (
-//       await fetch(`${BASE_URL}/${idolId}/schedules`)
-//     ).json();
-//     console.log(response[0].pk);
-//   })();
-// });
+export const axiosTodaySchedule = async (
+  idolId,
+  category,
+  year,
+  month,
+  day
+) => {
+  let data = "";
+  await axios
+    .get(`${BASE_URL}/${idolId}/schedules/${category}/${year}/${month}/${day}/`)
+    .then((response) => {
+      data = response.data;
+      return data;
+    });
+  console.log("data", data);
+  return data;
+};
+// http://127.0.0.1:8000/api/v1/idols/1/schedules/broadcast/2023/3/23/

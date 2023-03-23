@@ -95,14 +95,9 @@ function App() {
           element={!isLogin ? <Navigate to="/" /> : <EditUser />}
         />
 
-        <Route
-          path="/:idolId"
-          element={
-            <Layout>
-              <CalendarPage />
-            </Layout>
-          }
-        />
+        <Route path="/calendar" element={<Calendar />} />
+
+        <Route path="/calendarpage" element={<CalendarPage />} />
 
         <Route
           path="/report"
@@ -112,6 +107,14 @@ function App() {
             </Modal>
           }
         />
+        <Route
+          path="/:idolId"
+          element={
+            <Layout>
+              <CalendarPage />
+            </Layout>
+          }
+        ></Route>
 
         <Route element={<NotFoundPage />} path="/*" />
       </Routes>

@@ -1,25 +1,26 @@
-const fetchData = () =>
-  fetch("http://127.0.0.1:8000/api/v1/idols/4/schedules")
-    .then((res) => res.json())
-    .then((data) => {
-      const setIdolSchedule = [];
-      for (let i = 0; i < data.length; i++) {
-        // YYYYMMDD 형태로 변환하는 작업
-        let dateList = data[i].when.split("-");
-        dateList[2] = dateList[2].substr(0, 2);
-        let dateValue = dateList.join("");
+import axios from "axios";
 
-        // ScheduleType안에 있는 type을 가져오는 작업
-        let typeObj = data[i].ScheduleType;
-        let typeValue = typeObj[Object.keys(typeObj)[0]];
-
-        setIdolSchedule.push({
-          date: dateValue,
-          title: data[i].ScheduleTitle,
-          content: data[i].ScheduleContent,
-          category: typeValue,
-        });
-      }
-      console.log("fetch1", setIdolSchedule);
-      return setIdolSchedule;
+export const fetchData = async (idolId) => {
+  try {
+    const response = await axios.get(
+      `http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`
+    );
+    const data = response.data;
+    const idolSchedule = data.map((schedule) => {
+      const dateList = schedule.when.split("-");
+      dateList[2] = dateList[2].substr(0, 2);
+      const dateValue = dateList.join("");
+      const typeObj = schedule.ScheduleType;
+      const typeValue = typeObj.type;
+      return {
+        date: dateValue,
+        title: schedule.ScheduleTitle,
+        content: schedule.ScheduleContent,
+        category: typeValue,
+      };
     });
+    return idolSchedule;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -17,12 +17,12 @@ const types = [...new Set(data.map((item) => item.category))];
 //console.log(types);
 
 const buttons = [
-  { pk: 1, type: "broadcast", content: "방송" },
-  { pk: 2, type: "event", content: "행사" },
-  { pk: 3, type: "release", content: "발매" },
-  { pk: 4, type: "congratulations", content: "축하" },
-  { pk: 5, type: "buy", content: "구매" },
-  { pk: 6, type: "my", content: "My" },
+  { pk: 1, category: "broadcast", content: "방송" },
+  { pk: 2, category: "event", content: "행사" },
+  { pk: 3, category: "release", content: "발매" },
+  { pk: 4, category: "congratulations", content: "축하" },
+  { pk: 5, category: "buy", content: "구매" },
+  { pk: 6, category: "my", content: "My" },
 ];
 
 const Test = () => {
@@ -56,7 +56,7 @@ const Test = () => {
   // filteredData 변수를 통해 선택된 버튼에 해당하는 data 배열의 요소를 필터링하여 출력
   const filteredData = data.filter((item) =>
     activeButtons.includes(
-      buttons.find((button) => button.type === item.category).pk
+      buttons.find((button) => button.category === item.category).pk
     )
   );
 
