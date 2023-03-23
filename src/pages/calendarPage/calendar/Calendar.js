@@ -20,7 +20,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
 import Sidebar from "../hj_sideBar/Sidebar";
-import { axiosSchedule } from "../../../api";
+import { axiosSchedule, axiosTodaySchedule } from "../../../api";
 import { useParams } from "react-router";
 
 const Calendar = () => {
@@ -28,36 +28,39 @@ const Calendar = () => {
 
   // 아이돌 pk 정보 가져오기
   const { idolId } = useParams();
-  console.log(idolId);
-  useEffect((idolId) => {
-    const fetchIdolSchedule = async () => {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`
-        );
-        const data = response.data;
-        const idolSchedule = data.map((schedule) => {
-          const dateList = schedule.when.split("-");
-          dateList[2] = dateList[2].substr(0, 2);
-          const dateValue = dateList.join("");
+  // console.log(idolId);
+  useEffect(() => {
+    if (idolId) {
+      // idolId 값이 유효할 때만 API 요청 보내도록 수정
+      const fetchIdolSchedule = async () => {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`
+          );
+          const data = response.data;
+          const idolSchedule = data.map((schedule) => {
+            const dateList = schedule.when.split("-");
+            dateList[2] = dateList[2].substr(0, 2);
+            const dateValue = dateList.join("");
 
-          const typeObj = schedule.ScheduleType;
-          const typeValue = typeObj[Object.keys(typeObj)[0]];
-
-          return {
-            date: dateValue,
-            title: schedule.ScheduleTitle,
-            content: schedule.ScheduleContent,
-            category: typeValue,
-          };
-        });
-        setIdolSchedule(idolSchedule);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchIdolSchedule();
-  }, []);
+            const typeObj = schedule.ScheduleType;
+            const typeValue = typeObj.type;
+            // console.log(typeValue);
+            return {
+              date: dateValue,
+              title: schedule.ScheduleTitle,
+              content: schedule.ScheduleContent,
+              category: typeValue,
+            };
+          });
+          setIdolSchedule(idolSchedule);
+        } catch (error) {
+          // console.log(error);
+        }
+      };
+      fetchIdolSchedule();
+    }
+  }, [idolId]);
 
   const [selectedDay, setSelectedDay] = useState(null);
 
@@ -97,12 +100,13 @@ const Calendar = () => {
 
               // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
+                //console.log(days);
                 return (
                   <td
                     key={index}
                     onClick={() => {
                       setSelectedDay(days);
-                      showSidebar();
+                      showSidebar(filteredData);
                     }}
                     className={styles.today}
                   >
@@ -118,7 +122,13 @@ const Calendar = () => {
                       {days.format("D")}
                     </span>
                     <div className={styles.eventContent}>
-                      <ShowEvent days={days} />
+                      {/* <div className={styles.testDiv}> */}
+                      {filteredData ? filteredData.data : ""}
+                      <ShowEvent
+                        filteredData={filteredData}
+                        buttons={buttons}
+                        days={days}
+                      />
                     </div>
                   </td>
                 );
@@ -135,7 +145,7 @@ const Calendar = () => {
                     key={index}
                     onClick={() => {
                       setSelectedDay(days);
-                      showSidebar();
+                      showSidebar(filteredData);
                     }}
                   >
                     <span
@@ -151,7 +161,13 @@ const Calendar = () => {
                       {days.format("D")}
                     </span>
                     <div className={styles.eventContent}>
-                      <ShowEvent days={days} idolId={idolId} />
+                      {/* <div className={styles.testDiv}> */}
+                      {filteredData ? filteredData.data : ""}
+                      <ShowEvent
+                        filteredData={filteredData}
+                        buttons={buttons}
+                        days={days}
+                      />
                     </div>
                   </td>
                 );
@@ -163,18 +179,57 @@ const Calendar = () => {
     return result;
   };
 
-  const buttons = [
-    { pk: 1, type: "broadcast", content: "방송", icon: faBroadcastTower },
-    { pk: 2, type: "event", content: "행사", icon: faCalendarCheck },
-    { pk: 3, type: "release", content: "발매", icon: faCompactDisc },
-    { pk: 4, type: "congratulations", content: "축하", icon: faGift },
-    { pk: 5, type: "buy", content: "구매", icon: faStore },
-    { pk: 6, type: "my", content: "My", icon: faUser },
-  ];
-  //console.log(buttons[0].icon);
+  // schedule 데이터
+  const { data: schedule } = useQuery(["schedule", idolId], () =>
+    fetchData(idolId)
+  );
 
+  const buttons = [
+    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
+    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+    { pk: 4, category: "congrats", content: "축하", icon: faGift },
+    { pk: 5, category: "buy", content: "구매", icon: faStore },
+    { pk: 6, category: "my", content: "My", icon: faUser },
+  ];
+  const [activeButtons, setActiveButtons] = useState([1, 2, 3, 4, 5, 6]);
+
+  const handleClick = (buttonPk) => {
+    if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
+      return;
+    }
+    const index = activeButtons.indexOf(buttonPk);
+
+    if (index === -1) {
+      setActiveButtons([...activeButtons, buttonPk]);
+    } else {
+      setActiveButtons([
+        ...activeButtons.slice(0, index),
+        ...activeButtons.slice(index + 1),
+      ]);
+    }
+  };
+  // console.log(schedule);
+  const filteredData = schedule?.filter((item) =>
+    activeButtons.includes(
+      buttons.find((button) => button.category === item.category)?.pk
+    )
+  );
+  // console.log(filteredData);
+
+  // 카테고리 배열
+  const category = [...new Set(filteredData?.map((item) => item.category))];
+  const todays = new Date();
+  const year = todays.getFullYear();
+  const month = todays.getMonth() + 1;
+  const day = todays.getDate();
+
+  // 사이드바
   const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+  const showSidebar = (filteredData) => {
+    // console.log(filteredData);
+    return setSidebar(!sidebar);
+  };
 
   return (
     <div className={styles.calendarContainer}>
@@ -206,17 +261,26 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
+      {/* 사이드바 */}
       <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
       {/* 버튼 */}
-
       <div className={styles.categoryContainer}>
         {buttons.map((btn) => (
-          <button className={styles.categoryBtn} key={btn.pk}>
+          <button
+            className={`${
+              activeButtons.includes(btn.pk) ? styles.active : styles.inactive
+            } 
+             ${styles.buttonss}
+            `}
+            key={btn.pk}
+            onClick={() => handleClick(btn.pk)}
+          >
             <FontAwesomeIcon icon={btn.icon} size="sm" />
             {btn.content}
           </button>
         ))}
       </div>
+
       <table>
         <tbody>
           <tr>
@@ -236,51 +300,40 @@ const Calendar = () => {
 };
 export default Calendar;
 
-function ShowEvent({ days, idolId }) {
+function ShowEvent({ days, idolId, buttons, filteredData }) {
   //const { idolId } = useParams();
   const { data: schedule } = useQuery(["schedule", idolId], () =>
     fetchData(idolId)
   );
 
-  useEffect(() => {
-    // console.log("checking", schedule);
-  }, [schedule]);
+  // 버튼 pk 추출
+  const pks = buttons?.map((item) => item.pk);
 
-  const renderScheduleData = () => {
-    return schedule?.map((data, i) => {
-      if (days.format("YYYYMMDD") === moment(data.date).format("YYYYMMDD")) {
-        let categoryStyle = styles.my;
+  // category 추출(중복x)
+  const category = [...new Set(schedule?.map((item) => item.category))];
 
-        switch (data.category) {
-          case "broadcast":
-            categoryStyle = styles.broadcast;
-            break;
-          case "release":
-            categoryStyle = styles.release;
-            break;
-          case "buy":
-            categoryStyle = styles.buy;
-            break;
-          case "congrats":
-            categoryStyle = styles.congrats;
-            break;
-          case "event":
-            categoryStyle = styles.event;
-            break;
-          default:
-            break;
-        }
+  useEffect(() => {}, [schedule]);
 
-        return (
-          <div key={i} className={categoryStyle}>
-            {data.data}
-          </div>
-        );
-      }
+  //const days = moment();
 
-      return null;
-    });
-  };
-
-  return <>{renderScheduleData()}</>;
+  return (
+    <>
+      <div className={styles.testDiv}>
+        {filteredData?.map((item, i) => {
+          if (
+            days?.format("YYYYMMDD") == moment(item.date).format("YYYYMMDD")
+          ) {
+            return (
+              <div
+                key={i}
+                className={`${styles.listItem} ${styles[item.category]}`}
+              >
+                {item.data}
+              </div>
+            );
+          }
+        })}
+      </div>
+    </>
+  );
 }

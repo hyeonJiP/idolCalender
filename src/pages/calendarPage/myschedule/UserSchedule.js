@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./UserSchedule.module.scss";
+import cookies from "react-cookies";
 
 const UserSchedule = () => {
   const [todos, setTodos] = useState([]);
@@ -20,21 +21,29 @@ const UserSchedule = () => {
         );
         setTodos(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
     fetchTodos();
   }, []);
 
   // 삭제기능
-  const handleDeleteTodo = async (id) => {
+  const handleDeleteTodo = async (pk) => {
+    const year = "2023";
+    const month = "03";
+    const day = "23";
+    // const pk = "일치하는 PK값";
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/v1/users_calendar/${id}`, {
-        withCredentials: true,
-      });
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+      await axios.delete(
+        // `http://127.0.0.1:8000/api/v1/users_calendar/${year}/${month}/${day}/${pk}`,
+        `http://127.0.0.1:8000/api/v1/users_calendar/${year}/${month}/${day}/${pk}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.pk !== pk));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -57,7 +66,7 @@ const UserSchedule = () => {
       setContents("");
       setWhen("");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -84,7 +93,7 @@ const UserSchedule = () => {
       setWhen("");
       setEditableTodoId(null);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -100,6 +109,7 @@ const UserSchedule = () => {
   return (
     <div>
       <h1>UserSchedule</h1>
+      {/* 유저 스케줄 입력 */}
       <form className={styles.form}>
         <div className={styles.div}>
           <label htmlFor="title" className={styles.label}>
@@ -186,7 +196,9 @@ const UserSchedule = () => {
                   type="button"
                   onClick={() => handleUpdateTodo(todo.id)}
                   className={styles.button}
-                ></button>
+                >
+                  Update
+                </button>
                 <button
                   type="button"
                   onClick={() => setEditableTodoId(null)}
@@ -213,7 +225,12 @@ const UserSchedule = () => {
                 >
                   Edit
                 </button>
-                <button type="button" onClick={() => handleDeleteTodo(todo.id)}>
+
+                <button
+                  type="button"
+                  onClick={() => handleDeleteTodo(todo.pk)}
+                  className={styles.button}
+                >
                   Delete
                 </button>
               </div>

@@ -22,6 +22,7 @@ import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
 import { NotFound } from "react-admin";
 import UserSchedule from "./pages/calendarPage/myschedule/UserSchedule";
+import My from "./pages/calendarPage/myschedule/My";
 
 function App() {
   const dispatch = useDispatch();
@@ -114,6 +115,7 @@ function App() {
         />
 
         <Route path="/userschedule" element={<UserSchedule />} />
+        <Route path="/my" element={<My />} />
 
         <Route element={<NotFound />} path="/*" />
       </Routes>

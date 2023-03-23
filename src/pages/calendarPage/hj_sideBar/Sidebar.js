@@ -6,6 +6,7 @@ import { SidebarData } from "./SidebarData";
 import styles from "./Sidebar.module.scss";
 
 import UserSchedule from "../myschedule/UserSchedule";
+import My from "../myschedule/My";
 
 const SidebarNav = styled.nav`
   background-color: #5b5be8;
@@ -75,7 +76,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
               <br />
               놓치지 마세요
             </h3>
-            <UserSchedule />
+            <My />
           </div>
         </div>
       </SidebarNav>
