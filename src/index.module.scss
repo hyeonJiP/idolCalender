@@ -8,17 +8,7 @@ code {
 }
 
 @media (prefers-color-scheme: light) {
-  body {
-    background-color: white;
-    font-size: 100px;
-  }
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    background-color: #121212;
-    div {
-      // background-color: #121212;
-    }
-  }
 }

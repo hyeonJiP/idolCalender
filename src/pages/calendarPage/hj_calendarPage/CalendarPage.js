@@ -4,12 +4,26 @@ import styles from "./Calendar.module.scss";
 import { calendarDatas } from "./CalendarData";
 import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
-import { axiosSchedule, axiosSchedules } from "../../../api";
+import {
+  axiosSchedule,
+  axiosSchedules,
+  axiosTodaySchedule,
+} from "../../../api";
 import Calendar from "../calendar/Calendar";
 //import FilterableProductTable from "./TestPage";
 import Test from "./Test";
 import Test2 from "./Test2";
 import Category from "./Category";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+  faUser,
+  faBroadcastTower,
+  faCompactDisc,
+  faStore,
+  faGift,
+  faCalendarCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 const CalendarData = () => {
   const { idolId } = useParams();
@@ -28,7 +42,7 @@ const CalendarData = () => {
     "schedules",
     axiosSchedules
   );
-  // console.log(schedulesData);
+  //console.log(schedulesData);
 
   // 다가오는 스케줄
   // 3일 이후 날짜 구하기
@@ -82,6 +96,16 @@ const CalendarData = () => {
   }
   console.log(nextDay);
 
+  const icon = nextDay?.map((item) => item.ScheduleType.content);
+  const icons = [
+    { pk: 1, category: "broadcast", icon: faBroadcastTower },
+    { pk: 2, category: "event", icon: faCalendarCheck },
+    { pk: 3, category: "release", icon: faCompactDisc },
+    { pk: 4, category: "congrats", icon: faGift },
+    { pk: 5, category: "buy", icon: faStore },
+    { pk: 6, category: "my", icon: faUser },
+  ];
+
   // 사이드바
   // const [sidebar, setSidebar] = useState(false);
   // const showSidebar = () => setSidebar(!sidebar);
@@ -108,6 +132,7 @@ const CalendarData = () => {
                 8,
                 10
               )}일`;
+
               return (
                 <li className={styles.nextScheduleItem} key={day.pk}>
                   <div className={styles.nextSchedule_LeftWrapper}>
@@ -155,8 +180,7 @@ const CalendarData = () => {
         </section>
         {/* <FilterableProductTable /> */}
         {/* <Category idolId={idolId} idData={idData} /> */}
-        <Test />
-        {/* <Test2 /> */}
+        {/* <Test /> */}
       </div>
     </div>
   );

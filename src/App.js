@@ -9,8 +9,6 @@ import ScrollToTop from "./UI/ScrollUP";
 import { getCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
-
-import axios from "axios";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
 import Calendar from "./pages/calendarPage/calendar/Calendar";
 import axios from "axios";
@@ -97,7 +95,7 @@ function App() {
 
         <Route path="/calendar" element={<Calendar />} />
 
-        <Route path="/calendarpage" element={<CalendarPage />} />
+        {/* <Route path="/calendarpage" element={<CalendarPage />} /> */}
 
         <Route
           path="/report"
@@ -107,6 +105,14 @@ function App() {
             </Modal>
           }
         />
+        <Route
+          path="/:idolId"
+          element={
+            <Layout>
+              <CalendarPage />
+            </Layout>
+          }
+        ></Route>
 
         <Route element={<NotFound />} path="/*" />
       </Routes>

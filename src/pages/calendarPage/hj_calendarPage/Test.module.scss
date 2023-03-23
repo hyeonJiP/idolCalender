@@ -27,12 +27,12 @@
   }
 
   &:nth-child(2) {
-    background-color: #f16767;
+    background-color: #537fe7;
     color: white;
   }
 
   &:nth-child(3) {
-    background-color: #609966;
+    background-color: #f16767;
     color: white;
   }
 
@@ -42,12 +42,12 @@
   }
 
   &:nth-child(5) {
-    background-color: #537fe7;
+    background-color: #609966;
     color: white;
   }
 
   &:nth-child(6) {
-    background-color: black;
+    background-color: rgb(12, 163, 35);
     color: white;
   }
 }
@@ -82,10 +82,10 @@
   display: flex;
 }
 
-/* 발매 */
-.release {
+/* 행사 */
+.event {
   font-size: 30px;
-  background: #f16767;
+  background: #537fe7;
   color: white;
   border-radius: 5px;
   padding: 5px;
@@ -94,10 +94,10 @@
   display: flex;
 }
 
-/* 구매 */
-.buy {
+/* 발매 */
+.release {
   font-size: 30px;
-  background: #609966;
+  background: #f16767;
   color: white;
   border-radius: 5px;
   padding: 5px;
@@ -118,10 +118,10 @@
   display: flex;
 }
 
-/* 행사 */
-.event {
+/* 구매 */
+.buy {
   font-size: 30px;
-  background: #537fe7;
+  background: #609966;
   color: white;
   border-radius: 5px;
   padding: 5px;

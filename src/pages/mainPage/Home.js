@@ -7,7 +7,7 @@ import styles from "./Home.module.scss";
 
 const Home = () => {
   const { isLoding: idolLoding, data: idolData } = useQuery("idol", axiosIdol);
-  //console.log(idolData);
+  console.log(idolData);
 
   const slideImage = idolData?.slice(0, 4);
   // console.log(slideImage);
