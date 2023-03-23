@@ -90,7 +90,11 @@ const SignUp = () => {
       <Layout>
         <h1>회원가입</h1>
         <div className={styles.signUp}>
-          <h2>회원정보</h2>
+          <img
+            className={styles.signUpImg}
+            alt=""
+            src="https://velog.velcdn.com/images/view_coding/post/6e4d7220-8bc8-4e88-9d4b-f3dd9e09b523/image.png"
+          />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.typeDiv}>
               <label>아이디(Email)</label>
@@ -123,6 +127,7 @@ const SignUp = () => {
                 name="password"
                 type="password"
                 placeholder="비밀번호"
+                autoComplete="off"
                 {...register("password", {
                   required: {
                     value: true,
@@ -161,6 +166,7 @@ const SignUp = () => {
                 name="passwordConfirm"
                 type="password"
                 placeholder="비밀번호 재확인"
+                autoComplete="off"
                 {...register("passwordConfirm", {
                   required: {
                     value: true,

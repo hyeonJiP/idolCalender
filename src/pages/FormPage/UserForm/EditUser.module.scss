@@ -1,4 +1,5 @@
 $btnColor: #4856ff;
+$inputColor: #fccec0;
 
 body {
   background-color: #f9f9f9;
@@ -12,46 +13,12 @@ body {
   padding: 70px 0px 30px 0;
 }
 
-.signUpContainer {
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-
-  .userImg {
-    background-color: #a7a8b1;
-    z-index: 0;
-
-    &::after {
-      content: "";
-      display: block;
-      padding-bottom: 100%;
-    }
-    width: 150px;
-    position: relative;
-    margin-bottom: 10px;
-    border-radius: 30px;
-    .imgInner {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-  }
-  button {
-    background-color: $btnColor;
-    border: 0;
-    margin: 3px;
-    color: white;
-    width: 70px;
-    height: 30px;
-    font-weight: bold;
-  }
-}
-
 .signUp {
   margin: 0 auto;
   margin-bottom: 40px;
-  padding: 40px 20px 80px 20px;
-  width: 65vw;
+  padding: 40px 20px 25px 20px;
+  width: auto;
+  max-width: 560px;
   border-radius: 20px;
   background-color: white;
   hr {
@@ -92,14 +59,15 @@ body {
 .typeDiv {
   display: flex;
   justify-content: space-between;
-  width: 85%;
+  width: 90%;
   height: 35px;
   margin-top: 20px;
   input {
-    width: 25vw;
+    width: 50%;
     height: 80%;
-    border: 1px solid black;
+    border: 1.5px solid #fccec0;
     font-size: 0.7rem;
+    padding: 5px 10px;
   }
   select {
     width: 360px;
@@ -109,13 +77,13 @@ body {
 .typeAbsoluteDiv {
   display: flex;
   justify-content: space-between;
-  width: 85%;
-  height: 3vh;
+  width: 90%;
+  height: 35px;
   margin-bottom: 3vh;
   margin-top: 2vh;
   .absoluteInform {
     position: relative;
-    width: 25vw;
+    width: 50%;
     font-size: 0.8rem;
   }
 }
@@ -131,9 +99,9 @@ body {
     background-color: $btnColor;
     color: white;
     border: 0px;
-    margin: 90px 10px 0 0;
+    margin: 50px 40px 0 0;
     border-radius: 30px;
-    width: 170px;
+    width: 140px;
     height: 50px;
     font-size: 1rem;
     font-weight: bold;
@@ -144,12 +112,7 @@ body {
   .signUp {
     width: 70vw;
   }
-  .typeAbsoluteDiv {
-    height: 24px;
-    .absoluteInform {
-      width: 30vw;
-    }
-  }
+
   .signUpContainer {
     .userImg {
       background-color: #a7a8b1;
@@ -174,25 +137,12 @@ body {
       height: 22px;
     }
   }
-  .typeDiv {
-    height: 24px;
-    input {
-      width: 30vw;
-      height: 20px;
-    }
-  }
 
   .errorMessage {
     height: 20px;
     margin: auto 0;
   }
 
-  .containerBtnDiv {
-    button {
-      width: 60px;
-      height: 25px;
-    }
-  }
   .buttonDiv {
     display: flex;
     button {
@@ -218,24 +168,10 @@ body {
   }
   .editForm {
     padding: 20px;
-    input {
-      width: 150px;
-      height: 17px;
-    }
-    .absoluteInform {
-      width: 150px;
-      height: 17px;
-    }
+
     select {
       width: 150px;
       height: 17px;
-    }
-  }
-
-  .containerBtnDiv {
-    button {
-      width: 60px;
-      height: 30px;
     }
   }
 }

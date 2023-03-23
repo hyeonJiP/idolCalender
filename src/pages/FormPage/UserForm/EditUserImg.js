@@ -1,49 +1,74 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BASE_URL } from "../../../URL/url";
-import styles from "./EditUser.module.scss";
+import { getUploadUrl } from "../../../URL/url";
+import styles from "./EditUserImg.module.scss";
+import { ColorRing } from "react-loader-spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import defaultImg from "../../../Img/defaultProfile.png";
 
 const EditUserImg = () => {
-  /**사진 수정하기 기능 */
-
-  const [img, setImg] = useState("");
-
+  const [previewImg, setPreviewImg] = useState(defaultImg);
+  const [isLoadingImg, setIsLoadingImg] = useState(false);
+  const [isUploadError, setIsUploadError] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
+  /**사진 수정하기 기능 */
   const imgSubmit = async (img) => {
-    console.log(img.file);
-    await axios
-      .post(`${BASE_URL}media/photos/get-url/`, img.file, {
-        withCredentials: true,
-      })
-      .then((data) => {
-        const form = new FormData();
-        console.log(data);
-        form.append("file", img.file[0]);
-        axios
-          .post(data.data.uploadURL, form, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: false,
-          })
-          .then((res) => console.log(res));
-      });
+    setIsLoadingImg(true);
+    setIsUploadError(false);
 
-    setImg(img.file[0]);
+    const res = await getUploadUrl(img);
+
+    if (!res) {
+      setIsLoadingImg(false);
+      setIsUploadError(true);
+      return;
+    }
+    console.log(res);
+    setIsLoadingImg(false);
+    setIsUploadError(false);
   };
 
-  console.log("Data", img);
+  const changeImg = ({ target }) => {
+    const reader = new FileReader();
+    const file = target.files[0];
+    console.log("file", file);
+
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      console.log("이미지주소", reader.result);
+      setPreviewImg(reader.result);
+    };
+  };
 
   return (
-    <form className={styles.containerBtnDiv} onSubmit={handleSubmit(imgSubmit)}>
-      <input type="file" {...register("file")} accept="image/*" />
-      <button type="submit">변경</button>
-      <button type="button" onClick={() => reset()}>
-        삭제
-      </button>
-    </form>
+    <div className={styles.profileDiv}>
+      <h2>프로필 정보</h2>
+      <img src={previewImg} alt="" />
+      <form className={styles.uploadForm} onSubmit={handleSubmit(imgSubmit)}>
+        <div className={styles.uploadFile}>
+          <input
+            type="file"
+            {...register("file")}
+            accept="image/*"
+            onChange={changeImg}
+          />
+          <FontAwesomeIcon
+            icon={faCamera}
+            style={{ color: "white" }}
+            fixedWidth
+          />
+        </div>
+        <button type="submit">변경하기</button>
+        {!isLoadingImg ? null : <ColorRing height={20} width={20} />}
+        {isUploadError ? <p>이미지를 다시 올려주세요.</p> : null}
+        {/* <button type="button" onClick={() => reset()}>
+          삭제
+        </button> */}
+      </form>
+    </div>
   );
 };
 
