@@ -10,7 +10,6 @@ import { getCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
-import Calendar from "./pages/calendarPage/calendar/Calendar";
 import axios from "axios";
 import ReportTable from "./pages/adminPage/table/ReportTable";
 import ReportSchedule from "./pages/FormPage/IdolForm/ReportSchedule";
@@ -19,7 +18,7 @@ import SignUp from "./pages/FormPage/UserForm/SignUp";
 import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
-import { NotFound } from "react-admin";
+import NotFoundPage from "./URL/NotFoundPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,7 +78,10 @@ function App() {
         />
 
         {/* 회원가입페이지 */}
-        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/signup"
+          element={!isLogin ? <SignUp /> : <Navigate to="/" />}
+        />
 
         {/* 로그인페이지 */}
         <Route
@@ -95,7 +97,7 @@ function App() {
 
         <Route path="/calendar" element={<Calendar />} />
 
-        {/* <Route path="/calendarpage" element={<CalendarPage />} /> */}
+        <Route path="/calendarpage" element={<CalendarPage />} />
 
         <Route
           path="/report"
@@ -114,7 +116,7 @@ function App() {
           }
         ></Route>
 
-        <Route element={<NotFound />} path="/*" />
+        <Route element={<NotFoundPage />} path="/*" />
       </Routes>
     </>
   );

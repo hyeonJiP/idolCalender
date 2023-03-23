@@ -68,6 +68,8 @@ const Calendar = () => {
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
 
+  console.log(getMoment.format("YYYY/MM/DD"));
+
   const today = getMoment;
 
   // 그 달의 시작하는 week() 주

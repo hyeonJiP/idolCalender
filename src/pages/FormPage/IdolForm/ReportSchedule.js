@@ -50,7 +50,7 @@ const ReportSchedule = (props) => {
     };
 
     if (isAdmin) {
-      await axios.put(`${BASE_URL}users/reports/${schedulePk}`, reportData, {
+      await axios.put(`${BASE_URL}users/reports/${schedulePk}/`, reportData, {
         withCredentials: true,
       });
       window.location.reload();

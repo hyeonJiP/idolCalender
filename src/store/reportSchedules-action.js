@@ -10,8 +10,8 @@ export const fetchingData = () => {
     /**새로운 데이터 형식으로 바꿔주기 */
     const newData = [];
     for (let data in datas) {
-      let nameData = 0;
-      if (!datas[data].whoes[0]) {
+      let nameData = "";
+      if (!datas[data].whoes[0].idol_name_kr) {
         nameData = "";
       } else {
         nameData = datas[data].whoes[0].idol_name_kr;

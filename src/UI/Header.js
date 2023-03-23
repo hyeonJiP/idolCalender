@@ -35,11 +35,10 @@ const Headar = () => {
       })
       .then((res) => console.log(res))
       .then((data) => console.log(data));
-    console.log("logout");
     setCookie("isLogin", { is_admin: false, pick: false });
     dispatch(authActions.logOut());
-    // navigate("/");
-    // window.location.reload();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -63,8 +62,8 @@ const Headar = () => {
             </Link>
           </div>
           <div className="navItem navSpan">
-            {!isAdmin ? (
-              <Link to={"/:idolId"}>
+            {isLogin ? (
+              <Link to="/:idolId">
                 <span className="navItem_span">스케줄 보기</span>
               </Link>
             ) : null}
