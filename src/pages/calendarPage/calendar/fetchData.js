@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useState } from "react";
+import { BASE_URL } from "../../../URL/url";
 
 export const fetchData = async (idolId) => {
   try {
@@ -24,5 +26,3 @@ export const fetchData = async (idolId) => {
     console.log(error);
   }
 };
-
-export const fetchMonthData = async (idolId) => {};

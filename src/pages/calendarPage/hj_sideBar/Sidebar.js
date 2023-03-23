@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import * as AiIcons from "react-icons/ai";
 import { SidebarData } from "./SidebarData";
 import styles from "./Sidebar.module.scss";
+import { BASE_URL } from "../../../URL/url";
+import axios from "axios";
+import { useParams } from "react-router";
 
 const SidebarNav = styled.nav`
   background-color: #5b5be8;
@@ -20,8 +23,9 @@ const SidebarNav = styled.nav`
   overflow: auto;
 `;
 
-const Sidebar = ({ sidebar, setSidebar }) => {
+const Sidebar = ({ sidebar, setSidebar, newIdolSchedule, selectedDay }) => {
   // 사이드바 외부 클릭시 닫히는 함수
+  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
   const outside = useRef();
   useEffect(() => {
     document.addEventListener("mousedown", handleClose);
@@ -29,6 +33,37 @@ const Sidebar = ({ sidebar, setSidebar }) => {
       document.removeEventListener("mousedown", handleClose);
     };
   });
+
+  const category = newIdolSchedule.map((data) => data.ScheduleType.type);
+
+  const newCategory = [...new Set(category)];
+
+  const { idolId } = useParams();
+
+  const idolScheduleDate = selectedDay.format("YYYY/MM/DD");
+
+  // useEffect(() => {
+  //   console.log(idolScheduleDate, idolId);
+  //   let idolDateIdolSchedule = [];
+  //   const fetchDayIdolSchedule = () => {
+  //     newCategory.map(async (category) => {
+  //       return await axios
+  //         .get(
+  //           `${BASE_URL}idols/${idolId}/schedules/${category}/${idolScheduleDate}/`
+  //         )
+  //         .then((res) => {
+  //           res.data.forEach(
+  //             (schedule) =>
+  //               (idolDateIdolSchedule = [...idolDateIdolSchedule, schedule])
+  //           );
+  //           setNewIdolDateSchedule(idolDateIdolSchedule);
+  //         });
+  //     });
+  //   };
+  //   fetchDayIdolSchedule();
+  // }, [idolScheduleDate, idolId, newCategory]);
+
+  console.log(newIdolDateSchedule);
 
   const handleClose = async (e) => {
     if (!outside.current.contains(e.target)) {
@@ -89,6 +124,11 @@ const Sidebar = ({ sidebar, setSidebar }) => {
               })}
             </ul>
           </div>
+        </div>
+        <div>
+          {newIdolDateSchedule.map((data) => (
+            <div>data </div>
+          ))}
         </div>
       </SidebarNav>
     </>
