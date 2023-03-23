@@ -59,13 +59,6 @@ const Calendar = () => {
     }
   }
 
-  // if (type(oneType)) {
-  //   nextDay.push(type(oneType));
-  // }
-
-  // const nextDay = [type(oneType), type(twoType), type(threeType)];
-  // console.log(nextDay);
-
   // 사이드바
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);

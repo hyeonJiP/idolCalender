@@ -95,8 +95,6 @@ function App() {
           element={!isLogin ? <Navigate to="/" /> : <EditUser />}
         />
 
-        <Route path="/calendar" element={<Calendar />} />
-
         <Route path="/calendarpage" element={<CalendarPage />} />
 
         <Route

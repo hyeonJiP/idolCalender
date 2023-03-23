@@ -94,7 +94,6 @@ const CalendarData = () => {
       nextDay.push(type(dayType[i]));
     }
   }
-  console.log(nextDay);
 
   const icon = nextDay?.map((item) => item.ScheduleType.content);
   const icons = [

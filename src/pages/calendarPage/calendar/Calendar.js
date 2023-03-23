@@ -1,6 +1,6 @@
 // import "./Calendar.css";
 import styles from "./Calendar.module.scss";
-import { fetchData } from "./fetchData";
+import { fetchData, fetchMonthData } from "./fetchData";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,55 +20,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
 import Sidebar from "../hj_sideBar/Sidebar";
-import { axiosSchedule, axiosTodaySchedule, BASE_URL } from "../../../api";
+import { axiosSchedule, axiosTodaySchedule } from "../../../api";
 import { useParams } from "react-router";
+import { BASE_URL } from "../../../URL/url";
 
 const Calendar = () => {
   const [idolSchedule, setIdolSchedule] = useState([]);
 
   // 아이돌 pk 정보 가져오기
   const { idolId } = useParams();
-  //console.log(idolId);
-
-  useEffect(() => {
-    if (idolId) {
-      // idolId 값이 유효할 때만 API 요청 보내도록 수정
-      const fetchIdolSchedule = async () => {
-        try {
-          const response = await axios.get(
-            `http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`
-          );
-          const data = response.data;
-          const idolSchedule = data.map((schedule) => {
-            const dateList = schedule.when.split("-");
-            dateList[2] = dateList[2].substr(0, 2);
-            const dateValue = dateList.join("");
-
-            const typeObj = schedule.ScheduleType;
-            const typeValue = typeObj.type;
-            console.log(typeValue);
-            return {
-              date: dateValue,
-              title: schedule.ScheduleTitle,
-              content: schedule.ScheduleContent,
-              category: typeValue,
-            };
-          });
-          setIdolSchedule(idolSchedule);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchIdolSchedule();
-    }
-  }, [idolId]);
+  console.log(Number(idolId));
 
   const [selectedDay, setSelectedDay] = useState(null);
 
   // useState를 사용하여 달 단위로 변경
   const [getMoment, setMoment] = useState(moment());
 
-  console.log(getMoment.format("YYYY/MM/DD"));
+  // console.log(getMoment.format("YYYY/MM/DD"));
 
   const today = getMoment;
 
@@ -91,28 +59,10 @@ const Calendar = () => {
   const month = todays.getMonth() + 1;
   const day = todays.getDate();
 
-  // const category = "broadcast";
-  //const year = "2023";
-  //const month = "3";
-  //const day = "23";
-
-  // 선택된 오늘의 스케줄 가져오기
-  // const { isLoding: todayLoding, data: todayData } = useQuery(
-  //   ["info", idolId, category, year, month, day],
-  //   () => {
-  //     return axiosTodaySchedule(idolId, category, year, month, day);
-  //   }
-  // );
-  // console.log(todayData);
-
   const [sidebarDatas, setsidebarDatas] = useState();
   // 사이드바
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = (filteredData, days) => {
-    // console.log(filteredData);
-    // console.log(days);
-    console.log(filteredData);
-
     filteredData?.map((item, i) => {
       if (item.date === days.format("YYYYMMDD")) {
         const category = item.category;
@@ -132,16 +82,12 @@ const Calendar = () => {
           } else {
             setsidebarDatas(null);
           }
-
-          //console.log("test", res);
         });
-        //const test2 = axiosSchedule(idolId).then((res) => console.log(res));
       }
     });
 
     return setSidebar(!sidebar);
   };
-  console.log(sidebarDatas);
 
   const calendarArr = () => {
     let result = []; // 이번달 배열
@@ -251,6 +197,8 @@ const Calendar = () => {
     fetchData(idolId)
   );
 
+  fetchMonthData();
+
   const buttons = [
     { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
     { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
@@ -276,12 +224,13 @@ const Calendar = () => {
       ]);
     }
   };
-  // console.log(schedule);
   const filteredData = schedule?.filter((item) =>
     activeButtons.includes(
       buttons.find((button) => button.category === item.category)?.pk
     )
   );
+
+  console.log(filteredData);
 
   // 카테고리 배열
 
@@ -315,13 +264,6 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
-      {/* <ul className={styles.testDiv}>
-        {filteredData?.map((item, i) => (
-          <li key={i} className={`${styles.listItem} ${styles[item.category]}`}>
-            {item.title}
-          </li>
-        ))}
-      </ul> */}
 
       {/* 버튼 */}
       <div className={styles.categoryContainer}>

@@ -24,3 +24,5 @@ export const fetchData = async (idolId) => {
     console.log(error);
   }
 };
+
+export const fetchMonthData = async (idolId) => {};
