@@ -13,6 +13,7 @@ const SignUp = () => {
   /**백에서 해준 유효성 테스트 */
   const [isEmailValid, setIsEmailValid] = useState();
   const [isPasswordValid, setIsPasswordValid] = useState();
+  const [isNicknameValid, setIsNicknameValid] = useState();
   const [isPickValid, setIsPickValid] = useState();
   const [isAgeValid, setIsAgeValid] = useState();
   const [isError, setIsError] = useState([]);
@@ -40,6 +41,9 @@ const SignUp = () => {
       : setIsPasswordValid(false);
     isError.pick ? setIsPickValid(isError.pick[0]) : setIsPickValid(false);
     isError.age ? setIsAgeValid(isError.age[0]) : setIsAgeValid(false);
+    isError.nickname
+      ? setIsNicknameValid(isError.nickname[0])
+      : setIsNicknameValid(false);
   }, [isError]);
 
   /**링크 네비게이트 */
@@ -90,7 +94,11 @@ const SignUp = () => {
       <Layout>
         <h1>회원가입</h1>
         <div className={styles.signUp}>
-          <h2>회원정보</h2>
+          <img
+            className={styles.signUpImg}
+            alt=""
+            src="https://velog.velcdn.com/images/view_coding/post/6e4d7220-8bc8-4e88-9d4b-f3dd9e09b523/image.png"
+          />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.typeDiv}>
               <label>아이디(Email)</label>
@@ -123,6 +131,7 @@ const SignUp = () => {
                 name="password"
                 type="password"
                 placeholder="비밀번호"
+                autoComplete="off"
                 {...register("password", {
                   required: {
                     value: true,
@@ -161,6 +170,7 @@ const SignUp = () => {
                 name="passwordConfirm"
                 type="password"
                 placeholder="비밀번호 재확인"
+                autoComplete="off"
                 {...register("passwordConfirm", {
                   required: {
                     value: true,
@@ -258,6 +268,7 @@ const SignUp = () => {
             </div>
             <div className={styles.errorMessage}>
               {errors.nickname && <p>{errors.nickname.message}</p>}
+              {isNicknameValid && <p>이미 사용 중인 닉네임입니다.</p>}
             </div>
 
             <div className={styles.typeDiv}>
