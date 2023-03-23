@@ -62,8 +62,8 @@ const Headar = () => {
             </Link>
           </div>
           <div className="navItem navSpan">
-            {!isAdmin ? (
-              <Link to={"/:idolId"}>
+            {isLogin ? (
+              <Link to="/:idolId">
                 <span className="navItem_span">스케줄 보기</span>
               </Link>
             ) : null}

@@ -13,6 +13,7 @@ const SignUp = () => {
   /**백에서 해준 유효성 테스트 */
   const [isEmailValid, setIsEmailValid] = useState();
   const [isPasswordValid, setIsPasswordValid] = useState();
+  const [isNicknameValid, setIsNicknameValid] = useState();
   const [isPickValid, setIsPickValid] = useState();
   const [isAgeValid, setIsAgeValid] = useState();
   const [isError, setIsError] = useState([]);
@@ -40,6 +41,9 @@ const SignUp = () => {
       : setIsPasswordValid(false);
     isError.pick ? setIsPickValid(isError.pick[0]) : setIsPickValid(false);
     isError.age ? setIsAgeValid(isError.age[0]) : setIsAgeValid(false);
+    isError.nickname
+      ? setIsNicknameValid(isError.nickname[0])
+      : setIsNicknameValid(false);
   }, [isError]);
 
   /**링크 네비게이트 */
@@ -264,6 +268,7 @@ const SignUp = () => {
             </div>
             <div className={styles.errorMessage}>
               {errors.nickname && <p>{errors.nickname.message}</p>}
+              {isNicknameValid && <p>이미 사용 중인 닉네임입니다.</p>}
             </div>
 
             <div className={styles.typeDiv}>
