@@ -115,7 +115,6 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
 
               // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
-                //console.log(days);
                 return (
                   <td
                     key={index}
@@ -193,51 +192,6 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
     }
     return result;
   };
-
-  // schedule 데이터
-  const { data: schedule } = useQuery(["schedule", idolId], () =>
-    fetchData(idolId)
-  );
-
-  const buttons = [
-    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
-    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
-    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
-    { pk: 4, category: "congrats", content: "축하", icon: faGift },
-    { pk: 5, category: "buy", content: "구매", icon: faStore },
-    { pk: 6, category: "my", content: "My", icon: faUser },
-  ];
-  const [activeButtons, setActiveButtons] = useState([1, 2, 3, 4, 5, 6]);
-
-  const handleClick = (buttonPk) => {
-    if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
-      return;
-    }
-    const index = activeButtons.indexOf(buttonPk);
-
-    if (index === -1) {
-      setActiveButtons([...activeButtons, buttonPk]);
-    } else {
-      setActiveButtons([
-        ...activeButtons.slice(0, index),
-        ...activeButtons.slice(index + 1),
-      ]);
-    }
-  };
-  // console.log(schedule);
-  const filteredData = schedule?.filter((item) =>
-    activeButtons.includes(
-      buttons.find((button) => button.category === item.category)?.pk
-    )
-  );
-  // console.log(filteredData);
-
-  // 카테고리 배열
-  const category = [...new Set(filteredData?.map((item) => item.category))];
-  const todays = new Date();
-  const year = todays.getFullYear();
-  const month = todays.getMonth() + 1;
-  const day = todays.getDate();
 
   // 카테고리 배열
 
