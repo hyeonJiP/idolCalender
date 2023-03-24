@@ -76,7 +76,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
               <br />
               놓치지 마세요
             </h3>
-            <My />
+            <UserSchedule />
           </div>
         </div>
       </SidebarNav>

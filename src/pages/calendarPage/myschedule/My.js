@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./My.module.scss";
 
 function My() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState({ title: "", when: "", contents: "" });
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [editableTodoPk, setEditableTodoPk] = useState(null);
 
   useEffect(() => {
     const year = selectedDate.getFullYear();
@@ -57,6 +59,30 @@ function My() {
       });
   };
 
+  const handleUpdate = (year, month, day, pk) => {
+    axios
+      .put(
+        `http://127.0.0.1:8000/api/v1/users_calendar/${year}/${month}/${day}/${pk}`,
+        input,
+        { withCredentials: true }
+      )
+      .then((res) => {
+        const updatedTodos = todos.map((todo) => {
+          if (todo.pk === pk) {
+            return res.data;
+          } else {
+            return todo;
+          }
+        });
+        setTodos(updatedTodos);
+        setInput({ title: "", when: "", contents: "" });
+        setEditableTodoPk(null);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // 입력 폼의 값을 변경할 때마다 실행되며, 입력 폼의 값을 관리하는 input state를 업데이트
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -68,7 +94,7 @@ function My() {
   };
 
   return (
-    <div className="todo">
+    <div className={styles.todo}>
       {/* <h1>Todo App</h1> */}
       <form onSubmit={handleSubmit}>
         <input
@@ -93,36 +119,55 @@ function My() {
         />
         <button type="submit">Add</button>
       </form>
-      <div>
-        <input
-          type="date"
-          value={selectedDate.toISOString().slice(0, 10)}
-          onChange={handleDateChange}
-        />
-      </div>
-
       {todos.map((todo) => (
         <div key={todo.pk}>
-          <h3>{todo.title}</h3>
-          <p>{todo.when}</p>
-          <p>{todo.contents}</p>
-          {console.log(todo)}
-          <button
-            onClick={() =>
-              handleDelete(
-                todo.year,
-                todo.month,
-                todo.day,
-                todo.pk
-                // todo.when.split("-")[0], // year
-                // todo.when.split("-")[1], // month
-                // todo.when.split("-")[2], // day
-                // todo.pk
-              )
-            }
-          >
-            Delete
-          </button>
+          {editableTodoPk === todo.pk ? (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleUpdate(todo.year, todo.month, todo.day, todo.pk);
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Title"
+                name="title"
+                value={input.title}
+                onChange={handleChange}
+              />
+              <input
+                type="date"
+                name="when"
+                value={input.when}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                placeholder="Contents"
+                name="contents"
+                value={input.contents}
+                onChange={handleChange}
+              />
+              <button type="submit">Update</button>
+              <button type="button" onClick={() => setEditableTodoPk(null)}>
+                Cancel
+              </button>
+            </form>
+          ) : (
+            <>
+              <h3>{todo.title}</h3>
+              <p>{todo.when}</p>
+              <p>{todo.contents}</p>
+              <button onClick={() => setEditableTodoPk(todo.pk)}>Edit</button>
+              <button
+                onClick={() =>
+                  handleDelete(todo.year, todo.month, todo.day, todo.pk)
+                }
+              >
+                Delete
+              </button>
+            </>
+          )}
         </div>
       ))}
     </div>
