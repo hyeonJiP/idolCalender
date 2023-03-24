@@ -48,12 +48,20 @@ export const fetchMonthData = async (getMoment, activeButtons, idolId) => {
   const requests = activeButtons.map((category) =>
     axios
       .get(`${BASE_URL}idols/${idolId}/schedules/${category}/${month}/`)
-      .then((res) => res.data)
+      .then((res) => {
+        const data = res.data.filter(
+          (schedule, index) =>
+            res.data.findIndex((item) => item.day === schedule.day) === index
+        );
+        return data;
+      })
   );
 
   const responses = await Promise.all(requests);
 
   let newIdolData = responses.flat();
+
+  console.log(newIdolData);
 
   return newIdolData;
 };

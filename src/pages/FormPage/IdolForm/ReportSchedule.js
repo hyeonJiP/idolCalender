@@ -70,7 +70,7 @@ const ReportSchedule = (props) => {
     <>
       <div className={styles.reportContainer}>
         <div></div>
-        {!userPick ? <h1>제보하기</h1> : <h1>수정하기</h1>}
+        {!isAdmin ? <h1>제보하기</h1> : <h1>수정하기</h1>}
         <div></div>
       </div>
       <div className={styles.signUp}>
@@ -181,7 +181,7 @@ const ReportSchedule = (props) => {
           <button onClick={props.hideModalHandler} type="button">
             이전
           </button>
-          <button>제보하기</button>
+          {isAdmin ? <button>수정하기</button> : <button>제보하기</button>}
         </div>
       </form>
     </>

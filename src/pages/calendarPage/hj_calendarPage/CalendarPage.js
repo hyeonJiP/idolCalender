@@ -14,9 +14,15 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import Modal from "../../../UI/Modal";
+import ReportSchedule from "../../FormPage/IdolForm/ReportSchedule";
 
 const CalendarData = () => {
   const { idolId } = useParams();
+  const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
+  const [reportModal, setReportModal] = useState(false);
+  // console.log(Number(idolId) === userPick);
 
   // 아이돌 데이터들
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -94,8 +100,6 @@ const CalendarData = () => {
 
   const filteredIcons = icons.filter((item) => icon.includes(item.category));
 
-  console.log(filteredIcons);
-
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
   /**아이돌 day데이터 */
@@ -114,6 +118,11 @@ const CalendarData = () => {
     setSidebar(isSidebar);
   };
 
+  /**모달 숨기는 함수 */
+  const hideModalHandler = () => {
+    setReportModal(false);
+  };
+
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
@@ -126,6 +135,19 @@ const CalendarData = () => {
             newIdolDateSchedule={newIdolDateSchedule}
           />
         </div>
+        {Number(idolId) === userPick ? (
+          <button
+            className={styles.reportBtn}
+            onClick={() => setReportModal(true)}
+          >
+            제보하기
+          </button>
+        ) : null}
+        {reportModal ? (
+          <Modal hideCartHandler={hideModalHandler}>
+            <ReportSchedule hideModalHandler={hideModalHandler} />
+          </Modal>
+        ) : null}
         <section className={styles.nextSchedule}>
           <div className={styles.nextSchedule_Title}>
             <img
@@ -150,7 +172,6 @@ const CalendarData = () => {
                     </span>
                   </div>
                   <div className={styles.nextSchedule_LightWrapper}>
-                    /*{" "}
                     <img
                       className={styles.nextscheduleIcon}
                       src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
