@@ -33,6 +33,7 @@ const Sidebar = ({
   setSidebarClose,
   todayDate,
   newIdolDateSchedule,
+  selectedDate,
 }) => {
   // 사이드바 외부 클릭시 닫히는 함수
   const outside = useRef();
@@ -65,9 +66,9 @@ const Sidebar = ({
           </Link>
           <div className={styles.sideSchedule_top}>
             <h3 className={styles.todayTitle}>
-              오늘의 스케줄을
+              {selectedDate}
               <br />
-              놓치지 마세요
+              스케줄을 놓치지 마세요
             </h3>
             <ul className={styles.todaySchedule_List}>
               {newIdolDateSchedule.map((item) => {

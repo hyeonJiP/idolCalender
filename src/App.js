@@ -59,7 +59,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/adminpage/*"
+          path="/adminpage/"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -95,7 +95,14 @@ function App() {
           element={!isLogin ? <Navigate to="/" /> : <EditUser />}
         />
 
-        <Route path="/calendarpage" element={<CalendarPage />} />
+        <Route
+          path="/:idolId"
+          element={
+            <Layout>
+              <CalendarPage />
+            </Layout>
+          }
+        />
 
         <Route
           path="/report"
@@ -105,14 +112,6 @@ function App() {
             </Modal>
           }
         />
-        <Route
-          path="/:idolId"
-          element={
-            <Layout>
-              <CalendarPage />
-            </Layout>
-          }
-        ></Route>
 
         <Route element={<NotFoundPage />} path="/*" />
       </Routes>
