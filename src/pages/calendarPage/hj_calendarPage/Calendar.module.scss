@@ -11,11 +11,10 @@
   flex-direction: column;
   align-items: center;
   //border: 1px solid black;
-  margin-top: 80px;
 }
 .calendarWrap {
+  padding-top: 80px;
   width: 90vw;
-  height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,5 +76,17 @@
   width: 40px;
   height: 40px;
 }
-@media (max-width: 376px) {
+// @media (max-width: 376px) {
+// }
+.reportBtn {
+  align-self: flex-end;
+  background-color: #4856ff;
+  color: white;
+  border: 0px;
+  border-radius: 10px;
+  padding: 13px 20px 13px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  right: 150px;
+  position: relative;
 }

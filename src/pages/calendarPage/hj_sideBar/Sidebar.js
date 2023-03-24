@@ -51,8 +51,6 @@ const Sidebar = ({
     }
   };
 
-  console.log(newIdolDateSchedule);
-
   return (
     <>
       <SidebarNav sidebar={sidebar} ref={outside}>
@@ -62,7 +60,6 @@ const Sidebar = ({
               style={{ color: "white" }}
               onClick={() => {
                 setSidebarClose(false);
-                // console.log(sidebar);
               }}
             />
           </Link>
@@ -75,19 +72,36 @@ const Sidebar = ({
             <ul className={styles.todaySchedule_List}>
               {newIdolDateSchedule.map((item) => {
                 const scheduleIcon =
-                  item.ScheduleType.type === "broadcast"
-                    ? faBroadcastTower
-                    : item.ScheduleType.type === "event"
-                    ? faCalendarCheck
-                    : item.ScheduleType.type === "release"
-                    ? faCompactDisc
-                    : item.ScheduleType.type === "congrats"
-                    ? faGift
-                    : faStore;
+                  item.ScheduleType.type === "broadcast" ? (
+                    <FontAwesomeIcon
+                      icon={faBroadcastTower}
+                      style={{ color: "#443c68" }}
+                    />
+                  ) : item.ScheduleType.type === "event" ? (
+                    <FontAwesomeIcon
+                      icon={faCalendarCheck}
+                      style={{ color: "#537fe7" }}
+                    />
+                  ) : item.ScheduleType.type === "release" ? (
+                    <FontAwesomeIcon
+                      icon={faCompactDisc}
+                      style={{ color: "#f16767" }}
+                    />
+                  ) : item.ScheduleType.type === "congrats" ? (
+                    <FontAwesomeIcon
+                      icon={faGift}
+                      style={{ color: "#e7b10a" }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faStore}
+                      style={{ color: "#609966" }}
+                    />
+                  );
 
                 return (
                   <li className={styles.todaySchedule_Item} key={item.pk}>
-                    <FontAwesomeIcon icon={scheduleIcon} /> {item.ScheduleTitle}
+                    {scheduleIcon} <p>{item.ScheduleTitle}</p>
                   </li>
                 );
               })}
