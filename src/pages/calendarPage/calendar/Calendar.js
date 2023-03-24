@@ -3,6 +3,7 @@ import styles from "./Calendar.module.scss";
 import { fetchDayIdolSchedule, fetchMonthData } from "../../../URL/url";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import "moment/locale/ko";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
