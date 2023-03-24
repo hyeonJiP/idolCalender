@@ -46,9 +46,13 @@ const Footer = () => {
           </div>
           <div className={styles.footerMade}>
             <div className={styles.footerCompany}>
-              <a>운영사: 김이박 최고</a>
+              <a>
+                <span>운영사: 김이박 최고</span>
+              </a>
               <span>|</span>
-              <a>개발사: 최애인(주)</a>
+              <a>
+                <span>개발사: 최애인(주)</span>
+              </a>
             </div>
             <div className={styles.footerEmail}>
               <span>https://ozcodingschool.com</span>

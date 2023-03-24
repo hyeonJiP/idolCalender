@@ -74,23 +74,29 @@ const Headar = () => {
             {isAdmin ? (
               <>
                 <Link to="/adminpage">
-                  <button className="navBtn">관리자페이지</button>
+                  <button className="navBtn">
+                    <span>관리자페이지</span>
+                  </button>
                 </Link>
                 <button className="navBtn" onClick={LogoutHandler}>
-                  로그아웃
+                  <span>로그아웃</span>
                 </button>
               </>
             ) : !isLogin ? (
               <Link to="/login">
-                <button className="navBtn">로그인</button>
+                <button className="navBtn">
+                  <span>로그인</span>
+                </button>
               </Link>
             ) : (
               <>
                 <button className="navBtn">
-                  <Link to="/edituser">내 정보</Link>
+                  <Link to="/edituser">
+                    <span>내 정보</span>
+                  </Link>
                 </button>
                 <button className="navBtn" onClick={LogoutHandler}>
-                  로그아웃
+                  <span>로그아웃</span>
                 </button>
               </>
             )}

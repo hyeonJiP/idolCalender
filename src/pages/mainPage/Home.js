@@ -4,10 +4,21 @@ import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import { axiosIdol, axiosSchedules, BASE_URL } from "../../api";
 import styles from "./Home.module.scss";
+import {
+  faBroadcastTower,
+  faCompactDisc,
+  faStore,
+  faGift,
+  faCalendarCheck,
+  faCheck,
+  faMusic,
+  faMicrophone,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Home = () => {
   const { isLoding: idolLoding, data: idolData } = useQuery("idol", axiosIdol);
-  console.log(idolData);
+  //console.log(idolData);
 
   const slideImage = idolData?.slice(0, 4);
 
@@ -15,11 +26,15 @@ const Home = () => {
     "schedules",
     axiosSchedules
   );
-
+  //console.log(schedulesData);
   return (
     <div className={styles.home}>
       <div className={styles.homeContainer}>
-        <div className={styles.home_mainBanner}></div>
+        <div className={styles.home_mainBanner}>
+          <video autoPlay loop muted className={styles.mainVideo}>
+            <source src="/videos/heart.mp4" type="video/mp4"></source>
+          </video>
+        </div>
         <div className={styles.slider}>
           <div className={styles.slideBox}>
             {schedulesData?.map((data) => {
@@ -27,6 +42,24 @@ const Home = () => {
                 8,
                 10
               )}일`;
+
+              const { type: scheduleType } = data.ScheduleType;
+              const scheduleIcon = {
+                broadcast: faBroadcastTower,
+                event: faCalendarCheck,
+                release: faCompactDisc,
+                congrats: faGift,
+                store: faStore,
+              }[scheduleType];
+
+              const scheduleIconColor = {
+                broadcast: "#443c68",
+                event: "#537fe7",
+                release: "#f16767",
+                congrats: "#e7b10a",
+                store: "#609966",
+              }[scheduleType];
+
               return (
                 <div className={styles.slide} key={Math.random()}>
                   <div className={styles.slideInner}>
@@ -35,10 +68,19 @@ const Home = () => {
                         <span>{dateFormat}</span>
                       </div>
                       <div className={styles.slideMid}>
-                        <span>{data.ScheduleTitle}</span>
+                        <FontAwesomeIcon
+                          icon={scheduleIcon}
+                          color={scheduleIconColor}
+                        />
+                        <span className={styles.contentTitle}>
+                          {data.ScheduleTitle}
+                        </span>
                       </div>
                       <div className={styles.slideBot}>
-                        {/* <span>{data.participant[0].idol_name_kr}</span> */}
+                        <FontAwesomeIcon icon={faMicrophone} />
+                        <span className={styles.nameTitle}>
+                          {data.participant[0].idol_name_kr}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -64,7 +106,7 @@ const Home = () => {
                 ? "Loding.."
                 : slideImage?.map((data) => (
                     <li className={styles.artistThumnail} key={data.pk}>
-                      <Link to={`/${data.pk}`}>
+                      <Link to={`/choeaein/${data.pk}`}>
                         <img
                           className={styles.artistImage}
                           src={data.idol_profile}

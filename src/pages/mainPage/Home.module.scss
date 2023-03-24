@@ -1,13 +1,22 @@
 .home {
   width: 100%;
-  background: linear-gradient(#fccec0, #f89598);
+  background: white;
+}
+p {
+  font-family: NanumSquareRound;
 }
 .homeContainer {
   width: 100vw;
 }
 .home_mainBanner {
   width: 100vw;
-  height: 628px;
+}
+.mainVideo {
+  width: 100vw;
+  //height: 100vh;
+  object-fit: cover;
+  position: sticky;
+  top: 0;
 }
 .slider {
   // height: 100px;
@@ -75,6 +84,12 @@
   padding: 20px;
   font-size: 0.9rem;
 }
+.contentTitle {
+  margin-left: 10px;
+}
+.nameTitle {
+  margin-left: 10px;
+}
 // change
 
 /* artistSection */
@@ -110,10 +125,11 @@ article {
   // border-radius: 70px;
   object-fit: cover;
   object-position: center;
-
   cursor: pointer;
+  box-shadow: 4px 4px 5px 0 rgb(0 0 0 / 20%);
 }
 .artistThumnail {
+  cursor: pointer;
   display: flex;
   list-style: none;
   text-align: center;
@@ -137,6 +153,7 @@ article {
 }
 .artistName {
   //margin-top: 2rem;
+  font-family: "NanumSquareRound";
   margin: 0;
   padding-top: 20px;
   font-weight: 800;
@@ -154,11 +171,13 @@ article {
   color: #888888;
 }
 .mainTitle {
-  font-weight: 500;
-  font-size: 3.5vw;
-  text-align: center;
-  line-height: 5vh;
-  letter-spacing: -1.55px;
+  p {
+    font-family: Cafe24Ssurround;
+    font-size: 3.5vw;
+    text-align: center;
+    line-height: 5vh;
+    letter-spacing: -1.55px;
+  }
 }
 .subTitle {
   margin-top: 2.6rem;

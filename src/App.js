@@ -106,7 +106,7 @@ function App() {
           }
         />
         <Route
-          path="/:idolId"
+          path="/choeaein/:idolId"
           element={
             <Layout>
               <CalendarPage />

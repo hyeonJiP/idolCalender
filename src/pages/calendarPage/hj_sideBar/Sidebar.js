@@ -74,6 +74,7 @@ const Sidebar = ({
             </h3>
             <ul className={styles.todaySchedule_List}>
               {newIdolDateSchedule.map((item) => {
+                console.log(newIdolDateSchedule);
                 const scheduleIcon =
                   item.ScheduleType.type === "broadcast"
                     ? faBroadcastTower
