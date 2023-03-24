@@ -114,6 +114,14 @@ function App() {
             </Modal>
           }
         />
+        <Route
+          path="/choeaein/:idolId"
+          element={
+            <Layout>
+              <CalendarPage />
+            </Layout>
+          }
+        ></Route>
 
         <Route element={<NotFoundPage />} path="/*" />
       </Routes>

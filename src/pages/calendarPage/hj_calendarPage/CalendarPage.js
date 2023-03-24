@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./Calendar.module.scss";
+import styles from "./CalendarPage.module.scss";
 import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
 import { axiosSchedule, axiosSchedules } from "../../../api";
 import Calendar from "../calendar/Calendar";
 
 import {
-  faUser,
   faBroadcastTower,
   faCompactDisc,
   faStore,
   faGift,
   faCalendarCheck,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import Modal from "../../../UI/Modal";
 import ReportSchedule from "../../FormPage/IdolForm/ReportSchedule";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CalendarData = () => {
   const { idolId } = useParams();
@@ -87,17 +88,17 @@ const CalendarData = () => {
     }
   }
 
-  const icon = nextDay?.map((item) => item.ScheduleType.content);
-  const icons = [
-    { pk: 1, category: "broadcast", icon: faBroadcastTower },
-    { pk: 2, category: "event", icon: faCalendarCheck },
-    { pk: 3, category: "release", icon: faCompactDisc },
-    { pk: 4, category: "congrats", icon: faGift },
-    { pk: 5, category: "buy", icon: faStore },
-    { pk: 6, category: "my", icon: faUser },
-  ];
+  //const icon = nextDay?.map((item) => item.ScheduleType.content);
+  // const icons = [
+  //   { pk: 1, category: "broadcast", icon: faBroadcastTower },
+  //   { pk: 2, category: "event", icon: faCalendarCheck },
+  //   { pk: 3, category: "release", icon: faCompactDisc },
+  //   { pk: 4, category: "congrats", icon: faGift },
+  //   { pk: 5, category: "buy", icon: faStore },
+  //   { pk: 6, category: "my", icon: faUser },
+  // ];
 
-  const filteredIcons = icons.filter((item) => icon.includes(item.category));
+  //const filteredIcons = icons.filter((item) => icon.includes(item.category));
 
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
@@ -154,11 +155,11 @@ const CalendarData = () => {
         ) : null}
         <section className={styles.nextSchedule}>
           <div className={styles.nextSchedule_Title}>
-            <img
+            {/* <img
               className={styles.nextSchedule_Icon}
               src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
               alt=""
-            ></img>
+            ></img> */}
             <h3 className={styles.nextSchedule_Content}>다가오는 스케줄</h3>
           </div>
           <ul className={styles.nextSchedule_List}>
@@ -168,25 +169,45 @@ const CalendarData = () => {
                 10
               )}일`;
 
-              return (
+              const { type: scheduleType } = day.ScheduleType;
+              const scheduleIcon = {
+                broadcast: faBroadcastTower,
+                event: faCalendarCheck,
+                release: faCompactDisc,
+                congrats: faGift,
+                store: faStore,
+              }[scheduleType];
+
+              const scheduleIconColor = {
+                broadcast: "#443c68",
+                event: "#537fe7",
+                release: "#f16767",
+                congrats: "#e7b10a",
+                store: "#609966",
+              }[scheduleType];
+
+              return day.ScheduleTitle ? (
                 <li className={styles.nextScheduleItem} key={day.pk}>
                   <div className={styles.nextSchedule_LeftWrapper}>
-                    <span className={styles.nextScheduleDay}>
-                      ● {dateFormat}
-                    </span>
+                    <FontAwesomeIcon icon={faCheck} />
+                    <span className={styles.nextScheduleDay}>{dateFormat}</span>
                   </div>
                   <div className={styles.nextSchedule_LightWrapper}>
-                    <img
-                      className={styles.nextscheduleIcon}
-                      src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
-                      alt=""
-                    ></img>
-                    <p className={styles.nextSchedule_ContentList}>
-                      {day.ScheduleTitle}
-                    </p>
+                    <ul className={styles.todaySchedule_List}>
+                      <li className={styles.todaySchedule_Item} key={day.pk}>
+                        <FontAwesomeIcon
+                          icon={scheduleIcon}
+                          color={scheduleIconColor}
+                          className={styles.iconDIv}
+                        />
+                        <span className={styles.nextSchedule_ContentList}>
+                          {day.ScheduleTitle}
+                        </span>
+                      </li>
+                    </ul>
                   </div>
                 </li>
-              );
+              ) : null;
             })}
           </ul>
         </section>
