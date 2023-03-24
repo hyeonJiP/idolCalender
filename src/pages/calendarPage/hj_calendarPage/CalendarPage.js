@@ -22,7 +22,6 @@ const CalendarData = () => {
   const { idolId } = useParams();
   const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
   const [reportModal, setReportModal] = useState(false);
-  // console.log(Number(idolId) === userPick);
 
   // 아이돌 데이터들
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -104,10 +103,12 @@ const CalendarData = () => {
   const [sidebar, setSidebar] = useState(false);
   /**아이돌 day데이터 */
   const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(0);
 
   /**클릭한 날짜와 그 날짜의 스케줄 */
   const todayDate = (date, idolDateSchedule) => {
     setNewIdolDateSchedule(idolDateSchedule);
+    setSelectedDate(date.format("M월 D일 (ddd)"));
   };
 
   const setSidebarOpen = (isSidebar) => {
@@ -133,12 +134,15 @@ const CalendarData = () => {
             setSidebarClose={setSidebarClose}
             todayDate={todayDate}
             newIdolDateSchedule={newIdolDateSchedule}
+            selectedDate={selectedDate}
           />
         </div>
         {Number(idolId) === userPick ? (
           <button
             className={styles.reportBtn}
-            onClick={() => setReportModal(true)}
+            onClick={() => {
+              setReportModal(true);
+            }}
           >
             제보하기
           </button>

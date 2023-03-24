@@ -2,8 +2,14 @@ import React from "react";
 import styles from "./Button.module.scss";
 
 export const CancelButton = (props) => {
+  const reloadPage = () => {
+    window.location.reload();
+  };
   return (
-    <button onClick={props.hideModalHandler} className={styles.cancel}>
+    <button
+      onClick={props.cancel ? reloadPage : props.hideModalHandler}
+      className={styles.cancel}
+    >
       {props.children}
     </button>
   );

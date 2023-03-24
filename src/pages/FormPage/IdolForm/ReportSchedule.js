@@ -4,6 +4,8 @@ import styles from "./ReportSchedule.module.scss";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../../../URL/url";
+import Modal from "../../../UI/Modal";
+import Confirm from "../../adminPage/table/Confirm";
 
 let category = ["방송", "발매", "구매", "축하", "행사"];
 
@@ -14,6 +16,7 @@ const ReportSchedule = (props) => {
   );
   const isAdmin = useSelector((state) => state.auth.authState.is_admin);
   const [btnActive, setBtnActive] = useState("0");
+  const [confirmModal, setConfirmModal] = useState(false);
   const {
     register,
     formState: { errors },
@@ -61,9 +64,16 @@ const ReportSchedule = (props) => {
       .post(`${BASE_URL}users/reports/`, reportData, {
         withCredentials: true,
       })
-      .then((data) => data)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setConfirmModal(true);
+      })
       .catch((res) => console.log(res));
+  };
+
+  /**모달 숨기는 함수 */
+  const hideModalHandler = () => {
+    setConfirmModal(false);
   };
 
   return (
@@ -184,6 +194,11 @@ const ReportSchedule = (props) => {
           {isAdmin ? <button>수정하기</button> : <button>제보하기</button>}
         </div>
       </form>
+      {confirmModal ? (
+        <Modal hideModalHandler={hideModalHandler}>
+          <Confirm scheduleModal="report" hideModalHandler={hideModalHandler} />
+        </Modal>
+      ) : null}
     </>
   );
 };
