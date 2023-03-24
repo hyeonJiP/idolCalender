@@ -92,6 +92,10 @@ const CalendarData = () => {
     { pk: 6, category: "my", icon: faUser },
   ];
 
+  const filteredIcons = icons.filter((item) => icon.includes(item.category));
+
+  console.log(filteredIcons);
+
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
   /**아이돌 day데이터 */
@@ -146,6 +150,7 @@ const CalendarData = () => {
                     </span>
                   </div>
                   <div className={styles.nextSchedule_LightWrapper}>
+                    /*{" "}
                     <img
                       className={styles.nextscheduleIcon}
                       src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"

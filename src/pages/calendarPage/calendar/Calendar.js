@@ -123,16 +123,18 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
                     }}
                     className={styles.today}
                   >
-                    <span
-                      className={
-                        selectedDay &&
-                        selectedDay.format("YYYYMMDD") ===
-                          days.format("YYYYMMDD")
-                          ? styles.selected
-                          : null
-                      }
-                    >
-                      {days.format("D")}
+                    <span>
+                      <div
+                        className={
+                          selectedDay &&
+                          selectedDay.format("YYYYMMDD") ===
+                            days.format("YYYYMMDD")
+                            ? styles.dayContent
+                            : null
+                        }
+                      >
+                        {days.format("D")}
+                      </div>
                     </span>
                     <div className={styles.eventContent}>
                       <ShowEvent
@@ -159,17 +161,18 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
                       setSidebarOpen(true);
                     }}
                   >
-                    <span
-                      value={index}
-                      className={
-                        selectedDay &&
-                        selectedDay.format("YYYYMMDD") ===
-                          days.format("YYYYMMDD")
-                          ? styles.selected
-                          : null
-                      }
-                    >
-                      {days.format("D")}
+                    <span value={index}>
+                      <div
+                        className={
+                          selectedDay &&
+                          selectedDay.format("YYYYMMDD") ===
+                            days.format("YYYYMMDD")
+                            ? styles.dayContent
+                            : null
+                        }
+                      >
+                        {days.format("D")}
+                      </div>
                     </span>
 
                     <div className={styles.eventContent}>
@@ -236,13 +239,17 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
             key={btn.category}
             onClick={() => handleClick(btn.category)}
           >
-            <FontAwesomeIcon icon={btn.icon} size="sm" />
+            <FontAwesomeIcon
+              className={styles.icons}
+              icon={btn.icon}
+              size="sm"
+            />
             {btn.content}
           </button>
         ))}
       </div>
-      <table>
-        <tbody>
+      <table className={styles.calendarTable}>
+        <tbody className={styles.calendarTbody}>
           <tr>
             <td className="week">일</td>
             <td className="week">월</td>
