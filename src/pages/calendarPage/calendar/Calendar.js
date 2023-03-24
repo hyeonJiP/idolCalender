@@ -172,16 +172,18 @@ const Calendar = () => {
                     }}
                     className={styles.today}
                   >
-                    <span
-                      className={
-                        selectedDay &&
-                        selectedDay.format("YYYYMMDD") ===
-                          days.format("YYYYMMDD")
-                          ? styles.selected
-                          : null
-                      }
-                    >
-                      {days.format("D")}
+                    <span>
+                      <div
+                        className={
+                          selectedDay &&
+                          selectedDay.format("YYYYMMDD") ===
+                            days.format("YYYYMMDD")
+                            ? styles.dayContent
+                            : null
+                        }
+                      >
+                        {days.format("D")}
+                      </div>
                     </span>
                     <div className={styles.eventContent}>
                       {/* {filteredData ? filteredData.data : ""}
@@ -214,17 +216,18 @@ const Calendar = () => {
                       showSidebar(filteredData, days);
                     }}
                   >
-                    <span
-                      value={index}
-                      className={
-                        selectedDay &&
-                        selectedDay.format("YYYYMMDD") ===
-                          days.format("YYYYMMDD")
-                          ? styles.selected
-                          : null
-                      }
-                    >
-                      {days.format("D")}
+                    <span value={index}>
+                      <div
+                        className={
+                          selectedDay &&
+                          selectedDay.format("YYYYMMDD") ===
+                            days.format("YYYYMMDD")
+                            ? styles.dayContent
+                            : null
+                        }
+                      >
+                        {days.format("D")}
+                      </div>
                     </span>
                     {/* 사이드바 */}
 
@@ -335,13 +338,17 @@ const Calendar = () => {
             key={btn.pk}
             onClick={() => handleClick(btn.pk)}
           >
-            <FontAwesomeIcon icon={btn.icon} size="sm" />
+            <FontAwesomeIcon
+              className={styles.icons}
+              icon={btn.icon}
+              size="sm"
+            />
             {btn.content}
           </button>
         ))}
       </div>
-      <table>
-        <tbody>
+      <table className={styles.calendarTable}>
+        <tbody className={styles.calendarTbody}>
           <tr>
             <td className="week">일</td>
             <td className="week">월</td>

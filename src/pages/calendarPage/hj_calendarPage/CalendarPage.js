@@ -106,6 +106,10 @@ const CalendarData = () => {
     { pk: 6, category: "my", icon: faUser },
   ];
 
+  const filteredIcons = icons.filter((item) => icon.includes(item.category));
+
+  console.log(filteredIcons);
+
   // 사이드바
   // const [sidebar, setSidebar] = useState(false);
   // const showSidebar = () => setSidebar(!sidebar);
@@ -141,10 +145,11 @@ const CalendarData = () => {
                     </span>
                   </div>
                   <div className={styles.nextSchedule_LightWrapper}>
-                    <img
+                    {/* <img
                       className={styles.nextscheduleIcon}
                       src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
-                    ></img>
+                    ></img> */}
+                    <FontAwesomeIcon icon={icon} size="lg" />
                     <p className={styles.nextSchedule_ContentList}>
                       {day.ScheduleTitle}
                     </p>
