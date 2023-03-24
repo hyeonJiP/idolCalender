@@ -37,9 +37,7 @@ const Home = () => {
                       <div className={styles.slideMid}>
                         <span>{data.ScheduleTitle}</span>
                       </div>
-                      <div className={styles.slideBot}>
-                        {/* <span>{data.participant[0].idol_name_kr}</span> */}
-                      </div>
+                      <div className={styles.slideBot}></div>
                     </div>
                   </div>
                 </div>
