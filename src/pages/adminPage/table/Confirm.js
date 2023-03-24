@@ -23,10 +23,11 @@ const Confirm = (props) => {
       .catch((data) => console.log(data));
   };
 
+  console.log(props.upLoadData);
   const upLoadScheduleHandler = async () => {
     console.log(props.upLoadData);
     await axios
-      .post(`${BASE_URL}idols/${idolPk}/schedules`, props.upLoadData, {
+      .post(`${BASE_URL}idols/${idolPk}/schedules/`, props.upLoadData, {
         withCredentials: true,
       })
       .then((data) => {
@@ -60,6 +61,12 @@ const Confirm = (props) => {
           <button className={styles.confirmBtn} onClick={upLoadScheduleHandler}>
             등록하기
           </button>
+        </>
+      ) : props.scheduleModal === "report" ? (
+        <>
+          <h3>아이돌스케줄이 업로드 되었습니다.</h3>
+          <p>업로드한 아이돌 스케줄은은 관리자가 확인 후에 등록됩니다.</p>
+          <CancelButton cancel="confirm">확인</CancelButton>
         </>
       ) : null}
     </div>

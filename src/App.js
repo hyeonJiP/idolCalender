@@ -20,9 +20,7 @@ import SignUp from "./pages/FormPage/UserForm/SignUp";
 import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
-import { NotFound } from "react-admin";
-import UserSchedule from "./pages/calendarPage/myschedule/UserSchedule";
-import My from "./pages/calendarPage/myschedule/My";
+import NotFoundPage from "./URL/NotFoundPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,7 +61,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/adminpage/*"
+          path="/adminpage/"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -82,7 +80,10 @@ function App() {
         />
 
         {/* 회원가입페이지 */}
-        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/signup"
+          element={!isLogin ? <SignUp /> : <Navigate to="/" />}
+        />
 
         {/* 로그인페이지 */}
         <Route
@@ -114,10 +115,7 @@ function App() {
           }
         />
 
-        <Route path="/userschedule" element={<UserSchedule />} />
-        <Route path="/my" element={<My />} />
-
-        <Route element={<NotFound />} path="/*" />
+        <Route element={<NotFoundPage />} path="/*" />
       </Routes>
     </>
   );

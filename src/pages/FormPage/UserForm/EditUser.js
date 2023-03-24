@@ -6,6 +6,7 @@ import { getCookie } from "../../../cookie/cookie";
 import Layout from "../../../UI/Layout";
 import { BASE_URL } from "../../../URL/url";
 import styles from "./EditUser.module.scss";
+import EditUserImg from "./EditUserImg.js";
 import Option from "./Option";
 
 const EditUser = () => {
@@ -45,16 +46,7 @@ const EditUser = () => {
     <Layout>
       <h1 className={styles.title}>회원정보 수정</h1>
       <div className={styles.signUp}>
-        <div className={styles.signUpContainer}>
-          <h2>프로필 정보</h2>
-          <div className={styles.userImg}>
-            <div className={styles.imgInner}></div>
-          </div>
-          <div className={styles.containerBtnDiv}>
-            <button>변경</button>
-            <button>삭제</button>
-          </div>
-        </div>
+        <EditUserImg />
         <hr />
         <form className={styles.editForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.typeAbsoluteDiv}>
@@ -62,8 +54,9 @@ const EditUser = () => {
             <div className={styles.absoluteInform}>{userData.email}</div>
           </div>
           <div className={styles.typeDiv}>
-            <label>기존비밀번호</label>
+            <label>비밀번호</label>
             <input
+              autoComplete="off"
               name="oldPassword"
               type="password"
               placeholder="기존 비밀번호를 입력해야 비밀번호 변경이 가능합니다!!"
@@ -87,10 +80,11 @@ const EditUser = () => {
             {errors.password && <p>{errors.password.message}</p>}
           </div>
           <div className={styles.typeDiv}>
-            <label>비밀번호 변경</label>
+            <label>새 비밀번호</label>
             <input
               name="newPassword"
               type="password"
+              autoComplete="off"
               placeholder="새로운 비밀번호"
               {...register("newPassword", {
                 required: {
@@ -119,10 +113,11 @@ const EditUser = () => {
           </div>
 
           <div className={styles.typeDiv}>
-            <label>비밀번호 확인</label>
+            <label>새 비밀번호 확인</label>
             <input
               name="passwordConfirm"
               type="password"
+              autoComplete="off"
               placeholder="비밀번호 확인"
               {...register("passwordConfirm", {
                 required: true,

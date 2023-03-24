@@ -21,8 +21,10 @@
   margin-bottom: 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   cursor: pointer;
+  p {
+    margin: 3px 0 3px 13px;
+  }
 }
 .todayTitle {
   font-weight: 800;

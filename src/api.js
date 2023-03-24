@@ -27,12 +27,3 @@ export function axiosIdol() {
 export function axiosSchedules() {
   return axios(`${BASE_URL}/schedules/`).then((response) => response.data);
 }
-
-// useEffect(() => {
-//   (async () => {
-//     const response = await (
-//       await fetch(`${BASE_URL}/${idolId}/schedules`)
-//     ).json();
-//     console.log(response[0].pk);
-//   })();
-// });
