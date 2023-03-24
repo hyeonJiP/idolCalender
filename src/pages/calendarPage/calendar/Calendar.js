@@ -1,8 +1,6 @@
 // import "./Calendar.css";
 import styles from "./Calendar.module.scss";
-import { fetchData } from "./fetchData";
-
-import axios from "axios";
+import { fetchDayIdolSchedule, fetchMonthData } from "../../../URL/url";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,57 +16,16 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "react-query";
-import Sidebar from "../hj_sideBar/Sidebar";
-import { axiosSchedule, axiosTodaySchedule, BASE_URL } from "../../../api";
 import { useParams } from "react-router";
 
-const Calendar = () => {
-  const [idolSchedule, setIdolSchedule] = useState([]);
-
-  // 아이돌 pk 정보 가져오기
+const Calendar = ({ todayDate, setSidebarOpen }) => {
   const { idolId } = useParams();
-  //console.log(idolId);
 
-  useEffect(() => {
-    if (idolId) {
-      // idolId 값이 유효할 때만 API 요청 보내도록 수정
-      const fetchIdolSchedule = async () => {
-        try {
-          const response = await axios.get(
-            `http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`
-          );
-          const data = response.data;
-          const idolSchedule = data.map((schedule) => {
-            const dateList = schedule.when.split("-");
-            dateList[2] = dateList[2].substr(0, 2);
-            const dateValue = dateList.join("");
+  /**선택한 날 */
+  const [selectedDay, setSelectedDay] = useState(moment());
 
-            const typeObj = schedule.ScheduleType;
-            const typeValue = typeObj.type;
-            console.log(typeValue);
-            return {
-              date: dateValue,
-              title: schedule.ScheduleTitle,
-              content: schedule.ScheduleContent,
-              category: typeValue,
-            };
-          });
-          setIdolSchedule(idolSchedule);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchIdolSchedule();
-    }
-  }, [idolId]);
-
-  const [selectedDay, setSelectedDay] = useState(null);
-
-  // useState를 사용하여 달 단위로 변경
+  /**현재 보여주는 달의 날짜들 */
   const [getMoment, setMoment] = useState(moment());
-
-  console.log(getMoment.format("YYYY/MM/DD"));
 
   const today = getMoment;
 
@@ -85,64 +42,59 @@ const Calendar = () => {
   // 반복문을 사용하여 해당 달의 총주의 수만큼 반복문을 실행하고 테이블의 내용을 배열에 추가
   // 길이가 7인 arr를 생성 후 index를 기반으로 day을 표기
 
-  const category = ["broadcast", "event", "release", "congrats", "buy", "my"];
-  const todays = new Date();
-  const year = todays.getFullYear();
-  const month = todays.getMonth() + 1;
-  const day = todays.getDate();
+  /**스케줄 불러오기 */
+  const buttons = [
+    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
+    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+    { pk: 4, category: "congrats", content: "축하", icon: faGift },
+    { pk: 5, category: "buy", content: "구매", icon: faStore },
+    { pk: 6, category: "my", content: "My", icon: faUser },
+  ];
+  const [activeButtons, setActiveButtons] = useState([
+    "broadcast",
+    "event",
+    "release",
+    "congrats",
+    "buy",
+    "my",
+  ]);
 
-  // const category = "broadcast";
-  //const year = "2023";
-  //const month = "3";
-  //const day = "23";
+  /**이번달 데이터 */
+  const [newIdolSchedule, setNewIdolSchedule] = useState([]);
+  /**이번달 데이터와 클릭한 일자 데이터 */
+  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
 
-  // 선택된 오늘의 스케줄 가져오기
-  // const { isLoding: todayLoding, data: todayData } = useQuery(
-  //   ["info", idolId, category, year, month, day],
-  //   () => {
-  //     return axiosTodaySchedule(idolId, category, year, month, day);
-  //   }
-  // );
-  // console.log(todayData);
+  const newSelectedDay = selectedDay.format("YYYY/MM/DD");
+  useEffect(() => {
+    fetchMonthData(getMoment, activeButtons, idolId).then((data) =>
+      setNewIdolSchedule(data)
+    );
+    fetchDayIdolSchedule(newSelectedDay, activeButtons, idolId).then((data) =>
+      setNewIdolDateSchedule(data)
+    );
+  }, [activeButtons, idolId, getMoment, newSelectedDay]);
 
-  const [sidebarDatas, setsidebarDatas] = useState();
-  // 사이드바
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = (filteredData, days) => {
-    // console.log(filteredData);
-    // console.log(days);
-    console.log(filteredData);
+  todayDate(selectedDay, newIdolDateSchedule);
 
-    filteredData?.map((item, i) => {
-      if (item.date === days.format("YYYYMMDD")) {
-        const category = item.category;
-        const year = days.format("YYYY");
-        const month = days.format("MM");
-        const day = days.format("DD");
-        // console.log(category, year, month, day);
-        const test = axiosTodaySchedule(
-          idolId,
-          category,
-          year,
-          month,
-          day
-        ).then((res) => {
-          if (res) {
-            setsidebarDatas(res);
-          } else {
-            setsidebarDatas(null);
-          }
+  /**클리한 버튼 toggle 함수 */
+  const handleClick = (buttonPk) => {
+    if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
+      return;
+    }
+    const index = activeButtons.indexOf(buttonPk);
 
-          //console.log("test", res);
-        });
-        //const test2 = axiosSchedule(idolId).then((res) => console.log(res));
-      }
-    });
-
-    return setSidebar(!sidebar);
+    if (index === -1) {
+      setActiveButtons([...activeButtons, buttonPk]);
+    } else {
+      setActiveButtons([
+        ...activeButtons.slice(0, index),
+        ...activeButtons.slice(index + 1),
+      ]);
+    }
   };
-  console.log(sidebarDatas);
 
+  /** */
   const calendarArr = () => {
     let result = []; // 이번달 배열
     let week = firstWeek;
@@ -162,13 +114,12 @@ const Calendar = () => {
 
               // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
-                //console.log(days);
                 return (
                   <td
                     key={index}
                     onClick={() => {
                       setSelectedDay(days);
-                      showSidebar(filteredData, days);
+                      setSidebarOpen(true);
                     }}
                     className={styles.today}
                   >
@@ -186,16 +137,10 @@ const Calendar = () => {
                       </div>
                     </span>
                     <div className={styles.eventContent}>
-                      {/* {filteredData ? filteredData.data : ""}
                       <ShowEvent
-                        filteredData={filteredData}
                         buttons={buttons}
                         days={days}
-                      /> */}
-                      <ShowEvent
-                        filteredData={filteredData}
-                        buttons={buttons}
-                        days={days}
+                        newIdolSchedule={newIdolSchedule}
                       />
                     </div>
                   </td>
@@ -211,9 +156,9 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    onClick={() => {
+                    onClick={(e) => {
                       setSelectedDay(days);
-                      showSidebar(filteredData, days);
+                      setSidebarOpen(true);
                     }}
                   >
                     <span value={index}>
@@ -229,14 +174,12 @@ const Calendar = () => {
                         {days.format("D")}
                       </div>
                     </span>
-                    {/* 사이드바 */}
 
                     <div className={styles.eventContent}>
-                      <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
                       <ShowEvent
-                        filteredData={filteredData}
                         buttons={buttons}
                         days={days}
+                        newIdolSchedule={newIdolSchedule}
                       />
                     </div>
                   </td>
@@ -248,43 +191,6 @@ const Calendar = () => {
     }
     return result;
   };
-
-  // schedule 데이터
-  const { data: schedule } = useQuery(["schedule", idolId], () =>
-    fetchData(idolId)
-  );
-
-  const buttons = [
-    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
-    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
-    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
-    { pk: 4, category: "congrats", content: "축하", icon: faGift },
-    { pk: 5, category: "buy", content: "구매", icon: faStore },
-    { pk: 6, category: "my", content: "My", icon: faUser },
-  ];
-  const [activeButtons, setActiveButtons] = useState([1, 2, 3, 4, 5, 6]);
-
-  const handleClick = (buttonPk) => {
-    if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
-      return;
-    }
-    const index = activeButtons.indexOf(buttonPk);
-
-    if (index === -1) {
-      setActiveButtons([...activeButtons, buttonPk]);
-    } else {
-      setActiveButtons([
-        ...activeButtons.slice(0, index),
-        ...activeButtons.slice(index + 1),
-      ]);
-    }
-  };
-  // console.log(schedule);
-  const filteredData = schedule?.filter((item) =>
-    activeButtons.includes(
-      buttons.find((button) => button.category === item.category)?.pk
-    )
-  );
 
   // 카테고리 배열
 
@@ -318,25 +224,20 @@ const Calendar = () => {
           <FontAwesomeIcon icon={faRotateRight} />
         </button>
       </div>
-      {/* <ul className={styles.testDiv}>
-        {filteredData?.map((item, i) => (
-          <li key={i} className={`${styles.listItem} ${styles[item.category]}`}>
-            {item.title}
-          </li>
-        ))}
-      </ul> */}
 
       {/* 버튼 */}
       <div className={styles.categoryContainer}>
         {buttons.map((btn) => (
           <button
             className={`${
-              activeButtons.includes(btn.pk) ? styles.active : styles.inactive
+              activeButtons.includes(btn.category)
+                ? styles.active
+                : styles.inactive
             } 
              ${styles.buttonss}
             `}
-            key={btn.pk}
-            onClick={() => handleClick(btn.pk)}
+            key={btn.category}
+            onClick={() => handleClick(btn.category)}
           >
             <FontAwesomeIcon
               className={styles.icons}
@@ -366,33 +267,18 @@ const Calendar = () => {
 };
 export default Calendar;
 
-function ShowEvent({ days, idolId, buttons, filteredData }) {
-  //const { idolId } = useParams();
-  const { data: schedule } = useQuery(["schedule", idolId], () =>
-    fetchData(idolId)
-  );
-
-  // 버튼 pk 추출
-  const pks = buttons?.map((item) => item.pk);
-
-  // category 추출(중복x)
-  const category = [...new Set(schedule?.map((item) => item.category))];
-
-  useEffect(() => {}, [schedule]);
-
-  //const days = moment();
-
+function ShowEvent({ days, newIdolSchedule }) {
   return (
     <>
       <div className={styles.testDiv}>
-        {filteredData?.map((item, i) => {
-          if (
-            days?.format("YYYYMMDD") == moment(item.date).format("YYYYMMDD")
-          ) {
+        {newIdolSchedule?.map((item, i) => {
+          if (days?.format("D") == moment(item.day)) {
             return (
               <div
                 key={i}
-                className={`${styles.listItem} ${styles[item.category]}`}
+                className={`${styles.listItem} ${
+                  styles[item.ScheduleType.type]
+                }`}
               >
                 {item.data}
               </div>
@@ -400,22 +286,6 @@ function ShowEvent({ days, idolId, buttons, filteredData }) {
           }
         })}
       </div>
-      {/* <div className={styles.testDiv}>
-        {filteredData?.map((item, i) => {
-          if (
-            days?.format("YYYYMMDD") == moment(item.date).format("YYYYMMDD")
-          ) {
-            return (
-              <div
-                key={i}
-                className={`${styles.listItem} ${styles[item.category]}`}
-              >
-                {item.data}
-              </div>
-            );
-          }
-        })}
-      </div> */}
     </>
   );
 }

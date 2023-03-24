@@ -41,3 +41,39 @@ const uploadImg = async (data, img) => {
 
   return resData;
 };
+
+/**특정 idol에 대한 스케줄 month데이터 불러오기 */
+export const fetchMonthData = async (getMoment, activeButtons, idolId) => {
+  const month = getMoment.format("YYYY/MM");
+  const requests = activeButtons.map((category) =>
+    axios
+      .get(`${BASE_URL}idols/${idolId}/schedules/${category}/${month}/`)
+      .then((res) => res.data)
+  );
+
+  const responses = await Promise.all(requests);
+
+  let newIdolData = responses.flat();
+
+  return newIdolData;
+};
+
+/**특정 idol에 대한 day데이터 불러오기 */
+export const fetchDayIdolSchedule = async (
+  idolScheduleDate,
+  newCategory,
+  idolId
+) => {
+  const requests = newCategory.map((category) =>
+    axios
+      .get(
+        `${BASE_URL}idols/${idolId}/schedules/${category}/${idolScheduleDate}/`
+      )
+      .then((res) => res.data)
+  );
+  const responses = await Promise.all(requests);
+
+  let newIdolDateSchedule = responses.flat();
+
+  return newIdolDateSchedule;
+};
