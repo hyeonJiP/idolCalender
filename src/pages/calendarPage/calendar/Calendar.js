@@ -1,8 +1,6 @@
 // import "./Calendar.css";
 import styles from "./Calendar.module.scss";
-import { fetchData, fetchMonthData } from "./fetchData";
-
-import axios from "axios";
+import { fetchDayIdolSchedule, fetchMonthData } from "../../../URL/url";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,82 +16,15 @@ import {
   faGift,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "react-query";
-import Sidebar from "../hj_sideBar/Sidebar";
-import { axiosSchedule, axiosTodaySchedule } from "../../../api";
 import { useParams } from "react-router";
-import { BASE_URL } from "../../../URL/url";
 
-const Calendar = () => {
-  // 아이돌 pk 정보 가져오기
+const Calendar = ({ todayDate, setSidebarOpen }) => {
   const { idolId } = useParams();
-
-  /**스케줄 불러오기 */
-
-  const buttons = [
-    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
-    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
-    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
-    { pk: 4, category: "congrats", content: "축하", icon: faGift },
-    { pk: 5, category: "buy", content: "구매", icon: faStore },
-    { pk: 6, category: "my", content: "My", icon: faUser },
-  ];
-  const [activeButtons, setActiveButtons] = useState([
-    "broadcast",
-    "event",
-    "release",
-    "congrats",
-    "buy",
-    "my",
-  ]);
-
-  const [newIdolSchedule, setNewIdolSchedule] = useState([]);
-
-  console.log(activeButtons);
-
-  useEffect(() => {
-    const fetchMonthData = async () => {
-      let newIdolData = [];
-      const month = getMoment.format("YYYY/MM");
-
-      activeButtons.map(
-        async (category) =>
-          await axios
-            .get(`${BASE_URL}idols/${idolId}/schedules/${category}/${month}/`)
-            .then((res) => {
-              res.data.forEach(
-                (data) => (newIdolData = [...newIdolData, data])
-              );
-
-              setNewIdolSchedule(newIdolData);
-            })
-      );
-    };
-    fetchMonthData();
-  }, [activeButtons]);
-  console.log("what the..");
-
-  const handleClick = (buttonPk) => {
-    if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
-      return;
-    }
-    const index = activeButtons.indexOf(buttonPk);
-
-    if (index === -1) {
-      setActiveButtons([...activeButtons, buttonPk]);
-    } else {
-      setActiveButtons([
-        ...activeButtons.slice(0, index),
-        ...activeButtons.slice(index + 1),
-      ]);
-    }
-  };
-  const filteredData = [];
 
   /**선택한 날 */
   const [selectedDay, setSelectedDay] = useState(moment());
 
-  // useState를 사용하여 달 단위로 변경
+  /**현재 보여주는 달의 날짜들 */
   const [getMoment, setMoment] = useState(moment());
 
   const today = getMoment;
@@ -111,13 +42,59 @@ const Calendar = () => {
   // 반복문을 사용하여 해당 달의 총주의 수만큼 반복문을 실행하고 테이블의 내용을 배열에 추가
   // 길이가 7인 arr를 생성 후 index를 기반으로 day을 표기
 
-  // 사이드바
-  const [sidebar, setSidebar] = useState(false);
+  /**스케줄 불러오기 */
+  const buttons = [
+    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
+    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+    { pk: 4, category: "congrats", content: "축하", icon: faGift },
+    { pk: 5, category: "buy", content: "구매", icon: faStore },
+    { pk: 6, category: "my", content: "My", icon: faUser },
+  ];
+  const [activeButtons, setActiveButtons] = useState([
+    "broadcast",
+    "event",
+    "release",
+    "congrats",
+    "buy",
+    "my",
+  ]);
 
-  const showSidebar = () => {
-    return setSidebar(!sidebar);
+  /**이번달 데이터 */
+  const [newIdolSchedule, setNewIdolSchedule] = useState([]);
+  /**이번달 데이터와 클릭한 일자 데이터 */
+  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
+
+  const newSelectedDay = selectedDay.format("YYYY/MM/DD");
+  useEffect(() => {
+    fetchMonthData(getMoment, activeButtons, idolId).then((data) =>
+      setNewIdolSchedule(data)
+    );
+    fetchDayIdolSchedule(newSelectedDay, activeButtons, idolId).then((data) =>
+      setNewIdolDateSchedule(data)
+    );
+  }, [activeButtons, idolId, getMoment, newSelectedDay]);
+
+  todayDate(selectedDay, newIdolDateSchedule);
+
+  /**클리한 버튼 toggle 함수 */
+  const handleClick = (buttonPk) => {
+    if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
+      return;
+    }
+    const index = activeButtons.indexOf(buttonPk);
+
+    if (index === -1) {
+      setActiveButtons([...activeButtons, buttonPk]);
+    } else {
+      setActiveButtons([
+        ...activeButtons.slice(0, index),
+        ...activeButtons.slice(index + 1),
+      ]);
+    }
   };
 
+  /** */
   const calendarArr = () => {
     let result = []; // 이번달 배열
     let week = firstWeek;
@@ -137,13 +114,12 @@ const Calendar = () => {
 
               // 오늘 날짜에 today style 적용
               if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
-                //console.log(days);
                 return (
                   <td
                     key={index}
                     onClick={() => {
                       setSelectedDay(days);
-                      showSidebar();
+                      setSidebarOpen(true);
                     }}
                     className={styles.today}
                   >
@@ -160,7 +136,6 @@ const Calendar = () => {
                     </span>
                     <div className={styles.eventContent}>
                       <ShowEvent
-                        filteredData={filteredData}
                         buttons={buttons}
                         days={days}
                         newIdolSchedule={newIdolSchedule}
@@ -179,9 +154,9 @@ const Calendar = () => {
                 return (
                   <td
                     key={index}
-                    onClick={() => {
+                    onClick={(e) => {
                       setSelectedDay(days);
-                      showSidebar();
+                      setSidebarOpen(true);
                     }}
                   >
                     <span
@@ -198,14 +173,7 @@ const Calendar = () => {
                     </span>
 
                     <div className={styles.eventContent}>
-                      <Sidebar
-                        sidebar={sidebar}
-                        setSidebar={setSidebar}
-                        newIdolSchedule={newIdolSchedule}
-                        selectedDay={selectedDay}
-                      />
                       <ShowEvent
-                        filteredData={filteredData}
                         buttons={buttons}
                         days={days}
                         newIdolSchedule={newIdolSchedule}
@@ -297,9 +265,7 @@ function ShowEvent({ days, newIdolSchedule }) {
     <>
       <div className={styles.testDiv}>
         {newIdolSchedule?.map((item, i) => {
-          if (
-            days?.format("YYYYMMDD") === moment(item.date).format("YYYYMMDD")
-          ) {
+          if (days?.format("D") == moment(item.day)) {
             return (
               <div
                 key={i}

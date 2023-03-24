@@ -1,12 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import * as AiIcons from "react-icons/ai";
 import { SidebarData } from "./SidebarData";
 import styles from "./Sidebar.module.scss";
-import { BASE_URL } from "../../../URL/url";
-import axios from "axios";
-import { useParams } from "react-router";
+import {
+  faBroadcastTower,
+  faCalendarCheck,
+  faCompactDisc,
+  faGift,
+  faStore,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SidebarNav = styled.nav`
   background-color: #5b5be8;
@@ -23,56 +28,31 @@ const SidebarNav = styled.nav`
   overflow: auto;
 `;
 
-const Sidebar = ({ sidebar, setSidebar, newIdolSchedule, selectedDay }) => {
+const Sidebar = ({
+  sidebar,
+  setSidebarClose,
+  todayDate,
+  newIdolDateSchedule,
+}) => {
   // 사이드바 외부 클릭시 닫히는 함수
-  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
   const outside = useRef();
   useEffect(() => {
     document.addEventListener("mousedown", handleClose);
+
     return () => {
       document.removeEventListener("mousedown", handleClose);
     };
-  });
-
-  const category = newIdolSchedule.map((data) => data.ScheduleType.type);
-
-  const newCategory = [...new Set(category)];
-
-  const { idolId } = useParams();
-
-  const idolScheduleDate = selectedDay.format("YYYY/MM/DD");
-
-  // useEffect(() => {
-  //   console.log(idolScheduleDate, idolId);
-  //   let idolDateIdolSchedule = [];
-  //   const fetchDayIdolSchedule = () => {
-  //     newCategory.map(async (category) => {
-  //       return await axios
-  //         .get(
-  //           `${BASE_URL}idols/${idolId}/schedules/${category}/${idolScheduleDate}/`
-  //         )
-  //         .then((res) => {
-  //           res.data.forEach(
-  //             (schedule) =>
-  //               (idolDateIdolSchedule = [...idolDateIdolSchedule, schedule])
-  //           );
-  //           setNewIdolDateSchedule(idolDateIdolSchedule);
-  //         });
-  //     });
-  //   };
-  //   fetchDayIdolSchedule();
-  // }, [idolScheduleDate, idolId, newCategory]);
-
-  console.log(newIdolDateSchedule);
+  }, []);
 
   const handleClose = async (e) => {
     if (!outside.current.contains(e.target)) {
       //현재 클릭한 곳이 메뉴 컴포넌트 안이 아니면 닫기
-      setSidebar(false);
+      setSidebarClose(false);
     }
   };
 
-  const showSidebar = () => setSidebar(!sidebar);
+  console.log(newIdolDateSchedule);
+
   return (
     <>
       <SidebarNav sidebar={sidebar} ref={outside}>
@@ -80,7 +60,10 @@ const Sidebar = ({ sidebar, setSidebar, newIdolSchedule, selectedDay }) => {
           <Link to="#" className={styles.navIcon}>
             <AiIcons.AiOutlineClose
               style={{ color: "white" }}
-              onClick={showSidebar}
+              onClick={() => {
+                setSidebarClose(false);
+                // console.log(sidebar);
+              }}
             />
           </Link>
           <div className={styles.sideSchedule_top}>
@@ -90,14 +73,23 @@ const Sidebar = ({ sidebar, setSidebar, newIdolSchedule, selectedDay }) => {
               놓치지 마세요
             </h3>
             <ul className={styles.todaySchedule_List}>
-              {SidebarData.map((item, index) => {
-                {
-                  return (
-                    <li className={styles.todaySchedule_Item} key={index}>
-                      {item.title}
-                    </li>
-                  );
-                }
+              {newIdolDateSchedule.map((item) => {
+                const scheduleIcon =
+                  item.ScheduleType.type === "broadcast"
+                    ? faBroadcastTower
+                    : item.ScheduleType.type === "event"
+                    ? faCalendarCheck
+                    : item.ScheduleType.type === "release"
+                    ? faCompactDisc
+                    : item.ScheduleType.type === "congrats"
+                    ? faGift
+                    : faStore;
+
+                return (
+                  <li className={styles.todaySchedule_Item} key={item.pk}>
+                    <FontAwesomeIcon icon={scheduleIcon} /> {item.ScheduleTitle}
+                  </li>
+                );
               })}
             </ul>
           </div>
@@ -110,25 +102,18 @@ const Sidebar = ({ sidebar, setSidebar, newIdolSchedule, selectedDay }) => {
             </h3>
             <ul className={styles.todaySchedule_List}>
               {SidebarData.map((item, index) => {
-                {
-                  return (
-                    <li className={styles.todaySchedule_Item} key={index}>
-                      <div className={styles.editDiv_le}>{item.title}</div>
-                      <div className={styles.editDiv_ri}>
-                        <button>수정</button>
-                        <button>삭제</button>
-                      </div>
-                    </li>
-                  );
-                }
+                return (
+                  <li className={styles.todaySchedule_Item} key={index}>
+                    <div className={styles.editDiv_le}>{item.title}</div>
+                    <div className={styles.editDiv_ri}>
+                      <button>수정</button>
+                      <button>삭제</button>
+                    </div>
+                  </li>
+                );
               })}
             </ul>
           </div>
-        </div>
-        <div>
-          {newIdolDateSchedule.map((data) => (
-            <div>data </div>
-          ))}
         </div>
       </SidebarNav>
     </>

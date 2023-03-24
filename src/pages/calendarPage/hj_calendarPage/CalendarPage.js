@@ -1,20 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./Calendar.module.scss";
-import { calendarDatas } from "./CalendarData";
 import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
-import {
-  axiosSchedule,
-  axiosSchedules,
-  axiosTodaySchedule,
-} from "../../../api";
+import { axiosSchedule, axiosSchedules } from "../../../api";
 import Calendar from "../calendar/Calendar";
-//import FilterableProductTable from "./TestPage";
-import Test from "./Test";
-import Test2 from "./Test2";
-import Category from "./Category";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   faUser,
@@ -27,7 +17,6 @@ import {
 
 const CalendarData = () => {
   const { idolId } = useParams();
-  const [dateList, setDateList] = useState([]);
 
   // 아이돌 데이터들
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -36,13 +25,11 @@ const CalendarData = () => {
       return axiosSchedule(idolId);
     }
   );
-  //console.log(idData);
 
   const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
     "schedules",
     axiosSchedules
   );
-  //console.log(schedulesData);
 
   // 다가오는 스케줄
   // 3일 이후 날짜 구하기
@@ -105,23 +92,42 @@ const CalendarData = () => {
     { pk: 6, category: "my", icon: faUser },
   ];
 
-  // 사이드바
-  // const [sidebar, setSidebar] = useState(false);
-  // const showSidebar = () => setSidebar(!sidebar);
+  /**사이드바 */
+  const [sidebar, setSidebar] = useState(false);
+  /**아이돌 day데이터 */
+  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
+
+  /**클릭한 날짜와 그 날짜의 스케줄 */
+  const todayDate = (date, idolDateSchedule) => {
+    setNewIdolDateSchedule(idolDateSchedule);
+  };
+
+  const setSidebarOpen = (isSidebar) => {
+    setSidebar(isSidebar);
+  };
+
+  const setSidebarClose = (isSidebar) => {
+    setSidebar(isSidebar);
+  };
 
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
         <div className={styles.calendarWrap}>
-          <Calendar />
-          {/* <button onClick={showSidebar}>사이드바</button>
-          <Sidebar sidebar={sidebar} setSidebar={setSidebar} /> */}
+          <Calendar todayDate={todayDate} setSidebarOpen={setSidebarOpen} />
+          <Sidebar
+            sidebar={sidebar}
+            setSidebarClose={setSidebarClose}
+            todayDate={todayDate}
+            newIdolDateSchedule={newIdolDateSchedule}
+          />
         </div>
         <section className={styles.nextSchedule}>
           <div className={styles.nextSchedule_Title}>
             <img
               className={styles.nextSchedule_Icon}
               src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
+              alt=""
             ></img>
             <h3 className={styles.nextSchedule_Content}>다가오는 스케줄</h3>
           </div>
@@ -143,6 +149,7 @@ const CalendarData = () => {
                     <img
                       className={styles.nextscheduleIcon}
                       src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
+                      alt=""
                     ></img>
                     <p className={styles.nextSchedule_ContentList}>
                       {day.ScheduleTitle}
@@ -151,35 +158,8 @@ const CalendarData = () => {
                 </li>
               );
             })}
-            {/* {nextDay?.map((day) => {
-              const dateFormat = `${day.when.slice(5, 7)}월 ${day.when.slice(
-                8,
-                10
-              )}일`;
-              return (
-                <li className={styles.nextScheduleItem} key={day.pk}>
-                  <div className={styles.nextSchedule_LeftWrapper}>
-                    <span className={styles.nextScheduleDay}>
-                      ● {dateFormat}
-                    </span>
-                  </div>
-                  <div className={styles.nextSchedule_LightWrapper}>
-                    <img
-                      className={styles.nextscheduleIcon}
-                      src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
-                    ></img>
-                    <p className={styles.nextSchedule_ContentList}>
-                      {day.description}
-                    </p>
-                  </div>
-                </li>
-              );
-            })} */}
           </ul>
         </section>
-        {/* <FilterableProductTable /> */}
-        {/* <Category idolId={idolId} idData={idData} /> */}
-        {/* <Test /> */}
       </div>
     </div>
   );
