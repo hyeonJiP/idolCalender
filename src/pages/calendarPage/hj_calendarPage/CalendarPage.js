@@ -138,7 +138,9 @@ const CalendarData = () => {
         {Number(idolId) === userPick ? (
           <button
             className={styles.reportBtn}
-            onClick={() => setReportModal(true)}
+            onClick={() => {
+              setReportModal(true);
+            }}
           >
             제보하기
           </button>
