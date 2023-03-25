@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import * as AiIcons from "react-icons/ai";
@@ -12,6 +12,8 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import UserSchedule from "../myschedule/UserSchedule";
+import Modal from "../../../UI/Modal";
 
 const SidebarNav = styled.nav`
   background-color: #5b5be8;
@@ -37,6 +39,7 @@ const Sidebar = ({
 }) => {
   // 사이드바 외부 클릭시 닫히는 함수
   const outside = useRef();
+  const [userScheduleInput, setUserScheduleInput] = useState(false);
   useEffect(() => {
     document.addEventListener("mousedown", handleClose);
 
@@ -50,6 +53,10 @@ const Sidebar = ({
       //현재 클릭한 곳이 메뉴 컴포넌트 안이 아니면 닫기
       setSidebarClose(false);
     }
+  };
+
+  const hideModalHandler = () => {
+    setUserScheduleInput(false);
   };
 
   return (
@@ -72,7 +79,6 @@ const Sidebar = ({
             </h3>
             <ul className={styles.todaySchedule_List}>
               {newIdolDateSchedule.map((item) => {
-                console.log(newIdolDateSchedule);
                 const scheduleIcon =
                   item.ScheduleType.type === "broadcast" ? (
                     <FontAwesomeIcon
@@ -116,6 +122,18 @@ const Sidebar = ({
               <br />
               놓치지 마세요
             </h3>
+            {!userScheduleInput ? (
+              <input
+                type="button"
+                onClick={() => setUserScheduleInput(true)}
+                value="+"
+              />
+            ) : (
+              <Modal hideCartHandler={hideModalHandler}>
+                <UserSchedule hideModalHandler={hideModalHandler} />
+              </Modal>
+            )}
+
             <ul className={styles.todaySchedule_List}>
               {SidebarData.map((item, index) => {
                 return (

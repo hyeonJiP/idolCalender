@@ -34,7 +34,6 @@ const uploadImg = async (data, img) => {
       withCredentials: false,
     })
     .then((res) => {
-      // console.log(res.data.result)
       resData = res.data.result;
       return res.data.result;
     });
@@ -44,10 +43,10 @@ const uploadImg = async (data, img) => {
 
 /**특정 idol에 대한 스케줄 month데이터 불러오기 */
 export const fetchMonthData = async (getMoment, activeButtons, idolId) => {
-  const month = getMoment.format("YYYY/MM");
+  const date = getMoment.format("YYYY/MM");
   const requests = activeButtons.map((category) =>
     axios
-      .get(`${BASE_URL}idols/${idolId}/schedules/${category}/${month}/`)
+      .get(`${BASE_URL}idols/${idolId}/schedules/${category}/${date}/`)
       .then((res) => {
         const data = res.data.filter(
           (schedule, index) =>
@@ -57,11 +56,35 @@ export const fetchMonthData = async (getMoment, activeButtons, idolId) => {
       })
   );
 
+  let userData = [];
+  if (activeButtons.includes("my")) {
+    const requestsUserData = await axios
+      .get(`${BASE_URL}users_calendar/${date}`)
+      .then((res) => {
+        const data = res.data.filter(
+          (schedule, index) =>
+            res.data.findIndex((item) => item.day === schedule.day) === index
+        );
+        return data;
+      });
+
+    userData = requestsUserData;
+  }
+
   const responses = await Promise.all(requests);
 
   let newIdolData = responses.flat();
 
-  console.log(newIdolData);
+  const newUserData = userData.map((data) => {
+    const userSchedule = {
+      ScheduleTitle: data.title,
+      ScheduleType: { type: "my" },
+      day: data.day,
+    };
+    return userSchedule;
+  });
+
+  newIdolData = [...newIdolData, ...newUserData];
 
   return newIdolData;
 };
@@ -79,9 +102,43 @@ export const fetchDayIdolSchedule = async (
       )
       .then((res) => res.data)
   );
+
+  let newUserData = [];
+  if (newCategory.includes("my")) {
+    const requestsUserData = await axios
+      .get(`${BASE_URL}users_calendar/${idolScheduleDate}`)
+      .then((res) => {
+        const data = res.data.filter(
+          (schedule, index) =>
+            res.data.findIndex((item) => item.day === schedule.day) === index
+        );
+        return data;
+      });
+
+    newUserData = requestsUserData;
+  }
+
   const responses = await Promise.all(requests);
 
   let newIdolDateSchedule = responses.flat();
 
+  console.log(newUserData);
+
+  // newIdolDateSchedule = {
+  //   idolDaySchdule: newIdolDateSchedule,
+  //   newUserData: newUserData,
+  // };
+
   return newIdolDateSchedule;
+};
+
+/**유저 일정 등록 */
+
+export const postUserCalendar = async (data) => {
+  await axios
+    .post(`${BASE_URL}users_calendar/`, data, {
+      withCredentials: true,
+    })
+    .then((data) => console.log(data))
+    .catch((data) => console.log(data));
 };

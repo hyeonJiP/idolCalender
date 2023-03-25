@@ -10,8 +10,6 @@ import { getCookie, setCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
-import Calendar from "./pages/calendarPage/calendar/Calendar";
-
 import axios from "axios";
 import ReportTable from "./pages/adminPage/table/ReportTable";
 import ReportSchedule from "./pages/FormPage/IdolForm/ReportSchedule";
@@ -61,7 +59,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/adminpage/"
+          path="/adminPage"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -114,14 +112,6 @@ function App() {
             </Modal>
           }
         />
-        <Route
-          path="/choeaein/:idolId"
-          element={
-            <Layout>
-              <CalendarPage />
-            </Layout>
-          }
-        ></Route>
 
         <Route element={<NotFoundPage />} path="/*" />
       </Routes>

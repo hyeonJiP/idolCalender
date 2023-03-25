@@ -49,7 +49,7 @@ const Home = () => {
                 event: faCalendarCheck,
                 release: faCompactDisc,
                 congrats: faGift,
-                store: faStore,
+                buy: faStore,
               }[scheduleType];
 
               const scheduleIconColor = {
@@ -57,7 +57,7 @@ const Home = () => {
                 event: "#537fe7",
                 release: "#f16767",
                 congrats: "#e7b10a",
-                store: "#609966",
+                buy: "#609966",
               }[scheduleType];
 
               return (
@@ -79,7 +79,7 @@ const Home = () => {
                       <div className={styles.slideBot}>
                         <FontAwesomeIcon icon={faMicrophone} />
                         <span className={styles.nameTitle}>
-                          {data.participant[0].idol_name_kr}
+                          {/* {console.log(data.participant[0].idol_name_kr)} */}
                         </span>
                       </div>
                     </div>

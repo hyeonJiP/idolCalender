@@ -73,7 +73,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to="/adminpage">
+                <Link to="/adminPage">
                   <button className="navBtn">
                     <span>관리자페이지</span>
                   </button>

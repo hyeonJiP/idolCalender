@@ -88,18 +88,6 @@ const CalendarData = () => {
     }
   }
 
-  //const icon = nextDay?.map((item) => item.ScheduleType.content);
-  // const icons = [
-  //   { pk: 1, category: "broadcast", icon: faBroadcastTower },
-  //   { pk: 2, category: "event", icon: faCalendarCheck },
-  //   { pk: 3, category: "release", icon: faCompactDisc },
-  //   { pk: 4, category: "congrats", icon: faGift },
-  //   { pk: 5, category: "buy", icon: faStore },
-  //   { pk: 6, category: "my", icon: faUser },
-  // ];
-
-  //const filteredIcons = icons.filter((item) => icon.includes(item.category));
-
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
   /**아이돌 day데이터 */

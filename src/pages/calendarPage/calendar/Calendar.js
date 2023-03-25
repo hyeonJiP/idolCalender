@@ -76,9 +76,12 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
     );
   }, [activeButtons, idolId, getMoment, newSelectedDay]);
 
-  todayDate(selectedDay, newIdolDateSchedule);
+  const idolDateSchedule = newIdolDateSchedule.idolDaySchdule;
+  const userDateSchedule = newIdolDateSchedule.newUserData;
 
-  /**클리한 버튼 toggle 함수 */
+  todayDate(selectedDay, newIdolDateSchedule, userDateSchedule);
+
+  /**클릭한 버튼 toggle 함수 */
   const handleClick = (buttonPk) => {
     if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
       return;
