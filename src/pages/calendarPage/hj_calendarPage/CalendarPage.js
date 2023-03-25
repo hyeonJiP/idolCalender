@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import Modal from "../../../UI/Modal";
 import ReportSchedule from "../../FormPage/IdolForm/ReportSchedule";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Test2 from "./Test2";
 
 const CalendarData = () => {
   const { idolId } = useParams();

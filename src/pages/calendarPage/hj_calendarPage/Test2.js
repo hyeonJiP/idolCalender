@@ -1,43 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./Test2.module.scss";
+
+const images = [
+  "https://picsum.photos/600/400?random=1",
+  "https://picsum.photos/600/400?random=2",
+  "https://picsum.photos/600/400?random=3",
+  "https://picsum.photos/600/400?random=4",
+  "https://picsum.photos/600/400?random=5",
+];
 
 const Test2 = () => {
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const length = images.length;
 
-  const data = [
-    { id: 1, category: "food", name: "pizza" },
-    { id: 2, category: "food", name: "hamburger" },
-    { id: 3, category: "drink", name: "soda" },
-    { id: 4, category: "drink", name: "water" },
-  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage(currentImage === length - 1 ? 0 : currentImage + 1);
+    }, 3000);
 
-  const handleCategorySelect = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
-  };
-
-  const filteredData = data.filter((item) =>
-    selectedCategories.includes(item.category)
-  );
+    return () => clearInterval(interval);
+  }, [currentImage, length]);
 
   return (
-    <div>
-      <h2>Categories:</h2>
-      <button onClick={() => handleCategorySelect("food")}>
-        Food ({selectedCategories.includes("food") ? "selected" : "unselected"})
-      </button>
-      <button onClick={() => handleCategorySelect("drink")}>
-        Drink (
-        {selectedCategories.includes("drink") ? "selected" : "unselected"})
-      </button>
-      <h2>Items:</h2>
-      <ul>
-        {filteredData.map((item) => (
-          <li key={item.id}>{item.name}</li>
+    <div className="slider">
+      <div className="slider-wrapper">
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={index === currentImage ? "slide active" : "slide"}
+          >
+            <img src={image} alt={`Slide ${index}`} />
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -21,6 +21,7 @@ import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
 import NotFoundPage from "./URL/NotFoundPage";
+import Test2 from "./pages/calendarPage/hj_calendarPage/Test2";
 
 function App() {
   const dispatch = useDispatch();
@@ -105,6 +106,8 @@ function App() {
             </Layout>
           }
         />
+
+        <Route path="./Test" element={<Test2 />}></Route>
 
         <Route
           path="/report"
