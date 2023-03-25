@@ -15,6 +15,7 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Test2 from "./Test2";
 
 const CalendarData = () => {
   const { idolId } = useParams();

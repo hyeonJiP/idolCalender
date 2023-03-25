@@ -33,6 +33,7 @@ const Sidebar = ({
   setSidebarClose,
   todayDate,
   newIdolDateSchedule,
+  selectedDate,
 }) => {
   // 사이드바 외부 클릭시 닫히는 함수
   const outside = useRef();
@@ -51,8 +52,6 @@ const Sidebar = ({
     }
   };
 
-  console.log(newIdolDateSchedule);
-
   return (
     <>
       <SidebarNav sidebar={sidebar} ref={outside}>
@@ -62,33 +61,49 @@ const Sidebar = ({
               style={{ color: "white" }}
               onClick={() => {
                 setSidebarClose(false);
-                // console.log(sidebar);
               }}
             />
           </Link>
           <div className={styles.sideSchedule_top}>
             <h3 className={styles.todayTitle}>
-              오늘의 스케줄을
+              {selectedDate}
               <br />
-              놓치지 마세요
+              스케줄을 놓치지 마세요
             </h3>
             <ul className={styles.todaySchedule_List}>
               {newIdolDateSchedule.map((item) => {
                 console.log(newIdolDateSchedule);
                 const scheduleIcon =
-                  item.ScheduleType.type === "broadcast"
-                    ? faBroadcastTower
-                    : item.ScheduleType.type === "event"
-                    ? faCalendarCheck
-                    : item.ScheduleType.type === "release"
-                    ? faCompactDisc
-                    : item.ScheduleType.type === "congrats"
-                    ? faGift
-                    : faStore;
+                  item.ScheduleType.type === "broadcast" ? (
+                    <FontAwesomeIcon
+                      icon={faBroadcastTower}
+                      style={{ color: "#443c68" }}
+                    />
+                  ) : item.ScheduleType.type === "event" ? (
+                    <FontAwesomeIcon
+                      icon={faCalendarCheck}
+                      style={{ color: "#537fe7" }}
+                    />
+                  ) : item.ScheduleType.type === "release" ? (
+                    <FontAwesomeIcon
+                      icon={faCompactDisc}
+                      style={{ color: "#f16767" }}
+                    />
+                  ) : item.ScheduleType.type === "congrats" ? (
+                    <FontAwesomeIcon
+                      icon={faGift}
+                      style={{ color: "#e7b10a" }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faStore}
+                      style={{ color: "#609966" }}
+                    />
+                  );
 
                 return (
                   <li className={styles.todaySchedule_Item} key={item.pk}>
-                    <FontAwesomeIcon icon={scheduleIcon} /> {item.ScheduleTitle}
+                    {scheduleIcon} <p>{item.ScheduleTitle}</p>
                   </li>
                 );
               })}
