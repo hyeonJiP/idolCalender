@@ -79,7 +79,7 @@ const Home = () => {
                       <div className={styles.slideBot}>
                         <FontAwesomeIcon icon={faMicrophone} />
                         <span className={styles.nameTitle}>
-                          {/* {console.log(data.participant[0].idol_name_kr)} */}
+                          {data.participant[0].idol_name_kr}
                         </span>
                       </div>
                     </div>
@@ -106,7 +106,7 @@ const Home = () => {
                 ? "Loding.."
                 : slideImage?.map((data) => (
                     <li className={styles.artistThumnail} key={data.pk}>
-                      <Link to={`/choeaein/${data.pk}`}>
+                      <Link to={`${data.pk}/`}>
                         <img
                           className={styles.artistImage}
                           src={data.idol_profile}

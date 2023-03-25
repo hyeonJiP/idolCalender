@@ -37,8 +37,8 @@ const Headar = () => {
       .then((data) => console.log(data));
     setCookie("isLogin", { is_admin: false, pick: false });
     dispatch(authActions.logOut());
-    navigate("/");
     window.location.reload();
+    navigate("/");
   };
 
   return (
@@ -73,7 +73,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to="/adminPage">
+                <Link to="/adminPage/">
                   <button className="navBtn">
                     <span>관리자페이지</span>
                   </button>

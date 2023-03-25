@@ -79,7 +79,7 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
   const idolDateSchedule = newIdolDateSchedule.idolDaySchdule;
   const userDateSchedule = newIdolDateSchedule.newUserData;
 
-  todayDate(selectedDay, newIdolDateSchedule, userDateSchedule);
+  todayDate(selectedDay, idolDateSchedule, userDateSchedule);
 
   /**클릭한 버튼 toggle 함수 */
   const handleClick = (buttonPk) => {

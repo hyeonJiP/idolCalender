@@ -90,13 +90,15 @@ const CalendarData = () => {
 
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
-  /**아이돌 day데이터 */
-  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
+  /**아이돌 day 스케줄데이터와 유저 스케줄데이터 */
   const [selectedDate, setSelectedDate] = useState(0);
+  const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
+  const [newUserDateSchedule, setNewUserDateSchedule] = useState([]);
 
   /**클릭한 날짜와 그 날짜의 스케줄 */
-  const todayDate = (date, idolDateSchedule) => {
+  const todayDate = (date, idolDateSchedule, userDateSchedule) => {
     setNewIdolDateSchedule(idolDateSchedule);
+    setNewUserDateSchedule(userDateSchedule);
     setSelectedDate(date.format("M월 D일 (ddd)"));
   };
 
@@ -113,6 +115,8 @@ const CalendarData = () => {
     setReportModal(false);
   };
 
+  // console.log(newIdolDateSchedule, newUserDateSchedule);
+
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
@@ -123,6 +127,7 @@ const CalendarData = () => {
             setSidebarClose={setSidebarClose}
             todayDate={todayDate}
             newIdolDateSchedule={newIdolDateSchedule}
+            newUserDateSchedule={newUserDateSchedule}
             selectedDate={selectedDate}
           />
         </div>

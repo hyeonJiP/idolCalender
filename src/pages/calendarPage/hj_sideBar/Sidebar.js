@@ -33,8 +33,8 @@ const SidebarNav = styled.nav`
 const Sidebar = ({
   sidebar,
   setSidebarClose,
-  todayDate,
   newIdolDateSchedule,
+  newUserDateSchedule,
   selectedDate,
 }) => {
   // 사이드바 외부 클릭시 닫히는 함수
@@ -78,7 +78,7 @@ const Sidebar = ({
               스케줄을 놓치지 마세요
             </h3>
             <ul className={styles.todaySchedule_List}>
-              {newIdolDateSchedule.map((item) => {
+              {newIdolDateSchedule?.map((item) => {
                 const scheduleIcon =
                   item.ScheduleType.type === "broadcast" ? (
                     <FontAwesomeIcon
@@ -135,7 +135,7 @@ const Sidebar = ({
             )}
 
             <ul className={styles.todaySchedule_List}>
-              {SidebarData.map((item, index) => {
+              {newUserDateSchedule?.map((item, index) => {
                 return (
                   <li className={styles.todaySchedule_Item} key={index}>
                     <div className={styles.editDiv_le}>{item.title}</div>

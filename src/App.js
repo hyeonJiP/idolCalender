@@ -28,9 +28,6 @@ function App() {
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
   /**초기 로그인 데이터는 없는걸로 표시 */
-  if (!getCookie("isLogin")) {
-    setCookie("isLogin", { is_admin: false, pick: false });
-  }
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
@@ -45,8 +42,20 @@ function App() {
       dispatch(authActions.logIn(loginData));
     }
   }, [dispatch]);
-  const isAdmin = getCookie("isLogin").is_admin;
-  const isLogin = getCookie("isLogin").pick;
+
+  /**지우면 안됌 */
+  // let isAdmin = getCookie("isLogin").is_admin;
+  // let isLogin = getCookie("isLogin").pick;
+
+  /**지우면 안됌..; */
+  const isLogin =
+    typeof getCookie("isLogin") !== "undefined"
+      ? getCookie("isLogin").pick
+      : false;
+  const isAdmin =
+    typeof getCookie("isLogin") !== "undefined"
+      ? getCookie("isLogin").is_admin
+      : false;
 
   useEffect(() => {
     dispatch(fetchingIdolData());
@@ -59,7 +68,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/adminPage"
+          path="/adminPage/"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -96,7 +105,7 @@ function App() {
         />
 
         <Route
-          path="/:idolId"
+          path=":idolId/"
           element={
             <Layout>
               <CalendarPage />
