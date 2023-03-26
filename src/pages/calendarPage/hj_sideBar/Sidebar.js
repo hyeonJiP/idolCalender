@@ -55,8 +55,13 @@ const Sidebar = ({
     }
   };
 
+  /**유저 스케줄 추가 모달 */
   const hideModalHandler = () => {
     setUserScheduleInput(false);
+  };
+
+  const deleteUserSchedule = (e) => {
+    console.log(e.target.value);
   };
 
   return (
@@ -141,7 +146,9 @@ const Sidebar = ({
                     <div className={styles.editDiv_le}>{item.title}</div>
                     <div className={styles.editDiv_ri}>
                       <button>수정</button>
-                      <button>삭제</button>
+                      <button value={item.pk} onClick={deleteUserSchedule}>
+                        삭제
+                      </button>
                     </div>
                   </li>
                 );

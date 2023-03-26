@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import axios from "axios";
 import { BASE_URL } from "../URL/url";
-import { setCookie } from "../cookie/cookie";
+import { removeCookie } from "../cookie/cookie";
 
 const Headar = () => {
   const navigate = useNavigate();
@@ -35,8 +35,8 @@ const Headar = () => {
       })
       .then((res) => console.log(res))
       .then((data) => console.log(data));
-    setCookie("isLogin", { is_admin: false, pick: false });
     dispatch(authActions.logOut());
+    removeCookie("isLogin");
     window.location.reload();
     navigate("/");
   };
@@ -73,7 +73,7 @@ const Headar = () => {
           <div className="navItem">
             {isAdmin ? (
               <>
-                <Link to="/adminPage/">
+                <Link to="/admin/">
                   <button className="navBtn">
                     <span>관리자페이지</span>
                   </button>

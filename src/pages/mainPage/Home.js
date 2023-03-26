@@ -106,7 +106,7 @@ const Home = () => {
                 ? "Loding.."
                 : slideImage?.map((data) => (
                     <li className={styles.artistThumnail} key={data.pk}>
-                      <Link to={`${data.pk}/`}>
+                      <Link to={`${data.pk}/calendar/`}>
                         <img
                           className={styles.artistImage}
                           src={data.idol_profile}

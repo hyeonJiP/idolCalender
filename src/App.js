@@ -19,6 +19,7 @@ import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
 import NotFoundPage from "./URL/NotFoundPage";
+import { BASE_URL } from "./URL/url";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ function App() {
     dispatch(fetchingIdolData());
   }, [dispatch]);
 
+  axios(`${BASE_URL}idols/`).then((res) => console.log(res));
+
   return (
     <>
       <ScrollToTop />
@@ -68,7 +71,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/adminPage/"
+          path="/admin/"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -105,7 +108,7 @@ function App() {
         />
 
         <Route
-          path=":idolId/"
+          path=":idolId/calendar"
           element={
             <Layout>
               <CalendarPage />

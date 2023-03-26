@@ -115,8 +115,6 @@ const CalendarData = () => {
     setReportModal(false);
   };
 
-  // console.log(newIdolDateSchedule, newUserDateSchedule);
-
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
