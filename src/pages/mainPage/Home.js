@@ -18,9 +18,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Home = () => {
   const { isLoding: idolLoding, data: idolData } = useQuery("idol", axiosIdol);
-  //console.log(idolData);
+  console.log(idolData);
 
-  const slideImage = idolData?.slice(0, 4);
+  const slideImage = idolData?.slice(0, 24);
 
   const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
     "schedules",

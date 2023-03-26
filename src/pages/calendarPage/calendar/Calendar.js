@@ -47,15 +47,6 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
   // 길이가 7인 arr를 생성 후 index를 기반으로 day을 표기
 
   /**스케줄 불러오기 */
-  // const buttons = [
-  //   { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
-  //   { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
-  //   { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
-  //   { pk: 4, category: "congrats", content: "축하", icon: faGift },
-  //   { pk: 5, category: "buy", content: "구매", icon: faStore },
-  //   { pk: 6, category: "my", content: "My", icon: faUser },
-  // ];
-
   const buttons =
     Number(idolId) === userPick
       ? [
@@ -84,14 +75,12 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
           { pk: 5, category: "buy", content: "구매", icon: faStore },
         ];
 
-  const [activeButtons, setActiveButtons] = useState([
-    "broadcast",
-    "event",
-    "release",
-    "congrats",
-    "buy",
-    "my",
-  ]);
+  const initActiveButtons =
+    Number(idolId) === userPick
+      ? ["broadcast", "event", "release", "congrats", "buy", "my"]
+      : ["broadcast", "event", "release", "congrats", "buy"];
+
+  const [activeButtons, setActiveButtons] = useState(initActiveButtons);
 
   /**이번달 데이터 */
   const [newIdolSchedule, setNewIdolSchedule] = useState([]);

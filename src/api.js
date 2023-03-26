@@ -2,7 +2,8 @@ import axios from "axios";
 import { response } from "msw";
 import { useEffect, useState } from "react";
 
-export const BASE_URL = "http://127.0.0.1:8000/api/v1/idols";
+// export const BASE_URL = "http://127.0.0.1:8000/api/v1/idols";
+export const BASE_URL = "http://54.180.31.174:8000/api/v1/idols";
 
 // export function fetchSchedule(idolId) {
 //   //   console.log(idolId);

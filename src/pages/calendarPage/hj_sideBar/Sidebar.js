@@ -7,13 +7,18 @@ import styles from "./Sidebar.module.scss";
 import {
   faBroadcastTower,
   faCalendarCheck,
+  faCalendarPlus,
   faCompactDisc,
   faGift,
+  faPen,
   faStore,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserSchedule from "../myschedule/UserSchedule";
 import Modal from "../../../UI/Modal";
+import axios from "axios";
+import { BASE_URL } from "../../../URL/url";
 
 const SidebarNav = styled.nav`
   background-color: #5b5be8;
@@ -40,6 +45,7 @@ const Sidebar = ({
   // 사이드바 외부 클릭시 닫히는 함수
   const outside = useRef();
   const [userScheduleInput, setUserScheduleInput] = useState(false);
+  const [modifyScheduleModal, setModifyScheduleModal] = useState();
   useEffect(() => {
     document.addEventListener("mousedown", handleClose);
 
@@ -60,8 +66,20 @@ const Sidebar = ({
     setUserScheduleInput(false);
   };
 
-  const deleteUserSchedule = (e) => {
-    console.log(e.target.value);
+  /**유저일정 수정 함수 */
+  const modifyUserSchedule = async (e) => {
+    const userSchedulePk = e.target.value;
+    setUserScheduleInput(true);
+    setModifyScheduleModal(userSchedulePk);
+  };
+
+  /**유저일정 삭제 함수 */
+  const deleteUserSchedule = async (e) => {
+    const userSchedulePk = e.target.value;
+    await axios.delete(`${BASE_URL}users_calendar/${userSchedulePk}/`, {
+      withCredentials: true,
+    });
+    window.location.reload();
   };
 
   return (
@@ -128,26 +146,53 @@ const Sidebar = ({
               놓치지 마세요
             </h3>
             {!userScheduleInput ? (
-              <input
-                type="button"
+              <button
+                className={styles.Btn}
                 onClick={() => setUserScheduleInput(true)}
-                value="+"
-              />
+              >
+                <FontAwesomeIcon
+                  icon={faCalendarPlus}
+                  style={{ width: "20" }}
+                />
+              </button>
             ) : (
               <Modal hideCartHandler={hideModalHandler}>
-                <UserSchedule hideModalHandler={hideModalHandler} />
+                <UserSchedule
+                  hideModalHandler={hideModalHandler}
+                  modifyScheduleModal={modifyScheduleModal}
+                />
               </Modal>
             )}
-
             <ul className={styles.todaySchedule_List}>
               {newUserDateSchedule?.map((item, index) => {
+                const userScheduleDate = `${item.year}/${item.month}/${item.day}/${item.pk}`;
                 return (
                   <li className={styles.todaySchedule_Item} key={index}>
-                    <div className={styles.editDiv_le}>{item.title}</div>
+                    <FontAwesomeIcon
+                      icon={faCalendarCheck}
+                      style={{ color: "skyblue" }}
+                    />
+                    <p className={styles.editDiv_le}>{item.title}</p>
                     <div className={styles.editDiv_ri}>
-                      <button>수정</button>
-                      <button value={item.pk} onClick={deleteUserSchedule}>
-                        삭제
+                      <button
+                        value={userScheduleDate}
+                        className={styles.Btn}
+                        onClick={modifyUserSchedule}
+                      >
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          style={{ color: "green" }}
+                        />
+                      </button>
+                      <button
+                        value={userScheduleDate}
+                        className={styles.Btn}
+                        onClick={deleteUserSchedule}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          style={{ color: "red" }}
+                        />
                       </button>
                     </div>
                   </li>
