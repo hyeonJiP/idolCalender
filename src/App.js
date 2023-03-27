@@ -21,7 +21,6 @@ import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
 import NotFoundPage from "./URL/NotFoundPage";
-import Test2 from "./pages/calendarPage/hj_calendarPage/Test2";
 
 function App() {
   const dispatch = useDispatch();
@@ -99,17 +98,6 @@ function App() {
         />
 
         <Route
-          path="/:idolId"
-          element={
-            <Layout>
-              <CalendarPage />
-            </Layout>
-          }
-        />
-
-        <Route path="./Test" element={<Test2 />}></Route>
-
-        <Route
           path="/report"
           element={
             <Modal>
@@ -117,6 +105,8 @@ function App() {
             </Modal>
           }
         />
+
+        {/* 아이돌 캘린더 페이지 */}
         <Route
           path="/choeaein/:idolId"
           element={

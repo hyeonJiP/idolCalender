@@ -4,13 +4,7 @@ import { useEffect, useState } from "react";
 
 export const BASE_URL = "http://127.0.0.1:8000/api/v1/idols";
 
-// export function fetchSchedule(idolId) {
-//   //   console.log(idolId);
-//   return fetch(`http://127.0.0.1:8000/api/v1/idols/${idolId}/schedules`).then(
-//     (response) => response.json()
-//     //.catch((e) => console.log(e));
-//   );
-// }
+// 아이돌의 ID를 파라미터로 전달받아 특정 URL에 HTTP GET 요청
 export function axiosSchedule(idolId) {
   //   console.log(idolId);
   return axios(`${BASE_URL}/${idolId}/schedules`).then(
@@ -18,12 +12,12 @@ export function axiosSchedule(idolId) {
     //.catch((e) => console.log(e));
   );
 }
-//commit
 
 export function axiosIdol() {
   return axios(`${BASE_URL}`).then((response) => response.data);
 }
 
+// 스케줄 정보 불러오기
 export function axiosSchedules() {
   return axios(`${BASE_URL}/schedules/`).then((response) => response.data);
 }

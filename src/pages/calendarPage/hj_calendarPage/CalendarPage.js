@@ -18,14 +18,13 @@ import { useSelector } from "react-redux";
 import Modal from "../../../UI/Modal";
 import ReportSchedule from "../../FormPage/IdolForm/ReportSchedule";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Test2 from "./Test2";
 
 const CalendarData = () => {
   const { idolId } = useParams();
   const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
   const [reportModal, setReportModal] = useState(false);
 
-  // 아이돌 데이터들
+  // 아이돌 데이터
   const { isLoding: idDataLoding, data: idData } = useQuery(
     ["info", idolId],
     () => {
@@ -33,6 +32,7 @@ const CalendarData = () => {
     }
   );
 
+  // 스케줄 데이터
   const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
     "schedules",
     axiosSchedules
@@ -89,28 +89,39 @@ const CalendarData = () => {
     }
   }
 
-  //const icon = nextDay?.map((item) => item.ScheduleType.content);
-  // const icons = [
-  //   { pk: 1, category: "broadcast", icon: faBroadcastTower },
-  //   { pk: 2, category: "event", icon: faCalendarCheck },
-  //   { pk: 3, category: "release", icon: faCompactDisc },
-  //   { pk: 4, category: "congrats", icon: faGift },
-  //   { pk: 5, category: "buy", icon: faStore },
-  //   { pk: 6, category: "my", icon: faUser },
-  // ];
-
-  //const filteredIcons = icons.filter((item) => icon.includes(item.category));
-
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
   /**아이돌 day데이터 */
   const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
+
+  const [prevIdolDateSchedule, setPrevIdolDateSchedule] = useState([]);
+  const [nextIdolDateSchedule, setNextIdolDateSchedule] = useState([]);
+
   const [selectedDate, setSelectedDate] = useState(0);
+
+  const [prevSelectedDate, setPrevSelectedDate] = useState(0);
+  const [nextSelectedDate, setNextSelectedDate] = useState(0);
 
   /**클릭한 날짜와 그 날짜의 스케줄 */
   const todayDate = (date, idolDateSchedule) => {
+    console.log(date);
+    // console.log(idolDateSchedule);
     setNewIdolDateSchedule(idolDateSchedule);
     setSelectedDate(date.format("M월 D일 (ddd)"));
+  };
+
+  const prevDate = (date, idolDateSchedule) => {
+    console.log(date);
+    // console.log(idolDateSchedule);
+    setPrevIdolDateSchedule(idolDateSchedule);
+    setPrevSelectedDate(date.format("M월 D일 (ddd)"));
+  };
+
+  const nextDate = (date, idolDateSchedule) => {
+    console.log(date);
+    // console.log(idolDateSchedule);
+    setNextIdolDateSchedule(idolDateSchedule);
+    setNextSelectedDate(date.format("M월 D일 (ddd)"));
   };
 
   const setSidebarOpen = (isSidebar) => {
@@ -130,13 +141,23 @@ const CalendarData = () => {
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
         <div className={styles.calendarWrap}>
-          <Calendar todayDate={todayDate} setSidebarOpen={setSidebarOpen} />
+          <Calendar
+            todayDate={todayDate}
+            setSidebarOpen={setSidebarOpen}
+            prevDate={prevDate}
+            nextDate={nextDate}
+          />
           <Sidebar
             sidebar={sidebar}
             setSidebarClose={setSidebarClose}
-            todayDate={todayDate}
-            newIdolDateSchedule={newIdolDateSchedule}
+            // todayDate={todayDate}
+
             selectedDate={selectedDate}
+            prevSelectedDate={prevSelectedDate}
+            nextSelectedDate={nextSelectedDate}
+            newIdolDateSchedule={newIdolDateSchedule}
+            prevIdolDateSchedule={prevIdolDateSchedule}
+            nextIdolDateSchedule={nextIdolDateSchedule}
           />
         </div>
         {Number(idolId) === userPick ? (

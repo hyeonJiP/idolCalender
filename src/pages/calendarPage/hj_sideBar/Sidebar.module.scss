@@ -1,5 +1,45 @@
-.sidebarWrap {
-  width: 100%;
+// .sideNav {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+.topBtn {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.btnDiv {
+  //border: 1px solid black;
+  width: 200px;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+}
+.prevBtn {
+  width: 95px;
+  font-size: 16px;
+  padding: 8px 16px;
+  background-color: #3c3cc0;
+  color: white;
+  border: none;
+  //border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #4a4ad5;
+  }
+
+  &:active {
+    background-color: #3939c2;
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
 .navIcon {
   // margin-left: 2rem;
@@ -39,7 +79,17 @@
 }
 .sideSchedule_top {
   padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .sideSchedule_bot {
   padding-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+}
+@media (max-width: 376px) {
+  .todayTitle {
+    font-size: 1rem;
+  }
 }
