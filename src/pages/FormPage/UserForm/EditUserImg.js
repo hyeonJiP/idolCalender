@@ -76,9 +76,6 @@ const EditUserImg = () => {
         <button type="submit">변경하기</button>
         {!isLoadingImg ? null : <ColorRing height={20} width={20} />}
         {isUploadError ? <p>이미지를 다시 올려주세요.</p> : null}
-        {/* <button type="button" onClick={() => reset()}>
-          삭제
-        </button> */}
       </form>
     </div>
   );

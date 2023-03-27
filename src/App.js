@@ -19,7 +19,6 @@ import { fetchingIdolData } from "./store/idolData-action";
 import IdolTable from "./pages/adminPage/table/IdolTable";
 import AdminMain from "./pages/adminPage/table/AdminMain";
 import NotFoundPage from "./URL/NotFoundPage";
-import { BASE_URL } from "./URL/url";
 
 function App() {
   const dispatch = useDispatch();
