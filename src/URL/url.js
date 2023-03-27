@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getCookie } from "../cookie/cookie";
 
-export const BASE_URL = "http://127.0.0.1:8000/api/v1/";
+export const BASE_URL = "http://54.180.31.174:8000/api/v1/";
 
 /**사진을 업로드 할 url 가져오는 함수 */
 export const getUploadUrl = async (img) => {
@@ -22,7 +23,7 @@ export const getUploadUrl = async (img) => {
 };
 
 /**받아온 url에 img를 넣어주기 */
-const uploadImg = async (data, img) => {
+export const uploadImg = async (data, img) => {
   let resData = "";
   const form = new FormData();
   form.append("file", img.file[0]);
@@ -41,9 +42,30 @@ const uploadImg = async (data, img) => {
   return resData;
 };
 
+/**유저 이미지를 넣은 url post 하기 */
+export const postProfileImg = async (profileImg) => {
+  await axios
+    .put(`${BASE_URL}users/mypage/`, profileImg, {
+      withCredentials: true,
+    })
+    .then((res) => res)
+    .catch((res) => res);
+};
+
 /**특정 idol에 대한 스케줄 month데이터 불러오기 */
+
+const loginUserData =
+  typeof getCookie("isLogin") !== "undefined"
+    ? getCookie("isLogin").pick
+    : false;
+const loginAdminData =
+  typeof getCookie("isLogin") !== "undefined"
+    ? getCookie("isLogin").is_admin
+    : false;
+
 export const fetchMonthData = async (getMoment, activeButtons, idolId) => {
   const date = getMoment.format("YYYY/MM");
+
   const requests = activeButtons.map((category) =>
     axios
       .get(`${BASE_URL}idols/${idolId}/schedules/${category}/${date}/`)
@@ -54,21 +76,31 @@ export const fetchMonthData = async (getMoment, activeButtons, idolId) => {
         );
         return data;
       })
+      .catch((data) => {
+        const arr = [];
+        return arr;
+      })
   );
 
   let userData = [];
-  if (activeButtons.includes("my")) {
-    const requestsUserData = await axios
-      .get(`${BASE_URL}users_calendar/${date}`)
-      .then((res) => {
-        const data = res.data.filter(
-          (schedule, index) =>
-            res.data.findIndex((item) => item.day === schedule.day) === index
-        );
-        return data;
-      });
+  if (loginUserData || loginAdminData) {
+    if (activeButtons.includes("my")) {
+      const requestsUserData = await axios
+        .get(`${BASE_URL}users_calendar/${date}`)
+        .then((res) => {
+          const data = res.data.filter(
+            (schedule, index) =>
+              res.data.findIndex((item) => item.day === schedule.day) === index
+          );
+          return data;
+        })
+        .catch((res) => {
+          const arr = [];
+          return arr;
+        });
 
-    userData = requestsUserData;
+      userData = requestsUserData;
+    }
   }
 
   const responses = await Promise.all(requests);
@@ -101,33 +133,36 @@ export const fetchDayIdolSchedule = async (
         `${BASE_URL}idols/${idolId}/schedules/${category}/${idolScheduleDate}/`
       )
       .then((res) => res.data)
+      .catch((res) => {
+        const arr = [];
+        return arr;
+      })
   );
 
   let newUserData = [];
-  if (newCategory.includes("my")) {
-    const requestsUserData = await axios
-      .get(`${BASE_URL}users_calendar/${idolScheduleDate}`)
-      .then((res) => {
-        const data = res.data.filter(
-          (schedule, index) =>
-            res.data.findIndex((item) => item.day === schedule.day) === index
-        );
-        return data;
-      });
 
-    newUserData = requestsUserData;
+  if (loginUserData || loginAdminData) {
+    if (newCategory.includes("my")) {
+      const requestsUserData = await axios
+        .get(`${BASE_URL}users_calendar/${idolScheduleDate}/`)
+        .then((res) => res.data)
+        .catch((res) => {
+          const arr = [];
+          return arr;
+        });
+
+      newUserData = requestsUserData;
+    }
   }
 
   const responses = await Promise.all(requests);
 
   let newIdolDateSchedule = responses.flat();
 
-  console.log(newUserData);
-
-  // newIdolDateSchedule = {
-  //   idolDaySchdule: newIdolDateSchedule,
-  //   newUserData: newUserData,
-  // };
+  newIdolDateSchedule = {
+    idolDaySchdule: newIdolDateSchedule,
+    newUserData: newUserData,
+  };
 
   return newIdolDateSchedule;
 };
@@ -139,6 +174,19 @@ export const postUserCalendar = async (data) => {
     .post(`${BASE_URL}users_calendar/`, data, {
       withCredentials: true,
     })
-    .then((data) => console.log(data))
-    .catch((data) => console.log(data));
+    .then((data) => {
+      window.location.reload();
+    })
+    .catch((data) => {});
+};
+
+/**유저 일정 수정 */
+
+export const putUserCalendar = async (data, schedulePk) => {
+  await axios
+    .put(`${BASE_URL}users_calendar/${schedulePk}/`, data, {
+      withCredentials: true,
+    })
+    .then((res) => {})
+    .catch((res) => {});
 };

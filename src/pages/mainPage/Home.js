@@ -1,8 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
-import { axiosIdol, axiosSchedules, BASE_URL } from "../../api";
+import { Link } from "react-router-dom";
+import { axiosIdol, axiosSchedules } from "../../api";
 import styles from "./Home.module.scss";
 import {
   faBroadcastTower,
@@ -10,23 +8,19 @@ import {
   faStore,
   faGift,
   faCalendarCheck,
-  faCheck,
-  faMusic,
   faMicrophone,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Home = () => {
   const { isLoding: idolLoding, data: idolData } = useQuery("idol", axiosIdol);
-  //console.log(idolData);
 
-  const slideImage = idolData?.slice(0, 4);
+  const slideImage = idolData?.slice(0, 24);
 
   const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
     "schedules",
     axiosSchedules
   );
-  //console.log(schedulesData);
   return (
     <div className={styles.home}>
       <div className={styles.homeContainer}>
@@ -79,7 +73,7 @@ const Home = () => {
                       <div className={styles.slideBot}>
                         <FontAwesomeIcon icon={faMicrophone} />
                         <span className={styles.nameTitle}>
-                          {/* {console.log(data.participant[0].idol_name_kr)} */}
+                          {data.participant[0].idol_name_kr}
                         </span>
                       </div>
                     </div>
@@ -106,7 +100,7 @@ const Home = () => {
                 ? "Loding.."
                 : slideImage?.map((data) => (
                     <li className={styles.artistThumnail} key={data.pk}>
-                      <Link to={`/choeaein/${data.pk}`}>
+                      <Link to={`${data.pk}/calendar/`}>
                         <img
                           className={styles.artistImage}
                           src={data.idol_profile}

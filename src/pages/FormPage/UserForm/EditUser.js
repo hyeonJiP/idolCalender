@@ -21,7 +21,7 @@ const EditUser = () => {
 
   /**최애 선택 */
   const [selectValue, setSelectValue] = useState(userData.pick);
-  console.log(selectValue);
+
   const onChangeSelect = (e) => {
     setSelectValue(e.target.value);
   };
@@ -32,14 +32,13 @@ const EditUser = () => {
       old_password: data.oldPassword,
       new_password: data.newPassword,
     };
-    // console.log(changeData, "최애선택", Number(selectValue));
 
     axios
       .put(`${BASE_URL}users/edit/password`, changeData, {
         withCredentials: true,
       })
-      .then((data) => console.log(data))
-      .catch((res) => console.log(res));
+      .then((data) => data)
+      .catch((res) => res);
   };
 
   return (

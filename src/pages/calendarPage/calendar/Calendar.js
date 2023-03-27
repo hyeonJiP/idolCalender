@@ -18,9 +18,12 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
 const Calendar = ({ todayDate, setSidebarOpen }) => {
+  /**아이돌아이디 */
   const { idolId } = useParams();
+  const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
 
   /**선택한 날 */
   const [selectedDay, setSelectedDay] = useState(moment());
@@ -44,22 +47,40 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
   // 길이가 7인 arr를 생성 후 index를 기반으로 day을 표기
 
   /**스케줄 불러오기 */
-  const buttons = [
-    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
-    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
-    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
-    { pk: 4, category: "congrats", content: "축하", icon: faGift },
-    { pk: 5, category: "buy", content: "구매", icon: faStore },
-    { pk: 6, category: "my", content: "My", icon: faUser },
-  ];
-  const [activeButtons, setActiveButtons] = useState([
-    "broadcast",
-    "event",
-    "release",
-    "congrats",
-    "buy",
-    "my",
-  ]);
+  const buttons =
+    Number(idolId) === userPick
+      ? [
+          {
+            pk: 1,
+            category: "broadcast",
+            content: "방송",
+            icon: faBroadcastTower,
+          },
+          { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+          { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+          { pk: 4, category: "congrats", content: "축하", icon: faGift },
+          { pk: 5, category: "buy", content: "구매", icon: faStore },
+          { pk: 6, category: "my", content: "My", icon: faUser },
+        ]
+      : [
+          {
+            pk: 1,
+            category: "broadcast",
+            content: "방송",
+            icon: faBroadcastTower,
+          },
+          { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+          { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+          { pk: 4, category: "congrats", content: "축하", icon: faGift },
+          { pk: 5, category: "buy", content: "구매", icon: faStore },
+        ];
+
+  const initActiveButtons =
+    Number(idolId) === userPick
+      ? ["broadcast", "event", "release", "congrats", "buy", "my"]
+      : ["broadcast", "event", "release", "congrats", "buy"];
+
+  const [activeButtons, setActiveButtons] = useState(initActiveButtons);
 
   /**이번달 데이터 */
   const [newIdolSchedule, setNewIdolSchedule] = useState([]);
@@ -79,7 +100,7 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
   const idolDateSchedule = newIdolDateSchedule.idolDaySchdule;
   const userDateSchedule = newIdolDateSchedule.newUserData;
 
-  todayDate(selectedDay, newIdolDateSchedule, userDateSchedule);
+  todayDate(selectedDay, idolDateSchedule, userDateSchedule);
 
   /**클릭한 버튼 toggle 함수 */
   const handleClick = (buttonPk) => {
@@ -108,6 +129,7 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
         <tr key={week}>
           {Array(7)
             .fill(0)
+            // eslint-disable-next-line
             .map((data, index) => {
               let days = today
                 .clone()
@@ -276,6 +298,7 @@ function ShowEvent({ days, newIdolSchedule }) {
     <>
       <div className={styles.testDiv}>
         {newIdolSchedule?.map((item, i) => {
+          // eslint-disable-next-line
           if (days?.format("D") == moment(item.day)) {
             return (
               <div
@@ -288,6 +311,7 @@ function ShowEvent({ days, newIdolSchedule }) {
               </div>
             );
           }
+          return;
         })}
       </div>
     </>

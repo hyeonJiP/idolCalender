@@ -1,32 +1,62 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { postUserCalendar } from "../../../URL/url";
+import { postUserCalendar, putUserCalendar } from "../../../URL/url";
+import styles from "./UserSchedule.module.scss";
 
-const UserSchedule = ({ hideModalHandler }) => {
+const UserSchedule = ({ hideModalHandler, modifyScheduleModal }) => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
-    postUserCalendar(data);
-    window.location.reload();
+    let userFormData;
+    if (modifyScheduleModal) {
+      userFormData = {
+        title: data.title,
+      };
+      putUserCalendar(userFormData, modifyScheduleModal);
+      window.location.reload();
+    } else {
+      postUserCalendar(data);
+      window.location.reload();
+    }
   };
 
   return (
     <>
+      {!modifyScheduleModal ? (
+        <h1 className={styles.mainTitle}>일정 등록하기</h1>
+      ) : (
+        <h1 className={styles.mainTitle}>일정 수정하기</h1>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>타이틀</label>
+        <label className={styles.userScheduleTitle}>스케줄 제목</label>
         <input
+          className={styles.inputData}
           name="title"
           type="text"
-          placeholder="타이틀"
+          placeholder="제목"
           {...register("title")}
         />
-        <label>날짜</label>
-        <input name="when" type="date" {...register("when")} />
+        {!modifyScheduleModal ? (
+          <>
+            <label className={styles.userScheduleTitle}>날짜</label>
+            <input
+              className={styles.inputData}
+              name="when"
+              type="date"
+              {...register("when")}
+            />
+          </>
+        ) : null}
 
-        <button onClick={hideModalHandler} type="button">
-          취소하기
-        </button>
-        <button type="submit">등록하기</button>
+        <div className={styles.userBtnDiv}>
+          <button type="button" onClick={() => hideModalHandler()}>
+            취소하기
+          </button>
+          {!modifyScheduleModal ? (
+            <button type="submit">등록하기</button>
+          ) : (
+            <button type="submit">수정하기</button>
+          )}
+        </div>
       </form>
     </>
   );
