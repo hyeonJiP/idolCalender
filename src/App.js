@@ -87,6 +87,14 @@ function App() {
           element={!isLogin ? <SignUp /> : <Navigate to="/" />}
         />
 
+        <Route
+          path=":idolId/calendar"
+          element={
+            <Layout>
+              <CalendarPage />
+            </Layout>
+          }
+        />
         {/* 로그인페이지 */}
         <Route
           path="/login"

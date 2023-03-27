@@ -20,12 +20,7 @@ import {
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-<<<<<<< HEAD
 const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
-=======
-const Calendar = ({ todayDate, setSidebarOpen }) => {
-  /**아이돌아이디 */
->>>>>>> 9565362488d4471e0b75d213b2e202a618e1ec2e
   const { idolId } = useParams();
   const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
 
@@ -132,7 +127,6 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
   const idolDateSchedule = newIdolDateSchedule.idolDaySchdule;
   const userDateSchedule = newIdolDateSchedule.newUserData;
 
-<<<<<<< HEAD
   // const previousDay = selectedDay.clone().subtract(1, "day");
   // const nextDay = selectedDay.clone().add(1, "day");
 
@@ -144,11 +138,9 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
 
   // handleClick 함수는 클릭된 버튼의 ID를 배열에 추가하거나 삭제
   // map 함수에서 각 버튼의 className 속성은 activeButtons 배열에 현재 버튼의 ID가 포함되어 있는 경우에는 active 클래스를, 아닌 경우에는 inactive 클래스를 적용
-=======
   todayDate(selectedDay, idolDateSchedule, userDateSchedule);
 
   /**클릭한 버튼 toggle 함수 */
->>>>>>> 9565362488d4471e0b75d213b2e202a618e1ec2e
   const handleClick = (buttonPk) => {
     if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
       return;

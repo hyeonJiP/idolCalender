@@ -33,13 +33,10 @@ const CalendarData = () => {
     }
   );
 
-<<<<<<< HEAD
   // 스케줄 데이터
-  const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
-    "schedules",
-    axiosSchedules
-  );
-=======
+  // const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
+  //   "schedules",
+  // );
   useEffect(() => {
     axiosIdolSchedule(idolId).then((res) => {
       setIdolName({
@@ -48,7 +45,6 @@ const CalendarData = () => {
       });
     });
   }, [idolId]);
->>>>>>> 9565362488d4471e0b75d213b2e202a618e1ec2e
 
   // 다가오는 스케줄
   // 3일 이후 날짜 구하기
@@ -113,7 +109,7 @@ const CalendarData = () => {
   const [nextSelectedDate, setNextSelectedDate] = useState(0);
 
   /**클릭한 날짜와 그 날짜의 스케줄 */
-  const todayDate = (date, idolDateSchedule) => {
+  const todayDate = (date, idolDateSchedule, userDateSchedule) => {
     console.log(date);
     // console.log(idolDateSchedule);
     setNewIdolDateSchedule(idolDateSchedule);
@@ -169,6 +165,7 @@ const CalendarData = () => {
             newIdolDateSchedule={newIdolDateSchedule}
             prevIdolDateSchedule={prevIdolDateSchedule}
             nextIdolDateSchedule={nextIdolDateSchedule}
+            newUserDateSchedule={newUserDateSchedule}
           />
         </div>
         {Number(idolId) === userPick ? (

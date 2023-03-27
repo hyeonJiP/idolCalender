@@ -63,20 +63,13 @@ const Sidebar = ({
   nextSelectedDate,
 
   // 일정 데이터
-  newIdolDateSchedule,
   prevIdolDateSchedule,
   nextIdolDateSchedule,
 }) => {
-  console.log(selectedDate);
-  console.log(prevSelectedDate);
-  console.log(nextSelectedDate);
-
-  console.log(newIdolDateSchedule);
-  console.log(prevIdolDateSchedule);
-  console.log(nextIdolDateSchedule);
   // 사이드바 외부 클릭시 닫히는 함수
   const outside = useRef();
-
+  const [userScheduleInput, setUserScheduleInput] = useState(false);
+  const [modifyScheduleModal, setModifyScheduleModal] = useState();
   // 사이드바가 닫혔다가 다시 클릭되면 스크롤이 상단으로 이동
   const scrollToTop = () => {
     outside.current.scrollTo(0, 0);
@@ -121,6 +114,7 @@ const Sidebar = ({
   /**유저일정 수정 함수 */
   const modifyUserSchedule = async (e) => {
     const userSchedulePk = e.target.value;
+    console.log(userSchedulePk);
     setUserScheduleInput(true);
     setModifyScheduleModal(userSchedulePk);
   };
