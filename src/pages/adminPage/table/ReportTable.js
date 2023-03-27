@@ -134,6 +134,12 @@ const ReportTable = () => {
       ScheduleContent: newIdolSchedule[0].content,
       participant: [{ idol_name_kr: newIdolSchedule[0].name }],
     };
+    const newData = {
+      schedulePk: newIdolSchedule[0].id,
+      idolPk: newIdolSchedule[0].pick,
+    };
+
+    dispatch(authActions.adminModify(newData));
 
     setIdolPk(idolPk);
     setUpLoadData(sendIdolData);

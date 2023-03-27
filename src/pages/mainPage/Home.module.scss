@@ -138,9 +138,7 @@ article {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  /* flex-wrap: wrap; */
-  /* display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr; */
+  flex-wrap: wrap;
   margin-top: 4rem;
 }
 .artistName {

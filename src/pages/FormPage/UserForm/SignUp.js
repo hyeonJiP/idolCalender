@@ -65,8 +65,6 @@ const SignUp = () => {
       pick: Number(selectValue),
     };
 
-    console.log(signUpInform);
-
     /**백에 데이터 POST하기 */
     await axios
       .post(`${BASE_URL}users/`, signUpInform, {
@@ -74,12 +72,10 @@ const SignUp = () => {
       })
       /**회원가입 성공 */
       .then((data) => {
-        console.log(data);
         setSignUpModal(true);
       })
       /**회원가입 실패 */
       .catch((data) => {
-        console.log(data.response.data);
         setIsError(data.response.data);
       });
   };
@@ -92,7 +88,7 @@ const SignUp = () => {
         </Modal>
       ) : null}
       <Layout>
-        <h1>회원가입</h1>
+        <h1 className={styles.signUpTitle}>회원가입</h1>
         <div className={styles.signUp}>
           <img
             className={styles.signUpImg}

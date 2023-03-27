@@ -24,7 +24,6 @@ const LogIn = () => {
 
   /**로그인 form을 제출했을 때*/
   const onSubmit = async (data) => {
-    console.log(data);
     await axios
       .post(`${BASE_URL}users/login/`, data, {
         withCredentials: true,
@@ -32,7 +31,6 @@ const LogIn = () => {
       .then((response) => {
         setIsValid(false);
         /**로그인 처리 */
-        console.log(response);
         const responseData = response.data;
         setCookie("isLogin", responseData);
         navigate("/");
@@ -40,7 +38,6 @@ const LogIn = () => {
       })
       .catch((error) => {
         setIsValid(error.response.data);
-        console.log(error);
       });
   };
 

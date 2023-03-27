@@ -1,82 +1,35 @@
-.userScheduleItem {
-  // border:1px solid black;
-  background-color: whitesmoke;
-  border-radius: 4px;
+.userScheduleTitle {
+  padding: 0;
 }
-form {
-    display: flex;
-    flex-direction: column;
-  
-    div {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 16px;
-  
-      label {
-        font-size: 16px;
-        margin-bottom: 8px;
-      }
-  
-      input {
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid #ced4da;
-        padding: 0 8px;
-        font-size: 16px;
-      }
-    }
-  
-    button {
-      height: 32px;
-      border-radius: 4px;
-      border: none;
-      background-color: #000000;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
-  }
-  
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  
-    li {
-      margin-bottom: 16px;
-  
-      div {
-        display: flex;
-        flex-direction: column;
-  
-        strong {
-          font-size: 16px;
-          margin-bottom: 8px;
-        }
-  
-        button {
-          
-          height: 32px;
-          border-radius: 4px;
-          border: none;
-          margin-top: 8px;
-          font-size: 16px;
-          cursor: pointer;
-  
-          &:first-child {
-            background-color: #007bff;
-            color: #fff;
-            margin-right: 8px;
-          }
 
-  
-          &:last-child {
-            background-color: #dc3545;
-            color: #fff;
-          }
-        }
-      }
+.userScheduleTitle {
+  margin: 10px 0 5px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.inputData {
+  width: 80%;
+  height: 30px;
+  border: 1px solid #fccec0;
+}
+
+.userBtnDiv {
+  margin-top: 20px;
+  text-align: center;
+  button {
+    &:nth-child(1) {
+      background-color: #a7a8b1;
     }
+
+    color: white;
+    border: 0px;
+    margin: 30px 5px 0 5px;
+    border-radius: 30px;
+    width: 110px;
+    height: 40px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    background-color: #4856ff;
   }
-  
+}

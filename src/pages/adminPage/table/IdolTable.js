@@ -59,7 +59,6 @@ const IdolTable = () => {
   };
 
   const sorting = (col) => {
-    console.log(col);
     sortingTable(searchData, col, order);
   };
   return (

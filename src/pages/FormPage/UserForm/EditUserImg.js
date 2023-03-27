@@ -1,17 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getUploadUrl } from "../../../URL/url";
+import { BASE_URL, getUploadUrl, postProfileImg } from "../../../URL/url";
 import styles from "./EditUserImg.module.scss";
 import { ColorRing } from "react-loader-spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import defaultImg from "../../../Img/defaultProfile.png";
+import axios from "axios";
 
 const EditUserImg = () => {
-  const [previewImg, setPreviewImg] = useState(defaultImg);
+  const [previewImg, setPreviewImg] = useState();
   const [isLoadingImg, setIsLoadingImg] = useState(false);
   const [isUploadError, setIsUploadError] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
+
+  /**user프로필이미지 보여주기 */
+  useEffect(() => {
+    const showUserProfile = async () => {
+      await axios.get(`${BASE_URL}users/mypage/`).then((res) => {
+        setPreviewImg(res.data.profileImg);
+      });
+    };
+
+    showUserProfile();
+  }, []);
 
   /**사진 수정하기 기능 */
   const imgSubmit = async (img) => {
@@ -25,20 +36,21 @@ const EditUserImg = () => {
       setIsUploadError(true);
       return;
     }
-    console.log(res);
+    const profileImg = { profileImg: res.variants[0] };
+
+    postProfileImg(profileImg);
     setIsLoadingImg(false);
     setIsUploadError(false);
   };
 
+  /**profile 미리보기 */
   const changeImg = ({ target }) => {
     const reader = new FileReader();
     const file = target.files[0];
-    console.log("file", file);
 
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      console.log("이미지주소", reader.result);
       setPreviewImg(reader.result);
     };
   };
@@ -64,9 +76,6 @@ const EditUserImg = () => {
         <button type="submit">변경하기</button>
         {!isLoadingImg ? null : <ColorRing height={20} width={20} />}
         {isUploadError ? <p>이미지를 다시 올려주세요.</p> : null}
-        {/* <button type="button" onClick={() => reset()}>
-          삭제
-        </button> */}
       </form>
     </div>
   );

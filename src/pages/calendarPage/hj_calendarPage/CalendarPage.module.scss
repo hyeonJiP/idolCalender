@@ -33,12 +33,27 @@
   //border: 1px solid black;
 }
 .calendarWrap {
-  padding-top: 80px;
+  padding-top: 100px;
   width: 90vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   //border: 1px solid black;
+  .idolName {
+    align-self: flex-start;
+    display: flex;
+    margin-left: 10%;
+    p {
+      margin: 5px;
+      font-size: 40px;
+      &:nth-child(2) {
+        font-size: 20px;
+        line-height: 60px;
+        color: grey;
+      }
+    }
+  }
 }
 .nextSchedule {
   display: flex;
@@ -121,6 +136,6 @@
   padding: 13px 20px 13px 20px;
   font-size: 1rem;
   font-weight: bold;
-  right: 150px;
+  right: 14%;
   position: relative;
 }

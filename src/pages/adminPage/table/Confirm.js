@@ -17,24 +17,20 @@ const Confirm = (props) => {
         withCredentials: true,
       })
       .then((data) => {
-        console.log(data);
         return window.location.reload();
       })
-      .catch((data) => console.log(data));
+      .catch((data) => data);
   };
 
-  console.log(props.upLoadData);
   const upLoadScheduleHandler = async () => {
-    console.log(props.upLoadData);
     await axios
       .post(`${BASE_URL}idols/${idolPk}/schedules/`, props.upLoadData, {
         withCredentials: true,
       })
       .then((data) => {
-        console.log(data);
-        // window.location.reload();
+        deleteScheduleHandler();
       })
-      .catch((data) => console.log(data));
+      .catch((data) => data);
   };
 
   return (

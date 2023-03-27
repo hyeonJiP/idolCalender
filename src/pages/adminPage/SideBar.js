@@ -28,7 +28,7 @@ const SideBar = () => {
             className={({ isActive }) =>
               isActive ? `${styles.navAble}` : `${styles.navDisable}`
             }
-            to="/adminpage/main"
+            to="/admin/main"
           >
             <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
             Main
@@ -37,7 +37,7 @@ const SideBar = () => {
             className={({ isActive }) =>
               isActive ? `${styles.navAble}` : `${styles.navDisable}`
             }
-            to="/adminpage/idollist"
+            to="/admin/idollist"
           >
             <FontAwesomeIcon icon={faUsers}></FontAwesomeIcon>
             idolList
@@ -46,7 +46,7 @@ const SideBar = () => {
             className={({ isActive }) =>
               isActive ? `${styles.navAble}` : `${styles.navDisable}`
             }
-            to="/adminpage/report"
+            to="/admin/report"
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} />
             ReportTable

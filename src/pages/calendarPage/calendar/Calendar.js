@@ -18,9 +18,16 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
+<<<<<<< HEAD
 const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
+=======
+const Calendar = ({ todayDate, setSidebarOpen }) => {
+  /**아이돌아이디 */
+>>>>>>> 9565362488d4471e0b75d213b2e202a618e1ec2e
   const { idolId } = useParams();
+  const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
 
   /**선택한 날 */
   const [selectedDay, setSelectedDay] = useState(moment());
@@ -50,22 +57,40 @@ const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
   // 길이가 7인 arr를 생성 후 index를 기반으로 day을 표기
 
   /**스케줄 불러오기 */
-  const buttons = [
-    { pk: 1, category: "broadcast", content: "방송", icon: faBroadcastTower },
-    { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
-    { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
-    { pk: 4, category: "congrats", content: "축하", icon: faGift },
-    { pk: 5, category: "buy", content: "구매", icon: faStore },
-    { pk: 6, category: "my", content: "My", icon: faUser },
-  ];
-  const [activeButtons, setActiveButtons] = useState([
-    "broadcast",
-    "event",
-    "release",
-    "congrats",
-    "buy",
-    "my",
-  ]);
+  const buttons =
+    Number(idolId) === userPick
+      ? [
+          {
+            pk: 1,
+            category: "broadcast",
+            content: "방송",
+            icon: faBroadcastTower,
+          },
+          { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+          { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+          { pk: 4, category: "congrats", content: "축하", icon: faGift },
+          { pk: 5, category: "buy", content: "구매", icon: faStore },
+          { pk: 6, category: "my", content: "My", icon: faUser },
+        ]
+      : [
+          {
+            pk: 1,
+            category: "broadcast",
+            content: "방송",
+            icon: faBroadcastTower,
+          },
+          { pk: 2, category: "event", content: "행사", icon: faCalendarCheck },
+          { pk: 3, category: "release", content: "발매", icon: faCompactDisc },
+          { pk: 4, category: "congrats", content: "축하", icon: faGift },
+          { pk: 5, category: "buy", content: "구매", icon: faStore },
+        ];
+
+  const initActiveButtons =
+    Number(idolId) === userPick
+      ? ["broadcast", "event", "release", "congrats", "buy", "my"]
+      : ["broadcast", "event", "release", "congrats", "buy"];
+
+  const [activeButtons, setActiveButtons] = useState(initActiveButtons);
 
   /**이번달 데이터 */
   const [newIdolSchedule, setNewIdolSchedule] = useState([]);
@@ -104,8 +129,10 @@ const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
   // console.log(prevIdolDateSchedule);
   // console.log(nextIdolDateSchedule);
 
-  todayDate(selectedDay, newIdolDateSchedule);
+  const idolDateSchedule = newIdolDateSchedule.idolDaySchdule;
+  const userDateSchedule = newIdolDateSchedule.newUserData;
 
+<<<<<<< HEAD
   // const previousDay = selectedDay.clone().subtract(1, "day");
   // const nextDay = selectedDay.clone().add(1, "day");
 
@@ -117,6 +144,11 @@ const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
 
   // handleClick 함수는 클릭된 버튼의 ID를 배열에 추가하거나 삭제
   // map 함수에서 각 버튼의 className 속성은 activeButtons 배열에 현재 버튼의 ID가 포함되어 있는 경우에는 active 클래스를, 아닌 경우에는 inactive 클래스를 적용
+=======
+  todayDate(selectedDay, idolDateSchedule, userDateSchedule);
+
+  /**클릭한 버튼 toggle 함수 */
+>>>>>>> 9565362488d4471e0b75d213b2e202a618e1ec2e
   const handleClick = (buttonPk) => {
     if (activeButtons.length === 1 && activeButtons.includes(buttonPk)) {
       return;
@@ -143,6 +175,7 @@ const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
         <tr key={week}>
           {Array(7)
             .fill(0)
+            // eslint-disable-next-line
             .map((data, index) => {
               let days = today
                 .clone()
@@ -317,6 +350,7 @@ function ShowEvent({ days, newIdolSchedule }) {
     <>
       <div className={styles.testDiv}>
         {newIdolSchedule?.map((item, i) => {
+          // eslint-disable-next-line
           if (days?.format("D") == moment(item.day)) {
             return (
               <div
@@ -329,6 +363,7 @@ function ShowEvent({ days, newIdolSchedule }) {
               </div>
             );
           }
+          return;
         })}
       </div>
     </>

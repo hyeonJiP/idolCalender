@@ -6,12 +6,10 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie, setCookie } from "./cookie/cookie";
+import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
-import Calendar from "./pages/calendarPage/calendar/Calendar";
-
 import axios from "axios";
 import ReportTable from "./pages/adminPage/table/ReportTable";
 import ReportSchedule from "./pages/FormPage/IdolForm/ReportSchedule";
@@ -30,9 +28,6 @@ function App() {
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
   /**초기 로그인 데이터는 없는걸로 표시 */
-  if (!getCookie("isLogin")) {
-    setCookie("isLogin", { is_admin: false, pick: false });
-  }
 
   /**저장된 토큰을 가져와서 redux저장소에 넣어주기 */
   useEffect(() => {
@@ -47,8 +42,15 @@ function App() {
       dispatch(authActions.logIn(loginData));
     }
   }, [dispatch]);
-  const isAdmin = getCookie("isLogin").is_admin;
-  const isLogin = getCookie("isLogin").pick;
+
+  const isLogin =
+    typeof getCookie("isLogin") !== "undefined"
+      ? getCookie("isLogin").pick
+      : false;
+  const isAdmin =
+    typeof getCookie("isLogin") !== "undefined"
+      ? getCookie("isLogin").is_admin
+      : false;
 
   useEffect(() => {
     dispatch(fetchingIdolData());
@@ -61,7 +63,7 @@ function App() {
       <Routes>
         {/* 관리자페이지 */}
         <Route
-          path="/adminpage/"
+          path="/admin/"
           element={isAdmin ? <AdminPage /> : <Navigate to="/" />}
         >
           <Route path="main" element={<AdminMain />} />
@@ -105,16 +107,6 @@ function App() {
             </Modal>
           }
         />
-
-        {/* 아이돌 캘린더 페이지 */}
-        <Route
-          path="/choeaein/:idolId"
-          element={
-            <Layout>
-              <CalendarPage />
-            </Layout>
-          }
-        ></Route>
 
         <Route element={<NotFoundPage />} path="/*" />
       </Routes>

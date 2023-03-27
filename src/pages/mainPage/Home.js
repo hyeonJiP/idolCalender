@@ -1,8 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
-import { axiosIdol, axiosSchedules, BASE_URL } from "../../api";
+import { Link } from "react-router-dom";
+import { axiosIdol, axiosSchedules } from "../../api";
 import styles from "./Home.module.scss";
 import {
   faBroadcastTower,
@@ -16,8 +14,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Home = () => {
   const { isLoding: idolLoding, data: idolData } = useQuery("idol", axiosIdol);
-  //console.log(idolData);
-  const slideImage = idolData?.slice(0, 4);
+
+  const slideImage = idolData?.slice(0, 24);
 
   const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
     "schedules",
@@ -210,7 +208,7 @@ const Home = () => {
                 ? "Loding.."
                 : slideImage?.map((data) => (
                     <li className={styles.artistThumnail} key={data.pk}>
-                      <Link to={`/choeaein/${data.pk}`}>
+                      <Link to={`${data.pk}/calendar/`}>
                         <img
                           className={styles.artistImage}
                           src={data.idol_profile}

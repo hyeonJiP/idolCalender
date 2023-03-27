@@ -106,7 +106,6 @@ const category = [
 
 function Category() {
   const types = [...new Set(category.map((item) => item.ScheduleType.type))];
-  console.log(types);
 
   const buttons = [
     { id: 1, type: "A", content: "Button 1 (Type A)" },
