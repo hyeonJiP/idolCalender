@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getCookie } from "../cookie/cookie";
 
-// export const BASE_URL = "http://127.0.0.1:8000/api/v1/";
-export const BASE_URL = "http://54.180.31.174:8000/api/v1/";
+export const BASE_URL = "http://127.0.0.1:8000/api/v1/";
+// export const BASE_URL = "http://54.180.31.174:8000/api/v1/";
 
 /**사진을 업로드 할 url 가져오는 함수 */
 export const getUploadUrl = async (img) => {
@@ -49,8 +49,8 @@ export const postProfileImg = async (profileImg) => {
     .put(`${BASE_URL}users/mypage/`, profileImg, {
       withCredentials: true,
     })
-    .then((res) => console.log(res))
-    .catch((res) => console.log(res));
+    .then((res) => res)
+    .catch((res) => res);
 };
 
 /**특정 idol에 대한 스케줄 month데이터 불러오기 */
@@ -156,8 +156,6 @@ export const fetchDayIdolSchedule = async (
     }
   }
 
-  console.log(newUserData);
-
   const responses = await Promise.all(requests);
 
   let newIdolDateSchedule = responses.flat();
@@ -178,12 +176,9 @@ export const postUserCalendar = async (data) => {
       withCredentials: true,
     })
     .then((data) => {
-      console.log(data);
       window.location.reload();
     })
-    .catch((data) => {
-      console.log(data);
-    });
+    .catch((data) => {});
 };
 
 /**유저 일정 수정 */
@@ -193,6 +188,6 @@ export const putUserCalendar = async (data, schedulePk) => {
     .put(`${BASE_URL}users_calendar/${schedulePk}/`, data, {
       withCredentials: true,
     })
-    .then((res) => console.log(res))
-    .catch((res) => console.log(res));
+    .then((res) => {})
+    .catch((res) => {});
 };

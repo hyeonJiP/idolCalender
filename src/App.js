@@ -6,7 +6,7 @@ import { authActions } from "./store/auth";
 import { useEffect } from "react";
 import Home from "./pages/mainPage/Home";
 import ScrollToTop from "./UI/ScrollUP";
-import { getCookie, setCookie } from "./cookie/cookie";
+import { getCookie } from "./cookie/cookie";
 import AdminPage from "./pages/adminPage/AdminPage";
 import Layout from "./UI/Layout";
 import CalendarPage from "./pages/calendarPage/hj_calendarPage/CalendarPage";
@@ -44,10 +44,6 @@ function App() {
     }
   }, [dispatch]);
 
-  /**지우면 안됌 */
-  // let isAdmin = getCookie("isLogin").is_admin;
-  // let isLogin = getCookie("isLogin").pick;
-
   /**지우면 안됌..; */
   const isLogin =
     typeof getCookie("isLogin") !== "undefined"
@@ -61,8 +57,6 @@ function App() {
   useEffect(() => {
     dispatch(fetchingIdolData());
   }, [dispatch]);
-
-  axios(`${BASE_URL}idols/`).then((res) => console.log(res));
 
   return (
     <>

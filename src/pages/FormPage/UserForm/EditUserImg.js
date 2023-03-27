@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BASE_URL, getUploadUrl, postProfileImg } from "../../../URL/url";
 import styles from "./EditUserImg.module.scss";
@@ -11,7 +11,7 @@ const EditUserImg = () => {
   const [previewImg, setPreviewImg] = useState();
   const [isLoadingImg, setIsLoadingImg] = useState(false);
   const [isUploadError, setIsUploadError] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
 
   /**user프로필이미지 보여주기 */
   useEffect(() => {
@@ -51,7 +51,6 @@ const EditUserImg = () => {
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      console.log("이미지주소", reader.result);
       setPreviewImg(reader.result);
     };
   };

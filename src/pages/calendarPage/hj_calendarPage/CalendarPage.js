@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./CalendarPage.module.scss";
 import Sidebar from "../hj_sideBar/Sidebar";
 import { useQuery } from "react-query";
-import { axiosSchedule, axiosSchedules } from "../../../api";
+import { axiosIdolSchedule, axiosSchedule } from "../../../api";
 import Calendar from "../calendar/Calendar";
 
 import {
@@ -23,6 +23,7 @@ const CalendarData = () => {
   const { idolId } = useParams();
   const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
   const [reportModal, setReportModal] = useState(false);
+  const [idolName, setIdolName] = useState({});
 
   // 아이돌 데이터들
   const { isLoding: idDataLoding, data: idData } = useQuery(
@@ -32,10 +33,14 @@ const CalendarData = () => {
     }
   );
 
-  const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
-    "schedules",
-    axiosSchedules
-  );
+  useEffect(() => {
+    axiosIdolSchedule(idolId).then((res) => {
+      setIdolName({
+        idolNameKr: res.idol_name_kr,
+        group: res.Girl_group ? res.Girl_group : res.Boy_group,
+      });
+    });
+  }, [idolId]);
 
   // 다가오는 스케줄
   // 3일 이후 날짜 구하기
@@ -53,11 +58,8 @@ const CalendarData = () => {
 
   // 3일 이후 날짜 문자화해서 년,월,일 정보 슬라이스
   const one_after_slice = one_after.toISOString().slice(0, 10);
-  //console.log(one_after_slice);
   const two_after_slice = two_after.toISOString().slice(0, 10);
-  //console.log(two_after_slice);
   const three_after_slice = three_after.toISOString().slice(0, 10);
-  //console.log(three_after_slice);
 
   const oneType = idData?.filter(
     (item) => item.when.slice(0, 10) === one_after_slice
@@ -119,6 +121,11 @@ const CalendarData = () => {
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
         <div className={styles.calendarWrap}>
+          <div className={styles.idolName}>
+            {" "}
+            <p>{idolName.idolNameKr}</p>
+            {idolName.group ? <p>{idolName.group}</p> : null}
+          </div>
           <Calendar todayDate={todayDate} setSidebarOpen={setSidebarOpen} />
           <Sidebar
             sidebar={sidebar}
@@ -146,11 +153,6 @@ const CalendarData = () => {
         ) : null}
         <section className={styles.nextSchedule}>
           <div className={styles.nextSchedule_Title}>
-            {/* <img
-              className={styles.nextSchedule_Icon}
-              src="https://www.blip.kr/resource/icon/ic-sc-celebration.svg"
-              alt=""
-            ></img> */}
             <h3 className={styles.nextSchedule_Content}>다가오는 스케줄</h3>
           </div>
           <ul className={styles.nextSchedule_List}>

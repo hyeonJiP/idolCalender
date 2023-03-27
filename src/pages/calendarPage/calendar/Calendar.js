@@ -129,6 +129,7 @@ const Calendar = ({ todayDate, setSidebarOpen }) => {
         <tr key={week}>
           {Array(7)
             .fill(0)
+            // eslint-disable-next-line
             .map((data, index) => {
               let days = today
                 .clone()
@@ -297,6 +298,7 @@ function ShowEvent({ days, newIdolSchedule }) {
     <>
       <div className={styles.testDiv}>
         {newIdolSchedule?.map((item, i) => {
+          // eslint-disable-next-line
           if (days?.format("D") == moment(item.day)) {
             return (
               <div
@@ -309,6 +311,7 @@ function ShowEvent({ days, newIdolSchedule }) {
               </div>
             );
           }
+          return;
         })}
       </div>
     </>

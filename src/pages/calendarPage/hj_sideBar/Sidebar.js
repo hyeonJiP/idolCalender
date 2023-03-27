@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import * as AiIcons from "react-icons/ai";
-import { SidebarData } from "./SidebarData";
 import styles from "./Sidebar.module.scss";
 import {
   faBroadcastTower,

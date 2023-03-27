@@ -1,4 +1,8 @@
 .userScheduleTitle {
+  padding: 0;
+}
+
+.userScheduleTitle {
   margin: 10px 0 5px 0;
   font-size: 1.1rem;
   font-weight: bold;
@@ -7,6 +11,7 @@
 .inputData {
   width: 80%;
   height: 30px;
+  border: 1px solid #fccec0;
 }
 
 .userBtnDiv {

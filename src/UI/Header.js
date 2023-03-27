@@ -63,7 +63,7 @@ const Headar = () => {
           </div>
           <div className="navItem navSpan">
             {isLogin ? (
-              <Link to="/:idolId">
+              <Link to={`/${isLogin}/calendar/`}>
                 <span className="navItem_span">스케줄 보기</span>
               </Link>
             ) : null}

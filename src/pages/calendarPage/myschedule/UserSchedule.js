@@ -11,17 +11,21 @@ const UserSchedule = ({ hideModalHandler, modifyScheduleModal }) => {
       userFormData = {
         title: data.title,
       };
-      console.log(userFormData);
       putUserCalendar(userFormData, modifyScheduleModal);
+      window.location.reload();
     } else {
       postUserCalendar(data);
+      window.location.reload();
     }
   };
 
-  console.log(modifyScheduleModal);
-
   return (
     <>
+      {!modifyScheduleModal ? (
+        <h1 className={styles.mainTitle}>일정 등록하기</h1>
+      ) : (
+        <h1 className={styles.mainTitle}>일정 수정하기</h1>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className={styles.userScheduleTitle}>스케줄 제목</label>
         <input
@@ -47,7 +51,11 @@ const UserSchedule = ({ hideModalHandler, modifyScheduleModal }) => {
           <button type="button" onClick={() => hideModalHandler()}>
             취소하기
           </button>
-          <button type="submit">등록하기</button>
+          {!modifyScheduleModal ? (
+            <button type="submit">등록하기</button>
+          ) : (
+            <button type="submit">수정하기</button>
+          )}
         </div>
       </form>
     </>
