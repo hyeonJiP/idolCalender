@@ -43,6 +43,7 @@ function App() {
     }
   }, [dispatch]);
 
+
   const isLogin =
     typeof getCookie("isLogin") !== "undefined"
       ? getCookie("isLogin").pick
@@ -87,14 +88,7 @@ function App() {
           element={!isLogin ? <SignUp /> : <Navigate to="/" />}
         />
 
-        <Route
-          path=":idolId/calendar"
-          element={
-            <Layout>
-              <CalendarPage />
-            </Layout>
-          }
-        />
+     
         {/* 로그인페이지 */}
         <Route
           path="/login"
@@ -108,6 +102,17 @@ function App() {
         />
 
         <Route
+
+          path=":idolId/calendar"
+          element={
+            <Layout>
+              <CalendarPage />
+            </Layout>
+          }
+        />
+
+        <Route
+
           path="/report"
           element={
             <Modal>

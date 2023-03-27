@@ -22,6 +22,7 @@ const Home = () => {
     "schedules",
     axiosSchedules
   );
+
   //console.log(schedulesData);
 
   const slideBanner = schedulesData?.slice(0, 10);
@@ -71,6 +72,7 @@ const Home = () => {
       }
     };
   }, [isHovered]);
+
   return (
     <div className={styles.home}>
       <div className={styles.homeContainer}>

@@ -37,6 +37,7 @@ const CalendarData = () => {
   // const { isLoding: schedulesLoding, data: schedulesData } = useQuery(
   //   "schedules",
   // );
+
   useEffect(() => {
     axiosIdolSchedule(idolId).then((res) => {
       setIdolName({
@@ -96,6 +97,7 @@ const CalendarData = () => {
 
   /**사이드바 */
   const [sidebar, setSidebar] = useState(false);
+
   /**아이돌 day데이터 */
   const [newIdolDateSchedule, setNewIdolDateSchedule] = useState([]);
 
@@ -110,8 +112,10 @@ const CalendarData = () => {
 
   /**클릭한 날짜와 그 날짜의 스케줄 */
   const todayDate = (date, idolDateSchedule, userDateSchedule) => {
-    console.log(date);
-    // console.log(idolDateSchedule);
+  
+
+  const todayDate = (date, idolDateSchedule, userDateSchedule) => {
+
     setNewIdolDateSchedule(idolDateSchedule);
     setNewUserDateSchedule(userDateSchedule);
     setSelectedDate(date.format("M월 D일 (ddd)"));
@@ -148,16 +152,26 @@ const CalendarData = () => {
     <div className={styles.calendarContainer}>
       <div className={styles.calendar}>
         <div className={styles.calendarWrap}>
+
           <Calendar
             todayDate={todayDate}
             setSidebarOpen={setSidebarOpen}
             prevDate={prevDate}
             nextDate={nextDate}
           />
+     
+          <div className={styles.idolName}>
+            {" "}
+            <p>{idolName.idolNameKr}</p>
+            {idolName.group ? <p>{idolName.group}</p> : null}
+          </div>
+        
           <Sidebar
             sidebar={sidebar}
             setSidebarClose={setSidebarClose}
-            // todayDate={todayDate}
+            todayDate={todayDate}
+            newIdolDateSchedule={newIdolDateSchedule}
+            newUserDateSchedule={newUserDateSchedule}
 
             selectedDate={selectedDate}
             prevSelectedDate={prevSelectedDate}

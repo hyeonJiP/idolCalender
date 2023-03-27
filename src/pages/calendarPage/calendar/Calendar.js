@@ -21,6 +21,9 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
 const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
+
+  /**아이돌아이디 */
+
   const { idolId } = useParams();
   const userPick = useSelector((state) => state.auth.authState.pick.idolPk);
 
@@ -132,13 +135,12 @@ const Calendar = ({ todayDate, setSidebarOpen, prevDate, nextDate }) => {
 
   prevDate(prevsSelectedDay, prevIdolDateSchedule);
   nextDate(nextsSelectedDay, nextIdolDateSchedule);
-  // console.log(selectedDay);
-  // console.log(prevsSelectedDay);
-  // console.log(nextsSelectedDay);
+
 
   // handleClick 함수는 클릭된 버튼의 ID를 배열에 추가하거나 삭제
   // map 함수에서 각 버튼의 className 속성은 activeButtons 배열에 현재 버튼의 ID가 포함되어 있는 경우에는 active 클래스를, 아닌 경우에는 inactive 클래스를 적용
   todayDate(selectedDay, idolDateSchedule, userDateSchedule);
+
 
   /**클릭한 버튼 toggle 함수 */
   const handleClick = (buttonPk) => {
